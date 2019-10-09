@@ -85,9 +85,9 @@ WinDisk8.img: w311fwg-archive
 	[ -f "WinDisk8.img" ] || 7z e ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk08.img"
 	[ -f "WinDisk8.img" ] || mv Disk08.img WinDisk8.img
 
-HardDisk.img: install_dos_onto_disk.sh DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: install-dos-onto-disk.sh DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
-	./install_dos_onto_disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+	./install-dos-onto-disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 
 msdos622-archive:
 	[ -f ${MSDOS622_ARCHIVE} ] || wget -O ${MSDOS622_ARCHIVE} ${MSDOS622_URL}

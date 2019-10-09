@@ -66,7 +66,7 @@ install_dos_onto_disk() {
 	# wait for installer to reboot
 	sleep 5
 
-	# choose keyboard layout
+	# choose language
 	qemu-send-key "up"
 	qemu-send-key "up"
 	qemu-send-key "ret"
@@ -76,7 +76,7 @@ install_dos_onto_disk() {
 	done
 	qemu-send-key "ret"
 
-	# choose language
+	# choose keyboard layout
 	qemu-send-key "up"
 	qemu-send-key "ret"
 	for ((i=0; i<13; i++))
