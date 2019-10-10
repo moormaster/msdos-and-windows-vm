@@ -24,7 +24,7 @@ MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
 DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${NE2KPCI_ARCHIVE}
-FILES=${MSDOS622_FILES} ${W311FWG_FILES} HardDisk.img install-w311fwg.iso
+FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} HardDisk.img install-w311fwg.iso
 
 DISKSIZE_IN_BYTES=104857600
 
