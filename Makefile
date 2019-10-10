@@ -1,5 +1,8 @@
 WINWORLDPCMIRRORNAME="Ricky"
 
+WIN98BOOTDISK_ARCHIVE="Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb).7z"
+WIN98BOOTDISK_URL="https://winworldpc.com/product/microsoft-windows-boot-disk/98-se"
+
 MSDOS622_ARCHIVE="Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z"
 MSDOS622_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/ms-dos/622" "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
 
@@ -20,14 +23,14 @@ INSTALLISOIMAGE_DIR=install-w311fwg-iso
 MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
-DLFILES=${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${NE2KPCI_ARCHIVE}
+DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${NE2KPCI_ARCHIVE}
 FILES=${MSDOS622_FILES} ${W311FWG_FILES} HardDisk.img install-w311fwg.iso
 
 DISKSIZE_IN_BYTES=104857600
 
 all: install-w311fwg.iso HardDisk.img
 
-downloads: msdos622-archive w311fwg-archive tcpip-archive cirrus-archive ne2kpci-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive ne2kpci-archive
 
 clean:
 	rm -f ${FILES}
@@ -37,6 +40,10 @@ clean-all: clean clean-downloads
 
 clean-downloads:
 	rm -f ${DLFILES}
+
+Win98BootDisk.img: win98bootdisk-archive
+	[ -f "Win98BootDisk.img" ] || 7z e ${WIN98BOOTDISK_ARCHIVE} "Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb)/Windows 98 Second Edition Boot.img"
+	[ -f "Win98BootDisk.img" ] || mv "Windows 98 Second Edition Boot.img" Win98BootDisk.img
 
 DosDisk1.img: msdos622-archive
 	[ -f "DosDisk1.img" ] || 7z e ${MSDOS622_ARCHIVE} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Disk1.img"
@@ -85,27 +92,37 @@ WinDisk8.img: w311fwg-archive
 	[ -f "WinDisk8.img" ] || 7z e ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk08.img"
 	[ -f "WinDisk8.img" ] || mv Disk08.img WinDisk8.img
 
-HardDisk.img: install-dos-onto-disk.sh DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: install-dos-onto-disk.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
-	./install-dos-onto-disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+	./install-dos-onto-disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img 
+
+win98bootdisk-archive:
+	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
+	md5sum --ignore-missing -c md5sums
 
 msdos622-archive:
 	[ -f ${MSDOS622_ARCHIVE} ] || wget -O ${MSDOS622_ARCHIVE} ${MSDOS622_URL}
+	md5sum --ignore-missing -c md5sums
 
 w311fwg-archive:
 	[ -f ${W311FWG_ARCHIVE} ] || wget -O ${W311FWG_ARCHIVE} ${W311FWG_URL}
+	md5sum --ignore-missing -c md5sums
 
 tcpip-archive:
 	[ -f ${TCPIP_ARCHIVE} ] || wget -O ${TCPIP_ARCHIVE} ${TCPIP_URL}
+	md5sum --ignore-missing -c md5sums
 
 cirrus-archive:
 	[ -f ${CIRRUS_ARCHIVE} ] || wget -O ${CIRRUS_ARCHIVE} ${CIRRUS_URL}
+	md5sum --ignore-missing -c md5sums
 
 ne2kpci-archive:
 	[ -f ${NE2KPCI_ARCHIVE} ] || wget -O ${NE2KPCI_ARCHIVE} ${NE2KPCI_URL}
+	md5sum --ignore-missing -c md5sums
 
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
+	md5sum --ignore-missing -c md5sums
 
 install-w311fwg-iso-dir: ${MSDOS622_FILES} ${W311FWG_FILES} MYSETUP.SHH WINSETUP.BAT
 	[ -d ${INSTALLISOIMAGE_DIR} ] || mkdir ${INSTALLISOIMAGE_DIR}
