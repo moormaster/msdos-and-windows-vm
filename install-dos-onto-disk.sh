@@ -45,17 +45,17 @@ install-dos-onto-disk() {
 	qemu-send-key "ret"
 
 	# wait for disk 1 to be installed
-	sleep 7
+	sleep 10
 	qemu-send "change floppy0 ${dosdisk2}"
 	qemu-send-key "ret"
 
 	# wait for disk 2 to be installed
-	sleep 7
+	sleep 10
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
 
 	# wait for disk 3 to be installed
-	sleep 7
+	sleep 10
 
 	# confirm final messages	
 	qemu-send "eject floppy0"
@@ -71,7 +71,7 @@ install-dos-onto-disk() {
 		qemu-send-string-de "mkdir c:\\dossupp"
 		qemu-send-string-de "copy a:\*.* c:\\dossupp"
 		# wait copy to finish
-		sleep 5
+		sleep 10
 	fi
 	qemu-send "quit"
 
