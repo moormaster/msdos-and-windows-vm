@@ -9,7 +9,7 @@ install-oak-cdromdriver-onto-disk() {
 
 	qemu-pipe-init
  
-	qemu-system-i386 -fda ${win98bootdisk} -hda ${imagefile} -boot c -monitor pipe:qemu-monitor-pipe &
+	qemu-system-i386 -enable-kvm -fda ${win98bootdisk} -hda ${imagefile} -boot c -monitor pipe:qemu-monitor-pipe &
 
 	# wait for DOS to fully boot
 	sleep 8

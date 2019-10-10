@@ -12,7 +12,7 @@ install-dos-onto-disk() {
 
 	qemu-pipe-init
  
-	qemu-system-i386 -fda ${dosdisk1} -hda ${imagefile} -boot a -monitor pipe:qemu-monitor-pipe &
+	qemu-system-i386 -enable-kvm -fda ${dosdisk1} -hda ${imagefile} -boot a -monitor pipe:qemu-monitor-pipe &
 
 	# wait for DOS installer to fully boot
 	sleep 8
@@ -45,17 +45,17 @@ install-dos-onto-disk() {
 	qemu-send-key "ret"
 
 	# wait for disk 1 to be installed
-	sleep 5
+	sleep 7
 	qemu-send "change floppy0 ${dosdisk2}"
 	qemu-send-key "ret"
 
 	# wait for disk 2 to be installed
-	sleep 5
+	sleep 7
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
 
 	# wait for disk 3 to be installed
-	sleep 5
+	sleep 7
 
 	# confirm final messages	
 	qemu-send "eject floppy0"
