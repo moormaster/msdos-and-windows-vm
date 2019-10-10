@@ -19,7 +19,10 @@ qemu-send-string-en-us() {
 		sed "s/sendkey \*/sendkey asterisk/g" |
 		sed "s/sendkey \./sendkey dot/g" |
 		sed "s/sendkey :/sendkey shift-semicolon/g" |
-		sed "s/sendkey \\\\/sendkey backslash/g" >> qemu-monitor-pipe.in
+		sed "s/sendkey \\\\/sendkey backslash/g" |
+		sed "s/sendkey =/sendkey equal/g" |
+		sed "s/sendkey </sendkey shift-comma/g" |
+		sed "s/sendkey >/sendkey shift-dot/g" >> qemu-monitor-pipe.in
 		qemu-send-key "ret"
 	)
 }
@@ -36,7 +39,10 @@ qemu-send-string-de() {
 		sed "s/sendkey \*/sendkey shift-bracket_right/g" |
 		sed "s/sendkey \./sendkey dot/g" |
 		sed "s/sendkey :/sendkey shift-dot/g" |
-		sed "s/sendkey \\\\/sendkey alt_r-minus/g" >> qemu-monitor-pipe.in
+		sed "s/sendkey \\\\/sendkey alt_r-minus/g" |
+		sed "s/sendkey =/sendkey shift-0/g" |
+		sed "s/sendkey </sendkey less/g" |
+		sed "s/sendkey >/sendkey shift-less/g" >> qemu-monitor-pipe.in
 		qemu-send-key "ret"
 	)
 }

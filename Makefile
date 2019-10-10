@@ -92,9 +92,10 @@ WinDisk8.img: w311fwg-archive
 	[ -f "WinDisk8.img" ] || 7z e ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk08.img"
 	[ -f "WinDisk8.img" ] || mv Disk08.img WinDisk8.img
 
-HardDisk.img: install-dos-onto-disk.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: lib-qemu.sh install-dos-onto-disk.sh install-oak-cdromdriver-onto-disk.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
-	./install-dos-onto-disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img 
+	./install-dos-onto-disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+	./install-oak-cdromdriver-onto-disk.sh HardDisk.img Win98BootDisk.img
 
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
@@ -122,18 +123,17 @@ ne2kpci-archive:
 
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
-	md5sum --ignore-missing -c md5sums
 
-install-w311fwg-iso-dir: ${MSDOS622_FILES} ${W311FWG_FILES} MYSETUP.SHH WINSETUP.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} MYSETUP.SHH WINSETUP.BAT
 	[ -d ${INSTALLISOIMAGE_DIR} ] || mkdir ${INSTALLISOIMAGE_DIR}
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
-	[ -d ${INSTALLISOIMAGE_DIR} ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
-	[ -d ${INSTALLISOIMAGE_DIR} ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk4.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk5.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk6.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk7.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk8.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
+	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP.BAT ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
 

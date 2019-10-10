@@ -2,7 +2,7 @@
 
 . lib-qemu.sh
 
-install_dos_onto_disk() {
+install-dos-onto-disk() {
 	imagefile="$1"
 
 	dosdisk1="$2"
@@ -91,6 +91,13 @@ then
 	exit
 fi
 
+if ! [ -f "$1" ]
+then
+	echo "file not found: $1"
+	usage
+	exit
+fi
+
 if ! [ -f "$2" ]
 then
 	echo "file not found: $2"
@@ -119,4 +126,4 @@ then
 	exit
 fi
 
-install_dos_onto_disk "$@"
+install-dos-onto-disk "$@"
