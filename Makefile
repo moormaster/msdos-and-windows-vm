@@ -1,13 +1,13 @@
 WINWORLDPCMIRRORNAME="Ricky"
 
 MSDOS622_ARCHIVE="Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z"
-MSDOS622_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com" "/product/ms-dos/622" "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
+MSDOS622_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/ms-dos/622" "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
 
 W311FWG_ARCHIVE="Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb).7z"
-W311FWG_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com" "/product/windows-3/wfw-311" "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb).7z" "${WINWORLDPCMIRRORNAME}"`
+W311FWG_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/windows-3/wfw-311" "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb).7z" "${WINWORLDPCMIRRORNAME}"`
 
 TCPIP_ARCHIVE="Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z"
-TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com" "/product/microsoft-tcp-ip-32/tcpip-32-3-11b" "Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
+TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-tcp-ip-32/tcpip-32-3-11b" "Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
 
 CIRRUS_ARCHIVE="win_5446.zip"
 CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
