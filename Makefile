@@ -1,7 +1,7 @@
 WINWORLDPCMIRRORNAME="Ricky"
 
 WIN98BOOTDISK_ARCHIVE="Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb).7z"
-WIN98BOOTDISK_URL="https://winworldpc.com/product/microsoft-windows-boot-disk/98-se"
+WIN98BOOTDISK_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-windows-boot-disk/98-se"`
 
 MSDOS622_ARCHIVE="Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z"
 MSDOS622_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/ms-dos/622" "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
