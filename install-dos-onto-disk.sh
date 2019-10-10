@@ -59,12 +59,12 @@ install_dos_onto_disk() {
 	qemu-system-i386 -fda ${dosdisk1} -hda ${imagefile} -boot a -monitor pipe:qemu-monitor-pipe &
 
 	# wait for DOS installer to fully boot
-	sleep 5
+	sleep 8
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	# wait for installer to reboot
-	sleep 5
+	sleep 8
 
 	# choose language
 	qemu-send-key "up"
@@ -115,7 +115,7 @@ install_dos_onto_disk() {
 		qemu-send-string-de "mkdir c:\\dossupp"
 		qemu-send-string-de "copy a:\*.* c:\\dossupp"
 		# wait copy to finish
-		sleep 2
+		sleep 5
 	fi
 	qemu-send "quit"
 
