@@ -92,10 +92,10 @@ WinDisk8.img: w311fwg-archive
 	[ -f "WinDisk8.img" ] || 7z e ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk08.img"
 	[ -f "WinDisk8.img" ] || mv Disk08.img WinDisk8.img
 
-HardDisk.img: lib-qemu.sh install-dos-onto-disk.sh install-oak-cdromdriver-onto-disk.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh install-vm.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
-	./install-dos-onto-disk.sh HardDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
-	./install-oak-cdromdriver-onto-disk.sh HardDisk.img Win98BootDisk.img
+
+	./install-vm.sh HardDisk.img -enable-kvm -vga cirrus
 
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}

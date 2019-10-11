@@ -2,18 +2,51 @@
 
 . lib-qemu.sh
 
-install-dos-onto-disk() {
-	imagefile="$1"
+install-dos-on-qemu() {
+	local dosdisk1="$1"
+	local dosdisk2="$2"
+	local dosdisk3="$3"
+	local dossuppdisk="$4"
 
-	dosdisk1="$2"
-	dosdisk2="$3"
-	dosdisk3="$4"
-	dossuppdisk="$5"
+	if [ $# -lt 3 ]
+	then
+		install-dos-on-qemu-usage
+		return
+	fi
 
-	qemu-pipe-init
- 
-	qemu-system-i386 -enable-kvm -fda ${dosdisk1} -hda ${imagefile} -boot a -monitor pipe:qemu-monitor-pipe &
+	if ! [ -f "$1" ]
+	then
+		echo "file not found: $1" 2>&1
+		install-dos-on-qemu-usage
+		return
+	fi
 
+	if ! [ -f "$2" ]
+	then
+		echo "file not found: $2" 2>&1
+
+		install-dos-on-qemu-usage
+		return
+	fi
+
+	if ! [ -f "$3" ]
+	then
+		echo "file not found: $3" 2>&1
+
+		install-dos-on-qemu-usage
+		return
+	fi
+
+	if [ "$4" != "" ] && ! [ -f "$4" ]
+	then
+		echo "file not found: $4" 2>&1
+		install-dos-on-qemu-usage
+		return
+	fi
+
+	qemu-send "change floppy0 ${dosdisk1}"
+	qemu-send "boot_set a"
+	qemu-send "system_reset"
 	# wait for DOS installer to fully boot
 	sleep 8
 	qemu-send-key "ret"
@@ -45,17 +78,17 @@ install-dos-onto-disk() {
 	qemu-send-key "ret"
 
 	# wait for disk 1 to be installed
-	sleep 10
+	sleep 15
 	qemu-send "change floppy0 ${dosdisk2}"
 	qemu-send-key "ret"
 
 	# wait for disk 2 to be installed
-	sleep 10
+	sleep 15
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
 
 	# wait for disk 3 to be installed
-	sleep 10
+	sleep 15
 
 	# confirm final messages	
 	qemu-send "eject floppy0"
@@ -71,59 +104,10 @@ install-dos-onto-disk() {
 		qemu-send-string-de "mkdir c:\\dossupp"
 		qemu-send-string-de "copy a:\*.* c:\\dossupp"
 		# wait copy to finish
-		sleep 10
+		sleep 15
 	fi
-	qemu-send "quit"
-
-	# wait for qemu to close
-	wait
-
-	qemu-pipe-destroy
 }
 
-usage() {
-	echo "$0 <hdd image file> <dos disk 1> <dos disk 2> <dos disk 3> [dos supplemental disk]"
+install-dos-on-qemu-usage() {
+	echo "$0 <dos disk 1> <dos disk 2> <dos disk 3> [dos supplemental disk]" 2>&1
 }
-
-if [ $# -lt 4 ]
-then
-	usage
-	exit
-fi
-
-if ! [ -f "$1" ]
-then
-	echo "file not found: $1"
-	usage
-	exit
-fi
-
-if ! [ -f "$2" ]
-then
-	echo "file not found: $2"
-	usage
-	exit
-fi
-
-if ! [ -f "$3" ]
-then
-	echo "file not found: $3"
-	usage
-	exit
-fi
-
-if ! [ -f "$4" ]
-then
-	echo "file not found: $4"
-	usage
-	exit
-fi
-
-if [ "$5" != "" ] && ! [ -f "$5" ]
-then
-	echo "file not found: $5"
-	usage
-	exit
-fi
-
-install-dos-onto-disk "$@"

@@ -1,16 +1,24 @@
 #!/bin/bash
 
 qemu-pipe-init() {
-	mkfifo qemu-monitor-pipe.in qemu-monitor-pipe.out
+	[ "$1" != "" ] && QEMU_PIPE="$1" || QEMU_PIPE=qemu-monitor-pipe
+
+	mkfifo "${QEMU_PIPE}.in" "${QEMU_PIPE}.out"
+
+	echo ${QEMU_PIPE}
 }
 
 qemu-pipe-destroy() {
-	rm qemu-monitor-pipe.in qemu-monitor-pipe.out
+	local pipename="$1"
+	[ "$pipename" == "" ] && pipename=${QEMU_PIPE}
+
+	[ -p "${pipename}.in" ] && rm "${pipename}.in"
+	[ -p "${pipename}.out" ] && rm "${pipename}.out"
 }
 
 qemu-send-string-en-us() {
-	[ -p qemu-monitor-pipe.in ] && (
-		line=$1
+	[ -p "${QEMU_PIPE}.in" ] && (
+		local line=$1
 		echo "$line" | 
 		sed "s/./sendkey \0\n/g" | 
 		sed "s/sendkey \([A-Z]\)/sendkey shift-\L\1/g" |
@@ -22,14 +30,14 @@ qemu-send-string-en-us() {
 		sed "s/sendkey \\\\/sendkey backslash/g" |
 		sed "s/sendkey =/sendkey equal/g" |
 		sed "s/sendkey </sendkey shift-comma/g" |
-		sed "s/sendkey >/sendkey shift-dot/g" >> qemu-monitor-pipe.in
+		sed "s/sendkey >/sendkey shift-dot/g" >> "${QEMU_PIPE}.in"
 		qemu-send-key "ret"
 	)
 }
 
 qemu-send-string-de() {
-	[ -p qemu-monitor-pipe.in ] && (
-		line=$1
+	[ -p "${QEMU_PIPE}.in" ] && (
+		local line=$1
 		echo "$line" | 
 		sed "y/yz/zy/" | sed "y/YZ/ZY/" |
 		sed "s/./sendkey \0\n/g" | 
@@ -42,20 +50,20 @@ qemu-send-string-de() {
 		sed "s/sendkey \\\\/sendkey alt_r-minus/g" |
 		sed "s/sendkey =/sendkey shift-0/g" |
 		sed "s/sendkey </sendkey less/g" |
-		sed "s/sendkey >/sendkey shift-less/g" >> qemu-monitor-pipe.in
+		sed "s/sendkey >/sendkey shift-less/g" >> "${QEMU_PIPE}.in"
 		qemu-send-key "ret"
 	)
 }
 
 qemu-send-key() {
-	key="$1"
+	local key="$1"
 	qemu-send "sendkey $key"
 }
 
 qemu-send() {
-	[ -p qemu-monitor-pipe.in ] && (
-		line=$1
-		echo "$1" >> qemu-monitor-pipe.in
+	[ -p "${QEMU_PIPE}.in" ] && (
+		local line=$1
+		echo "$1" >> "${QEMU_PIPE}.in"
 		sleep 0.2
 	)
 }
