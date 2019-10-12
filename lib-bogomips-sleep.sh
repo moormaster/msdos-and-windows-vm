@@ -1,5 +1,5 @@
 bogomips-sleep() {
-	if [ "$1" == "" ] || [ "$1" -le 0 ]
+	if [ "$1" == "" ]
 	then
 		bogomips-sleep-usage
 		return
