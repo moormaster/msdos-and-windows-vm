@@ -143,7 +143,7 @@ install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
 install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img ie-archive netscape-archive MYSETUP.SHH WINSETUP.BAT
-	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}a
+	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
