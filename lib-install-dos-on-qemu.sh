@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. lib-qemu.sh
 . lib-bogomips-sleep.sh
+. lib-qemu.sh
 
 install-dos-on-qemu() {
 	local dosdisk1="$1"
