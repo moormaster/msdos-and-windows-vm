@@ -72,6 +72,6 @@ qemu-send() {
 	[ -p "${QEMU_PIPE}.in" ] && (
 		local line=$1
 		echo "$1" >> "${QEMU_PIPE}.in"
-		bogomips-sleep 0.2
+		bogomips-sleep 0.05
 	)
 }
