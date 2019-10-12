@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . lib-qemu.sh
+. lib-bogomips-sleep.sh
 
 install-dos-on-qemu() {
 	local dosdisk1="$1"
@@ -16,14 +17,14 @@ install-dos-on-qemu() {
 
 	if ! [ -f "$1" ]
 	then
-		echo "file not found: $1" 2>&1
+		echo "file not found: $1" 1>&2
 		install-dos-on-qemu-usage
 		return
 	fi
 
 	if ! [ -f "$2" ]
 	then
-		echo "file not found: $2" 2>&1
+		echo "file not found: $2" 1>&2
 
 		install-dos-on-qemu-usage
 		return
@@ -31,7 +32,7 @@ install-dos-on-qemu() {
 
 	if ! [ -f "$3" ]
 	then
-		echo "file not found: $3" 2>&1
+		echo "file not found: $3" 1>&2
 
 		install-dos-on-qemu-usage
 		return
@@ -39,7 +40,7 @@ install-dos-on-qemu() {
 
 	if [ "$4" != "" ] && ! [ -f "$4" ]
 	then
-		echo "file not found: $4" 2>&1
+		echo "file not found: $4" 1>&2
 		install-dos-on-qemu-usage
 		return
 	fi
@@ -48,12 +49,12 @@ install-dos-on-qemu() {
 	qemu-send "boot_set a"
 	qemu-send "system_reset"
 	# wait for DOS installer to fully boot
-	sleep 8
+	bogomips-sleep 8
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	# wait for installer to reboot
-	sleep 8
+	bogomips-sleep 8
 
 	# choose language
 	qemu-send-key "up"
@@ -78,17 +79,17 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 
 	# wait for disk 1 to be installed
-	sleep 15
+	bogomips-sleep 15
 	qemu-send "change floppy0 ${dosdisk2}"
 	qemu-send-key "ret"
 
 	# wait for disk 2 to be installed
-	sleep 15
+	bogomips-sleep 15
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
 
 	# wait for disk 3 to be installed
-	sleep 15
+	bogomips-sleep 15
 
 	# confirm final messages	
 	qemu-send "eject floppy0"
@@ -96,7 +97,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 
 	# wait for reboot to complete
-	sleep 8
+	bogomips-sleep 8
 
 	if [ -f "${dossuppdisk}" ]
 	then
@@ -104,10 +105,10 @@ install-dos-on-qemu() {
 		qemu-send-string-de "mkdir c:\\dossupp"
 		qemu-send-string-de "copy a:\*.* c:\\dossupp"
 		# wait copy to finish
-		sleep 15
+		bogomips-sleep 15
 	fi
 }
 
 install-dos-on-qemu-usage() {
-	echo "$0 <dos disk 1> <dos disk 2> <dos disk 3> [dos supplemental disk]" 2>&1
+	echo "install-dos-on-qemu <dos disk 1> <dos disk 2> <dos disk 3> [dos supplemental disk]" 1>&2
 }

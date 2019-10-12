@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . lib-qemu.sh
+. lib-bogomips-sleep.sh
 
 install-oak-cdromdriver-on-qemu() {
 	local win98bootdisk="$1"
@@ -13,7 +14,7 @@ install-oak-cdromdriver-on-qemu() {
 
 	if ! [ -f "$1" ]
 	then
-		echo "file not found: $1" 2>&1
+		echo "file not found: $1" 1>&2
 		install-oak-cdromdriver-on-qemu-usage
 		return
 	fi
@@ -22,9 +23,9 @@ install-oak-cdromdriver-on-qemu() {
 	qemu-send-string-de "copy a:\\oakcdrom.sys c:\\"
 	qemu-send-string-de "echo device=oakcdrom.sys /D:oemcd001 >> config.sys"
 	qemu-send-string-de "echo LH C:\\DOS\\MSCDEX.EXE /D:oemcd001 /L:D >> autoexec.bat"
-	sleep 10
+	bogomips-sleep 10
 }
 
 install-oak-cdromdriver-on-qemu-usage() {
-	echo "$0 <win98 boot disk>" 2>&1
+	echo "install-oak-cdromdriver-on-qemu <win98 boot disk>" 1>&2
 }
