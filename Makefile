@@ -30,11 +30,11 @@ MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
 DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${RTL8029_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE}
-FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img ie.img HardDisk.img install-w311fwg.iso
+FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img ie.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=104857600
 
-all: HardDisk.img
+all: startvm.sh
 
 downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive rtl8029-archive ie-archive netscape-archive
 
@@ -109,7 +109,12 @@ ie.img: ie-archive
 HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
-	./install-vm.sh HardDisk.img install-w311fwg.iso -vga cirrus
+	./install-vm.sh HardDisk.img install-w311fwg.iso -vga cirrus -net nic,model=ne2k_pci -net user
+
+startvm.sh: HardDisk.img install-w311fwg.iso
+	echo "#!/bin/bash" >> startvm.sh
+	echo "qemu-system-i386 -enable-kvm -vga cirrus -net nic,model=ne2k_pci -net user -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh
+	chmod +x startvm.sh
 
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
