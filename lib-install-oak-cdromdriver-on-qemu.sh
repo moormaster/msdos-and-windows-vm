@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. lib-qemu.sh
 . lib-bogomips-sleep.sh
+. lib-qemu.sh
 
 install-oak-cdromdriver-on-qemu() {
 	local win98bootdisk="$1"
@@ -19,6 +19,7 @@ install-oak-cdromdriver-on-qemu() {
 		return
 	fi
 
+	echo "inserting win98 boot disk and installing cdrom driver..."
 	qemu-send "change floppy0 ${win98bootdisk}"
 	qemu-send-string-de "copy a:\\oakcdrom.sys c:\\"
 	qemu-send-string-de "echo device=oakcdrom.sys /D:oemcd001 >> config.sys"

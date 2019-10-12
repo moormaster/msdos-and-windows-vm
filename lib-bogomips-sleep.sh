@@ -10,7 +10,6 @@ bogomips-sleep() {
 
 	bogomipstime=$( echo "scale=2; $time * 6028.69 / $bogomips" | bc )
 
-	echo converted sleep time $time to $bogomipstime according to bogomips $bogomips
 	sleep $bogomipstime
 }
 

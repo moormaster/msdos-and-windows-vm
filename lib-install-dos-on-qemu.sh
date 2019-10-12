@@ -45,18 +45,19 @@ install-dos-on-qemu() {
 		return
 	fi
 
+	echo "inserting dos disk 1 and reboot..."
 	qemu-send "change floppy0 ${dosdisk1}"
 	qemu-send "boot_set a"
 	qemu-send "system_reset"
-	# wait for DOS installer to fully boot
 	bogomips-sleep 8
+	echo "confirming messages saying the disk needs to be partitioned..."
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
-	# wait for installer to reboot
+	echo "waiting for reboot..."
 	bogomips-sleep 8
 
-	# choose language
+	echo "choosing language..."
 	qemu-send-key "up"
 	qemu-send-key "up"
 	qemu-send-key "ret"
@@ -66,7 +67,7 @@ install-dos-on-qemu() {
 	done
 	qemu-send-key "ret"
 
-	# choose keyboard layout
+	echo "choosing keyboard layout..."
 	qemu-send-key "up"
 	qemu-send-key "ret"
 	for ((i=0; i<13; i++))
@@ -75,32 +76,32 @@ install-dos-on-qemu() {
 	done
 	qemu-send-key "ret"
 
+	echo "starting installation..."
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 
-	# wait for disk 1 to be installed
+	echo "inserting and installind disk 1..."
 	bogomips-sleep 15
 	qemu-send "change floppy0 ${dosdisk2}"
 	qemu-send-key "ret"
 
-	# wait for disk 2 to be installed
+	echo "inserting and installing disk 2..."
 	bogomips-sleep 15
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
 
-	# wait for disk 3 to be installed
+	echo "inserting and installing disk3..."
 	bogomips-sleep 15
 
-	# confirm final messages	
+	echo "rejecting floppy and reboot..."
 	qemu-send "eject floppy0"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
-
-	# wait for reboot to complete
 	bogomips-sleep 8
 
 	if [ -f "${dossuppdisk}" ]
 	then
+		echo "inserting an copying supplemental disk to be copied..."
 		qemu-send "change floppy0 ${dossuppdisk}"
 		qemu-send-string-de "mkdir c:\\dossupp"
 		qemu-send-string-de "copy a:\*.* c:\\dossupp"
