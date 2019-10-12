@@ -15,22 +15,28 @@ TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/micr
 CIRRUS_ARCHIVE="win_5446.zip"
 CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
 
-NE2KPCI_ARCHIVE="wfw_8029.zip"
-NE2KPCI_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
+RTL8029_ARCHIVE="wfw_8029.zip"
+RTL8029_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
+
+IE_ARCHIVE="Microsoft Internet Explorer 1.0 (4.40.308) (3.5).7z"
+IE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/internet-explorer/10" "Microsoft Internet Explorer 1.0 (4.40.308) (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
+
+NETSCAPE_ARCHIVE="Netscape Navigator 3.7z"
+NETSCAPE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/netscape-navigator/30x" "Netscape Navigator 3.7z" "${WINWORLDPCMIRRORNAME}"`
 
 INSTALLISOIMAGE_DIR=install-w311fwg-iso
 
 MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
-DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${NE2KPCI_ARCHIVE}
-FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} HardDisk.img install-w311fwg.iso
+DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${RTL8029_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE}
+FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img HardDisk.img install-w311fwg.iso
 
 DISKSIZE_IN_BYTES=104857600
 
 all: install-w311fwg.iso HardDisk.img
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive ne2kpci-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive rtl8029-archive ie-archive netscape-archive
 
 clean:
 	rm -f ${FILES}
@@ -92,6 +98,10 @@ WinDisk8.img: w311fwg-archive
 	[ -f "WinDisk8.img" ] || 7z e ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk08.img"
 	[ -f "WinDisk8.img" ] || mv Disk08.img WinDisk8.img
 
+tcpip.img: tcpip-archive
+	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
+	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
+
 HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh install-vm.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
@@ -117,23 +127,36 @@ cirrus-archive:
 	[ -f ${CIRRUS_ARCHIVE} ] || wget -O ${CIRRUS_ARCHIVE} ${CIRRUS_URL}
 	md5sum --ignore-missing -c md5sums
 
-ne2kpci-archive:
-	[ -f ${NE2KPCI_ARCHIVE} ] || wget -O ${NE2KPCI_ARCHIVE} ${NE2KPCI_URL}
+rtl8029-archive:
+	[ -f ${RTL8029_ARCHIVE} ] || wget -O ${RTL8029_ARCHIVE} ${RTL8029_URL}
+	md5sum --ignore-missing -c md5sums
+
+ie-archive:
+	[ -f ${IE_ARCHIVE} ] || wget -O ${IE_ARCHIVE} ${IE_URL}
+	md5sum --ignore-missing -c md5sums
+
+netscape-archive:
+	[ -f ${NETSCAPE_ARCHIVE} ] || wget -O ${NETSCAPE_ARCHIVE} ${NETSCAPE_URL}
 	md5sum --ignore-missing -c md5sums
 
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} MYSETUP.SHH WINSETUP.BAT
-	[ -d ${INSTALLISOIMAGE_DIR} ] || mkdir ${INSTALLISOIMAGE_DIR}
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk4.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk5.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk6.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk7.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk8.img ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
-	[ -d ${INSTALLISOIMAGE_DIR}/WINSETUP.BAT ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
+install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img ie-archive netscape-archive MYSETUP.SHH WINSETUP.BAT
+	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}a
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk4.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk5.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk6.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk7.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk8.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH" ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP.BAT" ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
+	[ -d "${INSTALLISOIMAGE_DIR}/RTL8029" ] || unzip -d "${INSTALLISOIMAGE_DIR}/RTL8029" ${RTL8029_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/CIRRUS" ] || unzip -d "${INSTALLISOIMAGE_DIR}/CIRRUS" ${CIRRUS_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/TCPIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/TCPIP tcpip.img
+	[ -d "${INSTALLISOIMAGE_DIR}/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/IE ${IE_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/NETSCAPE ${NETSCAPE_ARCHIVE}
 

@@ -99,7 +99,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 13
 
-	echo "rejecting floppy and reboot..."
+	echo "ejecting floppy and reboot..."
 	qemu-send "eject floppy0"
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
