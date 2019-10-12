@@ -110,10 +110,17 @@ install-dos-on-qemu() {
 	then
 		echo "inserting an copying supplemental disk to be copied..."
 		qemu-send "change floppy0 ${dossuppdisk}"
-		qemu-send-string-de "mkdir c:\\dossupp"
-		qemu-send-string-de "copy a:\*.* c:\\dossupp"
+		qemu-send-string-de "a:"
+		qemu-send-string-de "setup.bat c:\\dos"
+		qemu-send-string-de "a"
+		bogomips-sleep 1
+		qemu-send-key "f5"
+		qemu-send-string-de "y"
+		bogomips-sleep 5
+		qemu-send-string-de "y"
 		# wait copy to finish
 		bogomips-sleep 13
+		qemu-send-string-de "c:"
 	fi
 }
 

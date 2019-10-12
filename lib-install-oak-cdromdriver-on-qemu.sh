@@ -22,8 +22,8 @@ install-oak-cdromdriver-on-qemu() {
 	echo "inserting win98 boot disk and installing cdrom driver..."
 	qemu-send "change floppy0 ${win98bootdisk}"
 	qemu-send-string-de "copy a:\\oakcdrom.sys c:\\"
-	qemu-send-string-de "echo device=oakcdrom.sys /D:oemcd001 >> config.sys"
-	qemu-send-string-de "echo LH C:\\DOS\\MSCDEX.EXE /D:oemcd001 /L:D >> autoexec.bat"
+	qemu-send-string-de "echo device=oakcdrom.sys /D:oemcd001 >> c:\\config.sys"
+	qemu-send-string-de "echo LH C:\\DOS\\MSCDEX.EXE /D:oemcd001 /L:D >> c:\\autoexec.bat"
 	bogomips-sleep 10
 }
 
