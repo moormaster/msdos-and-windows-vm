@@ -32,7 +32,10 @@ qemu-send-string-en-us() {
 		sed "s/sendkey \\\\/sendkey backslash/g" |
 		sed "s/sendkey =/sendkey equal/g" |
 		sed "s/sendkey </sendkey shift-comma/g" |
-		sed "s/sendkey >/sendkey shift-dot/g" >> "${QEMU_PIPE}.in"
+		sed "s/sendkey >/sendkey shift-dot/g" | while read line
+		do
+			qemu-send "$line"
+		done
 		qemu-send-key "ret"
 	)
 }
@@ -52,7 +55,10 @@ qemu-send-string-de() {
 		sed "s/sendkey \\\\/sendkey alt_r-minus/g" |
 		sed "s/sendkey =/sendkey shift-0/g" |
 		sed "s/sendkey </sendkey less/g" |
-		sed "s/sendkey >/sendkey shift-less/g" >> "${QEMU_PIPE}.in"
+		sed "s/sendkey >/sendkey shift-less/g" | while read line
+		do
+			qemu-send "$line"
+		done
 		qemu-send-key "ret"
 	)
 }
