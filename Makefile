@@ -34,7 +34,7 @@ FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img HardDisk.im
 
 DISKSIZE_IN_BYTES=104857600
 
-all: install-w311fwg.iso HardDisk.img
+all: HardDisk.img
 
 downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive rtl8029-archive ie-archive netscape-archive
 
@@ -102,10 +102,10 @@ tcpip.img: tcpip-archive
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
-HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh install-vm.sh Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
-	./install-vm.sh HardDisk.img -enable-kvm -vga cirrus
+	./install-vm.sh HardDisk.img install-w311fwg.iso -enable-kvm -vga cirrus
 
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
