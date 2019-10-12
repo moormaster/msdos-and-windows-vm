@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. lib-bogomips-sleep.sh
+
 qemu-pipe-init() {
 	[ "$1" != "" ] && QEMU_PIPE="$1" || QEMU_PIPE=qemu-monitor-pipe
 
@@ -64,6 +66,6 @@ qemu-send() {
 	[ -p "${QEMU_PIPE}.in" ] && (
 		local line=$1
 		echo "$1" >> "${QEMU_PIPE}.in"
-		sleep 0.2
+		bogomips-sleep 0.2
 	)
 }
