@@ -105,7 +105,7 @@ tcpip.img: tcpip-archive
 HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
-	./install-vm.sh HardDisk.img install-w311fwg.iso -enable-kvm -vga cirrus
+	./install-vm.sh HardDisk.img install-w311fwg.iso -vga cirrus
 
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}

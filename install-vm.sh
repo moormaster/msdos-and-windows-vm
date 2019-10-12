@@ -14,7 +14,6 @@ install-vm() {
 	
 	QEMU_PIPE=$( qemu-pipe-init )
 
-	echo "qemu-system-i386 -enable-kvm -hda "${hddimage}" -fda "" -cdrom "" -monitor "pipe:${QEMU_PIPE}" "${qemuargs[@]}" &"
 	qemu-system-i386 -enable-kvm -hda "${hddimage}" -fda "" -cdrom "" -monitor "pipe:${QEMU_PIPE}" "${qemuargs[@]}" &
 
 	# wait for qemu to initialize

@@ -23,10 +23,10 @@ install-w311fwg-on-qemu() {
 	qemu-send "change ide1-cd0 install-w311fwg.iso"
 	qemu-send-string-de "d:"
 	qemu-send-string-de "winsetup.bat"
-	bogomips-sleep 50
+	bogomips-sleep 45
 	echo "starting installation..."
 	qemu-send-key "ret"
-	bogomips-sleep 71
+	bogomips-sleep 72
 	echo "confirming question to setup dos programs in windows..."
 	qemu-send-key "ret"
 	bogomips-sleep 13
