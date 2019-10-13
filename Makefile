@@ -30,7 +30,7 @@ MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
 DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${RTL8029_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE}
-FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img ie.img HardDisk.img install-w311fwg.iso startvm.sh
+FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=104857600
 
@@ -60,7 +60,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img netscape-archive MYSETUP.SHH WINSETUP.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img ie-archive netscape-archive MYSETUP.SHH WINSETUP.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
