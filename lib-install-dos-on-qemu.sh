@@ -87,7 +87,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
 	qemu-send-key "ret"
-	bogomips-sleep 13
+	bogomips-sleep 8
 
 	echo "inserting and installing disk 2..."
 	qemu-send "change floppy0 ${dosdisk2}"
@@ -116,7 +116,7 @@ install-dos-on-qemu() {
 		bogomips-sleep 1
 		qemu-send-key "f5"
 		qemu-send-string-de "y"
-		bogomips-sleep 5
+		bogomips-sleep 3
 		qemu-send-string-de "y"
 		qemu-send-string-de "c:"
 		# wait copy to finish
