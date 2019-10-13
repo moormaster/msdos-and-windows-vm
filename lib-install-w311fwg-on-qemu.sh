@@ -93,7 +93,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	echo "waiting for reboot..."	
-	bogomips-sleep 13
+	bogomips-sleep 20
 	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\autoexec.bat"
 	bogomips-sleep 1
 }
