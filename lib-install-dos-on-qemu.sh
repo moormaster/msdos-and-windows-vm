@@ -49,7 +49,7 @@ install-dos-on-qemu() {
 	qemu-send "change floppy0 ${dosdisk1}"
 	qemu-send "boot_set a"
 	qemu-send "system_reset"
-	bogomips-sleep 8
+	bogomips-sleep 3
 	echo "confirming messages saying the disk needs to be partitioned..."
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
