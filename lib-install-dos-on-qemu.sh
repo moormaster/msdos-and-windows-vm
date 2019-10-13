@@ -58,7 +58,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
 	echo "waiting for reboot..."
-	bogomips-sleep 8
+	bogomips-sleep 5
 
 	echo "choosing language..."
 	qemu-send-key "up"
@@ -104,7 +104,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
 	qemu-send-key "ret"
-	bogomips-sleep 8
+	bogomips-sleep 5
 
 	if [ -f "${dossuppdisk}" ]
 	then
@@ -120,7 +120,7 @@ install-dos-on-qemu() {
 		qemu-send-string-de "y"
 		qemu-send-string-de "c:"
 		# wait copy to finish
-		bogomips-sleep 13
+		bogomips-sleep 5
 	fi
 }
 
