@@ -14,11 +14,10 @@ geturlpath() {
 
 winworldpc-get-mirrorlist-url() {
 	url="$1"
-	filename="$2"
+	filename="$( echo "$2" | sed "s/\[/\\\[/g" | sed "s/\]/\\\]/g" )"
 
 	baseurl="$( getbaseurl "$url" )"
 	urlpath="$( geturlpath "$url" )"
-
 
 	echo -n "$baseurl"
 	curl "$baseurl$urlpath" | grep -o "href=\"\([^\"]\+\)\" title=\"${filename}\"" | sed "s/href=\"\([^\"]\+\)\" title=\"$filename\"/\1/"

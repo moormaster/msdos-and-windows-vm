@@ -18,8 +18,8 @@ CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
 RTL8029_ARCHIVE="wfw_8029.zip"
 RTL8029_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
 
-IE_ARCHIVE="Microsoft Internet Explorer 1.0 (4.40.308) (3.5).7z"
-IE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/internet-explorer/10" "Microsoft Internet Explorer 1.0 (4.40.308) (3.5).7z" "${WINWORLDPCMIRRORNAME}"`
+IE_ARCHIVE="Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x].7z"
+IE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/internet-explorer/ie-5" "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x].7z" "${WINWORLDPCMIRRORNAME}"`
 
 NETSCAPE_ARCHIVE="Netscape Composer 4.09SE.exe.7z"
 NETSCAPE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/netscape-navigator/40x" "Netscape Composer 4.09SE.exe.7z" "${WINWORLDPCMIRRORNAME}"`
@@ -103,11 +103,6 @@ tcpip.img: tcpip-archive WinDisk1.img
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
-ie.img: ie-archive WinDisk1.img tcpip.img
-	# added WinDisk1.img and tcpip.img dependency because of conflicting filename when executing makefile targets in parallel
-	[ -f "ie.img" ] || 7z e ${IE_ARCHIVE} "Microsoft Internet Explorer 1.0 (4.40.308) (3.5)/Disk01.img"
-	[ -f "ie.img" ] || mv Disk01.img ie.img
-
 HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
@@ -153,7 +148,7 @@ netscape-archive:
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img ie.img netscape-archive MYSETUP.SHH WINSETUP.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img netscape-archive MYSETUP.SHH WINSETUP.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -170,6 +165,6 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.i
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ${CIRRUS_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP tcpip.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
-	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ie.img
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE}
 
