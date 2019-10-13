@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . lib-qemu.sh
+. lib-bogomips-sleep.sh
 . lib-install-dos-on-qemu.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
@@ -17,7 +18,7 @@ install-vm() {
 	qemu-system-i386 -enable-kvm -hda "${hddimage}" -fda "" -cdrom "" -monitor "pipe:${QEMU_PIPE}" "${qemuargs[@]}" &
 
 	# wait for qemu to initialize
-	sleep 5
+	bogomips-sleep 1
 
 	echo installing dos...
 	install-dos-on-qemu DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
