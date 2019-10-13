@@ -97,7 +97,7 @@ install-dos-on-qemu() {
 	echo "inserting and installing disk 3..."
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
-	bogomips-sleep 13
+	bogomips-sleep 11
 
 	echo "ejecting floppy and reboot..."
 	qemu-send "eject floppy0"
