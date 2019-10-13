@@ -98,11 +98,13 @@ WinDisk8.img: w311fwg-archive
 	[ -f "WinDisk8.img" ] || 7z e ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk08.img"
 	[ -f "WinDisk8.img" ] || mv Disk08.img WinDisk8.img
 
-tcpip.img: tcpip-archive
+tcpip.img: tcpip-archive WinDisk1.img
+	# added WinDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
-ie.img: ie-archive
+ie.img: ie-archive WinDisk1.img tcpip.img
+	# added WinDisk1.img and tcpip.img dependency because of conflicting filename when executing makefile targets in parallel
 	[ -f "ie.img" ] || 7z e ${IE_ARCHIVE} "Microsoft Internet Explorer 1.0 (4.40.308) (3.5)/Disk01.img"
 	[ -f "ie.img" ] || mv Disk01.img ie.img
 
