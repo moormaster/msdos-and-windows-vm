@@ -47,6 +47,39 @@ clean-all: clean clean-downloads
 clean-downloads:
 	rm -f ${DLFILES}
 
+startvm.sh: HardDisk.img install-w311fwg.iso
+	echo "#!/bin/bash" >> startvm.sh
+	echo "qemu-system-i386 -m 32 -vga cirrus -net nic,model=ne2k_pci -net user -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh
+	chmod +x startvm.sh
+
+HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
+
+	./install-vm.sh HardDisk.img install-w311fwg.iso -m 32 -vga cirrus -net nic,model=ne2k_pci -net user
+
+install-w311fwg.iso: install-w311fwg-iso-dir
+	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
+
+install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img netscape-archive MYSETUP.SHH WINSETUP.BAT
+	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk4.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk5.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk6.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk7.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk8.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH" ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP.BAT" ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ${RTL8029_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ${CIRRUS_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP tcpip.img
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE}
+
 Win98BootDisk.img: win98bootdisk-archive
 	[ -f "Win98BootDisk.img" ] || 7z e ${WIN98BOOTDISK_ARCHIVE} "Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb)/Windows 98 Second Edition Boot.img"
 	[ -f "Win98BootDisk.img" ] || mv "Windows 98 Second Edition Boot.img" Win98BootDisk.img
@@ -103,16 +136,6 @@ tcpip.img: tcpip-archive WinDisk1.img
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
-HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
-	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
-
-	./install-vm.sh HardDisk.img install-w311fwg.iso -vga cirrus -net nic,model=ne2k_pci -net user
-
-startvm.sh: HardDisk.img install-w311fwg.iso
-	echo "#!/bin/bash" >> startvm.sh
-	echo "qemu-system-i386 -enable-kvm -vga cirrus -net nic,model=ne2k_pci -net user -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh
-	chmod +x startvm.sh
-
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
 	md5sum --ignore-missing -c md5sums
@@ -144,27 +167,4 @@ ie-archive:
 netscape-archive:
 	[ -f ${NETSCAPE_ARCHIVE} ] || wget -O ${NETSCAPE_ARCHIVE} ${NETSCAPE_URL}
 	md5sum --ignore-missing -c md5sums
-
-install-w311fwg.iso: install-w311fwg-iso-dir
-	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
-
-install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img netscape-archive MYSETUP.SHH WINSETUP.BAT
-	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk4.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk5.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk6.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk7.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk8.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH" ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP.BAT" ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
-	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
-	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ${RTL8029_ARCHIVE}
-	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ${CIRRUS_ARCHIVE}
-	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP tcpip.img
-	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
-	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE}
-	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE}
 
