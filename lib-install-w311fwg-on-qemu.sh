@@ -94,7 +94,73 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "ret"
 	echo "waiting for reboot..."	
 	bogomips-sleep 20
-	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\autoexec.bat"
+	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
+	bogomips-sleep 20
+	echo "setting empty password..."
+	qemu-send-key "ret"
+	qemu-send-key "ret"
+	qemu-send-key "ret"
+	echo "closing tcpip group..."
+	qemu-send-key "ctrl-tab"
+	qemu-send-key "ctrl-f4"
+	bogomips-sleep 2
+	echo "open file manager..."
+	qemu-send-string-de "f"
+	bogomips-sleep 2
+	echo "switching to cdrom drive..."
+	qemu-send-key "tab"
+	qemu-send-key "tab"
+	qemu-send-key "right"
+	qemu-send-key "spc"
+	bogomips-sleep 24
+	echo "installing ie..."
+	qemu-send-key "tab"
+	qemu-send-key "down"
+	qemu-send-key "tab"
+	qemu-send-key "up"
+	qemu-send-key "down"
+	qemu-send-key "ret"
+	qemu-send-key "down"
+	qemu-send-key "ret"
+	qemu-send-key "up"
+	qemu-send-key "down"
+	qemu-send-key "ret"
+	qemu-send-key "spc"
+	bogomips-sleep 45
+	echo "confirming installer dialog..."
+	qemu-send-key "ret"
+	qemu-send-key "tab"
+	qemu-send-key "ret"
+	qemu-send-key "ret"
+	bogomips-sleep 15
+	echo "confirming installation directory..."
+	qemu-send-key "ret"
+	bogomips-sleep 65
+	echo "skipping customization file..."
+	qemu-send-key "tab"
+	qemu-send-key "tab"
+	qemu-send-key "tab"
+	qemu-send-key "spc"
+	bogomips-sleep 5
+	echo "waiting for reboot..."
+	qemu-send-key "spc"
+	bogomips-sleep 20
+	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
+	bogomips-sleep 25
+	echo "setting time zone..."
+	for ((i=0;i<18;i++))
+	do
+		qemu-send-key "down"
+	done
+	qemu-send-key "ret"
+	bogomips-sleep 5
+	echo "closing ie group..."
+	qemu-send-key "ctrl-f4"
+	echo "exiting windows..."
+	qemu-send-key "alt-f4"
+	qemu-send-key "ret"
+	bogomips-sleep 10
+	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
 	bogomips-sleep 1
 }
 
