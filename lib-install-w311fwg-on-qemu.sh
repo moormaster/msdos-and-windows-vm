@@ -135,7 +135,7 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 15
 	echo "confirming installation directory..."
 	qemu-send-key "ret"
-	bogomips-sleep 65
+	bogomips-sleep 70
 	echo "skipping customization file..."
 	qemu-send-key "tab"
 	qemu-send-key "tab"
