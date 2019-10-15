@@ -118,9 +118,9 @@ install-dos-on-qemu() {
 		qemu-send-string-de "y"
 		bogomips-sleep 2
 		qemu-send-string-de "y"
-		qemu-send-string-de "c:"
 		# wait copy to finish
 		bogomips-sleep 5
+		qemu-send-string-de "c:"
 	fi
 }
 

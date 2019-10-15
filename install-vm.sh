@@ -14,8 +14,16 @@ install-vm() {
 	qemuargs=("$@")
 	
 	QEMU_PIPE=$( qemu-pipe-init )
+	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" "${qemuargs[@]}" )
 
-	qemu-system-i386 -enable-kvm -hda "${hddimage}" -fda "" -cdrom "" -monitor "pipe:${QEMU_PIPE}" "${qemuargs[@]}" &
+	case "$( uname )" in
+		Linux*)
+			"${QEMU_EXEC[@]}" -enable-kvm -monitor "pipe:${QEMU_PIPE}" &
+			;;
+		CYGWIN*)
+			(while [ -p "${QEMU_PIPE}.in" ]; do cat "${QEMU_PIPE}.in"; done ) | "${QEMU_EXEC[@]}" -enable-kvm -monitor stdio &
+			;;
+	esac
 
 	# wait for qemu to initialize
 	bogomips-sleep 1

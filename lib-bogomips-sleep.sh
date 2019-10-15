@@ -22,9 +22,10 @@ bogomips-sleep() {
 
 	if [ "$SLEEPFACTOR" == "" ]
 	then
-		echo "calibrating sleep times..."
+		echo -n "calibrating sleep times... "
 		local bogomips=$( bogomips-measure )
 		SLEEPFACTOR="($bogomips / 4.864)"
+		echo "SLEEPFACTOR=$( echo "scale=3; $SLEEPFACTOR" | bc )"
 	fi
 
 	bogomipstime=$( echo "scale=2; $time * ${SLEEPFACTOR}" | bc )
