@@ -128,36 +128,13 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 1
 	qemu-send-key "ret"
 	bogomips-sleep 1
-	echo "closing tcpip group..."
-	qemu-send-key "ctrl-tab"
-	qemu-send-key "ctrl-f4"
-	bogomips-sleep 2
-	echo "open file manager..."
-	qemu-send-string-de "f"
-	bogomips-sleep 2
-	echo "switching to cdrom drive..."
-	qemu-send-key "tab"
-	qemu-send-key "tab"
-	qemu-send-key "right"
-	qemu-send-key "spc"
-	bogomips-sleep 24
 	echo "installing ie..."
-	qemu-send-key "tab"
-	qemu-send-key "down"
-	qemu-send-key "tab"
-	qemu-send-key "up"
-	qemu-send-key "down"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "down"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "up"
-	qemu-send-key "down"
-	qemu-send-key "ret"
+	qemu-send-key "alt-f"
+	qemu-send-key "r"
+	qemu-send-string-de "d:\\apps\\ie\\microsof.x_\\ie5win31.exe"
 	bogomips-sleep 1
 	qemu-send-key "spc"
-	bogomips-sleep 60
+	bogomips-sleep 70
 	echo "confirming installer dialog..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
@@ -187,12 +164,34 @@ install-w311fwg-on-qemu() {
 	done
 	qemu-send-key "ret"
 	bogomips-sleep 5
-	echo "closing ie group..."
-	qemu-send-key "ctrl-f4"
-	echo "exiting windows..."
-	qemu-send-key "alt-f4"
+	echo "installing netscape..."
+	qemu-send-key "alt-f"
+	qemu-send-key "r"
+	qemu-send-string-de "d:\\apps\\netscape\\netscape.exe"
+	bogomips-sleep 122
+	echo "confirming installer..."
 	qemu-send-key "ret"
-	bogomips-sleep 10
+	bogomips-sleep 1
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	qemu-send-key "ret"
+	bogomips-sleep 3
+	echo "confirming installation directory..."
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	qemu-send-key "ret"
+	bogomips-sleep 95
+	echo "denying to view readme..."
+	qemu-send-key "n"
+	echo "rebooting..."
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	qemu-send-key "ret"
+	bogomips-sleep 20
 	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
 	bogomips-sleep 1
 }
