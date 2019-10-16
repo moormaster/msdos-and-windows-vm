@@ -179,7 +179,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "spc"
 	bogomips-sleep 20
 	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
-	bogomips-sleep 35
+	bogomips-sleep 40
 	echo "setting time zone..."
 	for ((i=0;i<18;i++))
 	do
