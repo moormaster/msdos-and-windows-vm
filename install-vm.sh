@@ -16,12 +16,14 @@ install-vm() {
 	QEMU_PIPE=$( qemu-pipe-init )
 	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" "${qemuargs[@]}" )
 
+	rm "${QEMU_PIPE}.stop"
+
 	case "$( uname )" in
 		Linux*)
 			"${QEMU_EXEC[@]}" -enable-kvm -monitor "pipe:${QEMU_PIPE}" &
 			;;
 		CYGWIN*)
-			(while [ -p "${QEMU_PIPE}.in" ]; do cat "${QEMU_PIPE}.in"; done ) | "${QEMU_EXEC[@]}" -enable-kvm -monitor stdio &
+			( while [ -f "${QEMU_PIPE}.stop" ]; do cat "${QEMU_PIPE}.in"; done ) | "${QEMU_EXEC[@]}" -monitor stdio &
 			;;
 	esac
 
@@ -37,9 +39,13 @@ install-vm() {
 	echo installing windows 3.11 for workgroups
 	install-w311fwg-on-qemu "$isoimage"
 
+	touch "${QEMU_PIPE}.stop"
+
 	qemu-send "quit"
 	# wait for qemu to close
 	wait
+
+	rm "${QEMU_PIPE}.stop"
 
 	qemu-pipe-destroy ${QEMU_PIPE}
 }
