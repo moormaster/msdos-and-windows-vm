@@ -8,7 +8,7 @@ bogomips-measure() {
 		sum=$( echo "scale=3; $sum + $value" | bc )
 	done
 
-	echo $( echo "scale=3; $sum/$value" | bc )
+	echo $( echo "scale=3; $sum/$count" | bc )
 }
 
 bogomips-sleep() {
