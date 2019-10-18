@@ -27,6 +27,9 @@ install-vm() {
 			;;
 	esac
 
+        # read out pipe to prevent blocking
+        cat "${QEMU_PIPE}.out" > /dev/null &
+
 	# wait for qemu to initialize
 	bogomips-sleep 1
 
