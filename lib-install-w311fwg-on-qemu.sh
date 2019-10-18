@@ -180,7 +180,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 3
+	bogomips-sleep 5
 	echo "confirming installation directory..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
