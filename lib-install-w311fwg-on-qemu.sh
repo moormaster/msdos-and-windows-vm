@@ -36,6 +36,7 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 7
 	echo "running windows setup..."
 	qemu-send-string-de "d:"
+	qemu-send-string-de "cd WINSETUP"
 	qemu-send-string-de "winsetup.bat"
 	bogomips-sleep 2
 	echo "starting installation..."
