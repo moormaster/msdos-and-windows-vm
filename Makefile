@@ -18,25 +18,34 @@ CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
 RTL8029_ARCHIVE="wfw_8029.zip"
 RTL8029_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
 
+NC_ARCHIVE="Norton Commander 5.5 (3.5).7z"
+NC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/norton-commander/55x" "Norton Commander 5.5 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
+
 IE_ARCHIVE="Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x].7z"
 IE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/internet-explorer/ie-5" "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x].7z" ${WINWORLDPCMIRRORNAME}`
 
 NETSCAPE_ARCHIVE="Netscape Composer 4.09SE.exe.7z"
 NETSCAPE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/netscape-navigator/40x" "Netscape Composer 4.09SE.exe.7z" ${WINWORLDPCMIRRORNAME}`
 
+OFFICE_ARCHIVE="Microsoft Office 4.3 Professional (3.5 DMF).7z"
+OFFICE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-office/4x" "Microsoft Office 4.3 Professional (3.5 DMF).7z" ${WINWORLDPCMIRRORNAME}`
+
 INSTALLISOIMAGE_DIR=install-w311fwg-iso
 
 MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
-DLFILES=i${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${RTL8029_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE}
-FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} tcpip.img HardDisk.img install-w311fwg.iso startvm.sh
+NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
+OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
+
+DLFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${RTL8029_ARCHIVE} ${NC_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
+FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} tcpip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive rtl8029-archive ie-archive netscape-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive rtl8029-archive nc-archive ie-archive netscape-archive office-archive
 
 clean:
 	rm -f ${FILES}
@@ -60,16 +69,16 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.img ie-archive netscape-archive MYSETUP.SHH WINSETUP.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-archive rtl8029-archive tcpip.img ie-archive netscape-archive MYSETUP.SHH WINSETUP.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk1.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk2.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk3.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk4.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk5.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk6.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk7.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
-	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WinDisk8.img" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk3.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk4.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk5.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk6.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk7.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH" ] || cp -f MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP.BAT" ] || cp -f WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
@@ -79,7 +88,34 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} cirrus-archive rtl8029-archive tcpip.i
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE}
-
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk1.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk2.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk3.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk1.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk2.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk3.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk4.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk5.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk6.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk7.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk8.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk9.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk10.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk11.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk12.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk13.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk14.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk15.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk15.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk17.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk18.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk19.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk20.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk21.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk22.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk23.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE OfficeDisk24.img
+	
 Win98BootDisk.img: win98bootdisk-archive
 	[ -f "Win98BootDisk.img" ] || 7z e ${WIN98BOOTDISK_ARCHIVE} "Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb)/Windows 98 Second Edition Boot.img"
 	[ -f "Win98BootDisk.img" ] || mv "Windows 98 Second Edition Boot.img" Win98BootDisk.img
@@ -136,6 +172,125 @@ tcpip.img: tcpip-archive WinDisk1.img
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
+NCDisk1.img: nc-archive WinDisk1.img
+	# adding WinDisk1.img to the dependency list due to naming conflict
+	[ -f "NCDisk1.img" ] || 7z e ${NC_ARCHIVE} "Norton Commander 5.5 (3.5)/Disk01.img"
+	[ -f "NCDisk1.img" ] || mv Disk01.img NCDisk1.img
+
+NCDisk2.img: nc-archive WinDisk2.img
+	# adding WinDisk2.img to the dependency list due to naming conflict
+	[ -f "NCDisk2.img" ] || 7z e ${NC_ARCHIVE} "Norton Commander 5.5 (3.5)/Disk02.img"
+	[ -f "NCDisk2.img" ] || mv Disk02.img NCDisk2.img
+
+NCDisk3.img: nc-archive WinDisk3.img
+	# adding WinDisk3.img to the dependency list due to naming conflict
+	[ -f "NCDisk3.img" ] || 7z e ${NC_ARCHIVE} "Norton Commander 5.5 (3.5)/Disk03.img"
+	[ -f "NCDisk3.img" ] || mv Disk03.img NCDisk3.img
+
+OfficeDisk1.img: office-archive WinDisk1.img NCDisk1.img
+	# adding WinDisk1.img and NCDisk1.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk1.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk01.img"
+	[ -f "OfficeDisk1.img" ] || mv Disk01.img OfficeDisk1.img
+
+OfficeDisk2.img: office-archive WinDisk2.img NCDisk2.img
+	# adding WinDisk2.img and NCDisk2.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk2.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk02.img"
+	[ -f "OfficeDisk2.img" ] || mv Disk02.img OfficeDisk2.img
+
+OfficeDisk3.img: office-archive WinDisk3.img NCDisk3.img
+	# adding WinDisk3.img and NCDisk3.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk3.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk03.img"
+	[ -f "OfficeDisk3.img" ] || mv Disk03.img OfficeDisk3.img
+
+OfficeDisk4.img: office-archive WinDisk4.img
+	# adding WinDisk4.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk4.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk04.img"
+	[ -f "OfficeDisk4.img" ] || mv Disk04.img OfficeDisk4.img
+
+OfficeDisk5.img: office-archive WinDisk5.img
+	# adding WinDisk5.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk5.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk05.img"
+	[ -f "OfficeDisk5.img" ] || mv Disk05.img OfficeDisk5.img
+
+OfficeDisk6.img: office-archive WinDisk6.img
+	# adding WinDisk6.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk6.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk06.img"
+	[ -f "OfficeDisk6.img" ] || mv Disk06.img OfficeDisk6.img
+
+OfficeDisk7.img: office-archive WinDisk7.img
+	# adding WinDisk7.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk7.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk07.img"
+	[ -f "OfficeDisk7.img" ] || mv Disk07.img OfficeDisk7.img
+
+OfficeDisk8.img: office-archive WinDisk8.img
+	# adding WinDisk8.img to the dependency list due to naming conflict
+	[ -f "OfficeDisk8.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk08.img"
+	[ -f "OfficeDisk8.img" ] || mv Disk08.img OfficeDisk8.img
+
+OfficeDisk9.img: office-archive
+	[ -f "OfficeDisk9.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk09.img"
+	[ -f "OfficeDisk9.img" ] || mv Disk09.img OfficeDisk9.img
+
+OfficeDisk10.img: office-archive
+	[ -f "OfficeDisk10.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk10.img"
+	[ -f "OfficeDisk10.img" ] || mv Disk10.img OfficeDisk10.img
+
+OfficeDisk11.img: office-archive
+	[ -f "OfficeDisk11.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk11.img"
+	[ -f "OfficeDisk11.img" ] || mv Disk11.img OfficeDisk11.img
+
+OfficeDisk12.img: office-archive
+	[ -f "OfficeDisk12.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk12.img"
+	[ -f "OfficeDisk12.img" ] || mv Disk12.img OfficeDisk12.img
+
+OfficeDisk13.img: office-archive
+	[ -f "OfficeDisk13.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk13.img"
+	[ -f "OfficeDisk13.img" ] || mv Disk13.img OfficeDisk13.img
+
+OfficeDisk14.img: office-archive
+	[ -f "OfficeDisk14.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk14.img"
+	[ -f "OfficeDisk14.img" ] || mv Disk14.img OfficeDisk14.img
+
+OfficeDisk15.img: office-archive
+	[ -f "OfficeDisk15.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk15.img"
+	[ -f "OfficeDisk15.img" ] || mv Disk15.img OfficeDisk15.img
+
+OfficeDisk16.img: office-archive
+	[ -f "OfficeDisk16.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk16.img"
+	[ -f "OfficeDisk16.img" ] || mv Disk16.img OfficeDisk16.img
+
+OfficeDisk17.img: office-archive
+	[ -f "OfficeDisk17.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk17.img"
+	[ -f "OfficeDisk17.img" ] || mv Disk17.img OfficeDisk17.img
+
+OfficeDisk18.img: office-archive
+	[ -f "OfficeDisk18.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk18.img"
+	[ -f "OfficeDisk18.img" ] || mv Disk18.img OfficeDisk18.img
+
+OfficeDisk19.img: office-archive
+	[ -f "OfficeDisk19.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk19.img"
+	[ -f "OfficeDisk19.img" ] || mv Disk19.img OfficeDisk19.img
+
+OfficeDisk20.img: office-archive
+	[ -f "OfficeDisk20.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk20.img"
+	[ -f "OfficeDisk20.img" ] || mv Disk20.img OfficeDisk20.img
+
+OfficeDisk21.img: office-archive
+	[ -f "OfficeDisk21.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk21.img"
+	[ -f "OfficeDisk21.img" ] || mv Disk21.img OfficeDisk21.img
+
+OfficeDisk22.img: office-archive
+	[ -f "OfficeDisk22.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk22.img"
+	[ -f "OfficeDisk22.img" ] || mv Disk22.img OfficeDisk22.img
+
+OfficeDisk23.img: office-archive
+	[ -f "OfficeDisk23.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk23.img"
+	[ -f "OfficeDisk23.img" ] || mv Disk23.img OfficeDisk23.img
+
+OfficeDisk24.img: office-archive
+	[ -f "OfficeDisk24.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk24.img"
+	[ -f "OfficeDisk24.img" ] || mv Disk24.img OfficeDisk24.img
+
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
 	md5sum --ignore-missing -c md5sums
@@ -158,6 +313,14 @@ cirrus-archive:
 
 rtl8029-archive:
 	[ -f ${RTL8029_ARCHIVE} ] || wget -O ${RTL8029_ARCHIVE} ${RTL8029_URL}
+	md5sum --ignore-missing -c md5sums
+
+nc-archive:
+	[ -f ${NC_ARCHIVE} ] || wget -O ${NC_ARCHIVE} ${NC_URL}
+	md5sum --ignore-missing -c md5sums
+
+office-archive:
+	[ -f ${OFFICE_ARCHIVE} ] || wget -O ${OFFICE_ARCHIVE} ${OFFICE_URL}
 	md5sum --ignore-missing -c md5sums
 
 ie-archive:
