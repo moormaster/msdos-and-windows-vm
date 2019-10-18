@@ -104,6 +104,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "tab"
 	qemu-send-string-de "WG"
 	bogomips-sleep 30
+	echo "enabling dhcp..."
 	qemu-send-key "spc"
 	bogomips-sleep 1
 	qemu-send-key "tab"
