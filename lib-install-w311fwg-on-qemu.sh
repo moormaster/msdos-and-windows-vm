@@ -134,7 +134,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-string-de "d:\\apps\\ie\\microsof.x_\\ie5win31.exe"
 	bogomips-sleep 1
 	qemu-send-key "spc"
-	bogomips-sleep 75
+	bogomips-sleep 80
 	echo "confirming installer dialog..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
