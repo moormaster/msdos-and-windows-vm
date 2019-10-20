@@ -23,9 +23,12 @@ install-vm() {
 			"${QEMU_EXEC[@]}" -enable-kvm -monitor "pipe:${QEMU_PIPE}" &
 			;;
 		CYGWIN*)
-			( while ! [ -f "${QEMU_PIPE}.stop" ]; do cat "${QEMU_PIPE}.in"; done ) | "${QEMU_EXEC[@]}" -monitor stdio &
+			( while ! [ -f "${QEMU_PIPE}.stop" ]; do cat "${QEMU_PIPE}.in"; done ) | "${QEMU_EXEC[@]}" -monitor stdio > "${QEMU_PIPE}.out" &
 			;;
 	esac
+
+        # read out pipe to prevent blocking
+        cat "${QEMU_PIPE}.out" > /dev/null &
 
 	# wait for qemu to initialize
 	bogomips-sleep 1

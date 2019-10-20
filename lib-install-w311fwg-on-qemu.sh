@@ -36,6 +36,7 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 7
 	echo "running windows setup..."
 	qemu-send-string-de "d:"
+	qemu-send-string-de "cd WINSETUP"
 	qemu-send-string-de "winsetup.bat"
 	bogomips-sleep 2
 	echo "starting installation..."
@@ -104,6 +105,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "tab"
 	qemu-send-string-de "WG"
 	bogomips-sleep 30
+	echo "enabling dhcp..."
 	qemu-send-key "spc"
 	bogomips-sleep 1
 	qemu-send-key "tab"
@@ -179,7 +181,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 3
+	bogomips-sleep 5
 	echo "confirming installation directory..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
