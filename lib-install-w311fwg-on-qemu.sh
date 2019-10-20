@@ -186,7 +186,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 140
+	bogomips-sleep 145
 	echo "denying to view readme..."
 	qemu-send-key "n"
 	echo "rebooting..."
