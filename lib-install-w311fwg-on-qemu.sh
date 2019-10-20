@@ -170,7 +170,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "alt-f"
 	qemu-send-key "r"
 	qemu-send-string-de "d:\\apps\\netscape\\netscape.exe"
-	bogomips-sleep 185
+	bogomips-sleep 181
 	echo "confirming installer..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
@@ -186,7 +186,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 95
+	bogomips-sleep 140
 	echo "denying to view readme..."
 	qemu-send-key "n"
 	echo "rebooting..."
