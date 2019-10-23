@@ -179,8 +179,8 @@ tcpip.img: tcpip-archive WinDisk1.img
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
-NCDisk1.img: nc-archive WinDisk1.img
-	# adding WinDisk1.img to the dependency list due to naming conflict
+NCDisk1.img: nc-archive WinDisk1.img tcpip.img
+	# adding WinDisk1.img and tcpip.img to the dependency list due to naming conflict
 	[ -f "NCDisk1.img" ] || 7z e ${NC_ARCHIVE} "Norton Commander 5.5 (3.5)/Disk01.img"
 	[ -f "NCDisk1.img" ] || mv Disk01.img NCDisk1.img
 
@@ -194,8 +194,8 @@ NCDisk3.img: nc-archive WinDisk3.img
 	[ -f "NCDisk3.img" ] || 7z e ${NC_ARCHIVE} "Norton Commander 5.5 (3.5)/Disk03.img"
 	[ -f "NCDisk3.img" ] || mv Disk03.img NCDisk3.img
 
-OfficeDisk1.img: office-archive WinDisk1.img NCDisk1.img
-	# adding WinDisk1.img and NCDisk1.img to the dependency list due to naming conflict
+OfficeDisk1.img: office-archive WinDisk1.img tcpip.img NCDisk1.img
+	# adding WinDisk1.img, tcpip.img and NCDisk1.img to the dependency list due to naming conflict
 	[ -f "OfficeDisk1.img" ] || 7z e ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk01.img"
 	[ -f "OfficeDisk1.img" ] || mv Disk01.img OfficeDisk1.img
 
