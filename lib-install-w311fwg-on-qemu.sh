@@ -30,10 +30,23 @@ install-w311fwg-on-qemu() {
 	qemu-send-string-de "mkdir c:\\drivers\\rtl8029"
 	qemu-send-string-de "copy d:\\drivers\\rtl8029\\wfw311\\*.* c:\\drivers\\rtl8029"
 	bogomips-sleep 2
+	echo "copy vga driver..."
+	qemu-send-string-de "mkdir c:\\drivers\\svga"
+	qemu-send-string-de "copy d:\\drivers\\svga\\*.* c:\\drivers\\svga"
+	bogomips-sleep 2
 	echo "unpacking tcpip driver..."
 	qemu-send-string-de "cd c:\\drivers\\tcpip"
 	qemu-send-string-de "tcp32b.exe"
 	bogomips-sleep 7
+	echo "patching svga driver..."
+	qemu-send-string-de "mkdir c:\\windows"
+	qemu-send-string-de "mkdir c:\\windows\\system"
+	qemu-send-string-de "expand d:\\winsetup\\svga256.dr_ c:\\windows\\system\\svga256.drv"
+	qemu-send-string-de "copy c:\\drivers\\svga\\vgapatch.com c:\\windows\\system"
+	qemu-send-string-de "cd \\windows\\system"
+	qemu-send-string-de "vgapatch.com p"
+	bogomips-sleep 1
+	qemu-send-string-de "cd \\"
 	echo "running windows setup..."
 	qemu-send-string-de "d:"
 	qemu-send-string-de "cd WINSETUP"
@@ -41,7 +54,7 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 2
 	echo "starting installation..."
 	qemu-send-key "ret"
-	bogomips-sleep 74
+	bogomips-sleep 90
 	echo "confirming question to setup dos programs in windows..."
 	qemu-send-key "ret"
 	bogomips-sleep 2
@@ -195,6 +208,26 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 1
 	qemu-send-key "ret"
 	bogomips-sleep 20
+	echo "activating svga driver..."
+	qemu-send-string-de "cd \\windows"
+	qemu-send-string-de "setup.exe"
+	bogomips-sleep 1
+	qemu-send-key "up"
+	qemu-send-key "up"
+	qemu-send-key "up"
+	qemu-send-key "up"
+	qemu-send-key "up"
+	qemu-send-key "up"
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	qemu-send-key "down"
+	qemu-send-key "down"
+	qemu-send-key "down"
+	qemu-send-key "ret"
+	qemu-send-key "ret"
+	qemu-send-key "ret"
+	bogomips-sleep 10
+	echo "activating win.com..."
 	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
 	bogomips-sleep 1
 }
