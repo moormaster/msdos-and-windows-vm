@@ -3,6 +3,7 @@
 . lib-qemu.sh
 . lib-bogomips-sleep.sh
 . lib-install-dos-on-qemu.sh
+. lib-activate-dos-powermanager.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
 
@@ -39,8 +40,11 @@ install-vm() {
 	echo installing cdrom driver...
 	install-oak-cdromdriver-on-qemu Win98BootDisk.img
 
-	echo installing windows 3.11 for workgroups
+	echo installing windows 3.11 for workgroups...
 	install-w311fwg-on-qemu "$isoimage"
+
+	echo activating power management for dos...
+	activate-dos-powermanager
 
 	touch "${QEMU_PIPE}.stop"
 

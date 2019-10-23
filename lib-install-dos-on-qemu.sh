@@ -122,9 +122,6 @@ install-dos-on-qemu() {
 		bogomips-sleep 5
 		qemu-send-string-de "c:"
 	fi
-
-	qemu-send-string-de "echo DEVICE=C:\\DOS\\POWER.EXE ADV:MAX >> C:\config.sys"
-	bogomips-sleep 1
 }
 
 install-dos-on-qemu-usage() {
