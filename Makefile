@@ -15,6 +15,9 @@ TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/micr
 CIRRUS_ARCHIVE="win_5446.zip"
 CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
 
+SVGA_ARCHIVE="Generic SVGA Driver (Windows 3.1) (3.5).7z"
+SVGA_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/generic-svga-driver-/generic-svga-driver-windows-31" "Generic SVGA Driver (Windows 3.1) (3.5).7z" ${WINWORLDPCMIRRORNAME}`
+
 RTL8029_ARCHIVE="wfw_8029.zip"
 RTL8029_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
 
@@ -38,14 +41,14 @@ W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img W
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-DLFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${RTL8029_ARCHIVE} ${NC_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
+DLFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${RTL8029_ARCHIVE} ${NC_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
 FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} tcpip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive rtl8029-archive nc-archive ie-archive netscape-archive office-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive rtl8029-archive nc-archive ie-archive netscape-archive office-archive
 
 clean:
 	rm -f ${FILES}
@@ -69,7 +72,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-archive rtl8029-archive tcpip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-archive svga.img rtl8029-archive tcpip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -84,6 +87,7 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-arc
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ${RTL8029_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ${CIRRUS_ARCHIVE}
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/SVGA" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/SVGA svga.img
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP tcpip.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE}
@@ -174,6 +178,11 @@ tcpip.img: tcpip-archive WinDisk1.img
 	# added WinDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
+
+svga.img: svga-archive DosDisk1.img
+	# added DosDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
+	[ -f "svga.img" ] || 7z e ${SVGA_ARCHIVE} "Generic SVGA Driver (Windows 3.1) (3.5)/disk1.img"
+	[ -f "svga.img" ] || mv disk1.img svga.img
 
 NCDisk1.img: nc-archive WinDisk1.img
 	# adding WinDisk1.img to the dependency list due to naming conflict
@@ -312,6 +321,10 @@ tcpip-archive:
 
 cirrus-archive:
 	[ -f ${CIRRUS_ARCHIVE} ] || wget -O ${CIRRUS_ARCHIVE} ${CIRRUS_URL}
+	md5sum --ignore-missing -c md5sums
+
+svga-archive:
+	[ -f ${SVGA_ARCHIVE} ] || wget -O ${SVGA_ARCHIVE} ${SVGA_URL}
 	md5sum --ignore-missing -c md5sums
 
 rtl8029-archive:
