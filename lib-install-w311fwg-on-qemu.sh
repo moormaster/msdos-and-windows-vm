@@ -20,7 +20,7 @@ install-w311fwg-on-qemu() {
 	fi
 
 	echo "starting windows 3.11 for workgroups setup..."
-	qemu-send "change ide1-cd0 install-w311fwg.iso"
+	qemu-send "change ide1-cd0 $isoimage"
 	echo "copy tcpip driver..."
 	qemu-send-string-de "mkdir c:\\drivers"
 	qemu-send-string-de "mkdir c:\\drivers\\tcpip"
@@ -233,5 +233,5 @@ install-w311fwg-on-qemu() {
 }
 
 install-w311fwg-on-qemu-usage() {
-	echo "install-w311wfg-on-qemu <WinInstallISO>" 1>&2
+	echo "install-w311fwg-on-qemu <WinInstallISO>" 1>&2
 }

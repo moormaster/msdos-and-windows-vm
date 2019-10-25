@@ -108,7 +108,7 @@ install-dos-on-qemu() {
 
 	if [ -f "${dossuppdisk}" ]
 	then
-		echo "inserting an copying supplemental disk to be copied..."
+		echo "inserting and copying supplemental disk to be copied..."
 		qemu-send "change floppy0 ${dossuppdisk}"
 		qemu-send-string-de "a:"
 		qemu-send-string-de "setup.bat c:\\dos"
