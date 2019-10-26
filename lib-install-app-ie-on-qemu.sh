@@ -1,5 +1,3 @@
-#!/bin/bash
-
 . lib-bogomips-sleep.sh
 . lib-qemu.sh
 
