@@ -27,7 +27,7 @@ install-oak-cdromdriver-on-qemu() {
 	bogomips-sleep 2
 	qemu-send "boot_set c"
 	qemu-send "system_reset"
-	echo waiting for reboot...
+	echo "rebooting..."
 	bogomips-sleep 8
 }
 

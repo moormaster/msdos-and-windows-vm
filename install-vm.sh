@@ -6,6 +6,9 @@
 . lib-activate-dos-powermanager.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
+. lib-install-app-netscape-on-qemu.sh
+. lib-install-app-ie-on-qemu.sh
+. lib-activate-w311fwg-settings-on-qemu-sh
 
 install-vm() {
 	hddimage="$1"
@@ -42,6 +45,13 @@ install-vm() {
 
 	echo installing windows 3.11 for workgroups...
 	install-w311fwg-on-qemu "$isoimage"
+
+	echo installing apps...
+	install-app-netscape-on-qemu "$isoimage"
+	install-app-ie-on-qemu "$isoimage"
+
+	echo "activating windows 3.11 for workgroups settings..."
+	activate-w311fwg-settings-on-qemu "$isoimage"
 
 	echo activating power management for dos...
 	activate-dos-powermanager

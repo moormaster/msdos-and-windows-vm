@@ -42,6 +42,7 @@ install-w311fwg-on-qemu() {
 	qemu-send-string-de "mkdir c:\\windows"
 	qemu-send-string-de "mkdir c:\\windows\\system"
 	qemu-send-string-de "expand d:\\winsetup\\svga256.dr_ c:\\windows\\system\\svga256.drv"
+	bogomips-sleep 2
 	qemu-send-string-de "copy c:\\drivers\\svga\\vgapatch.com c:\\windows\\system"
 	qemu-send-string-de "cd \\windows\\system"
 	qemu-send-string-de "vgapatch.com p"
@@ -62,9 +63,8 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "tab"
 	qemu-send-key "tab"
 	qemu-send-key "spc"
-	bogomips-sleep 8
-	echo "waiting for reboot..."
-	bogomips-sleep 11
+	echo "rebooting..."
+	bogomips-sleep 19
 	echo "running windows..."
 	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
 	bogomips-sleep 4
@@ -143,93 +143,10 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 1
 	qemu-send-key "ret"
 	bogomips-sleep 1
-	echo "installing ie..."
-	qemu-send-key "alt-f"
-	qemu-send-key "r"
-	qemu-send-string-de "d:\\apps\\ie\\microsof.x_\\ie5win31.exe"
+	qemu-send-key "alt-f4"
 	bogomips-sleep 1
 	qemu-send-key "spc"
-	bogomips-sleep 80
-	echo "confirming installer dialog..."
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "tab"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 15
-	echo "confirming installation directory..."
-	qemu-send-key "ret"
-	bogomips-sleep 90
-	echo "skipping customization file..."
-	qemu-send-key "tab"
-	qemu-send-key "tab"
-	qemu-send-key "tab"
-	qemu-send-key "spc"
 	bogomips-sleep 5
-	echo "waiting for reboot..."
-	qemu-send-key "spc"
-	bogomips-sleep 20
-	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
-	bogomips-sleep 40
-	echo "setting time zone..."
-	for ((i=0;i<18;i++))
-	do
-		qemu-send-key "down"
-	done
-	qemu-send-key "ret"
-	bogomips-sleep 5
-	echo "installing netscape..."
-	qemu-send-key "alt-f"
-	qemu-send-key "r"
-	qemu-send-string-de "d:\\apps\\netscape\\netscape.exe"
-	bogomips-sleep 182
-	echo "confirming installer..."
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 5
-	echo "confirming installation directory..."
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 145
-	echo "denying to view readme..."
-	qemu-send-key "n"
-	bogomips-sleep 2
-	echo "rebooting..."
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 20
-	echo "activating svga driver..."
-	qemu-send-string-de "cd \\windows"
-	qemu-send-string-de "setup.exe"
-	bogomips-sleep 1
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "down"
-	qemu-send-key "down"
-	qemu-send-key "down"
-	qemu-send-key "ret"
-	qemu-send-key "ret"
-	qemu-send-key "ret"
-	bogomips-sleep 25
-	echo "activating win.com..."
-	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
-	bogomips-sleep 1
 }
 
 install-w311fwg-on-qemu-usage() {

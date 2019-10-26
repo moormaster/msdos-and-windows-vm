@@ -56,8 +56,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
-	echo "waiting for reboot..."
+	echo "rebooting..."
 	bogomips-sleep 6
 
 	echo "choosing language..."
@@ -87,7 +86,7 @@ install-dos-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 0.1
 	qemu-send-key "ret"
-	bogomips-sleep 8
+	bogomips-sleep 9
 
 	echo "inserting and installing disk 2..."
 	qemu-send "change floppy0 ${dosdisk2}"
