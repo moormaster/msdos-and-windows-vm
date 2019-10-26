@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 getbaseurl() {
 	url="$1"
