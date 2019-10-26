@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 . lib-qemu.sh
 . lib-bogomips-sleep.sh
