@@ -18,7 +18,7 @@ install-vm() {
 	qemuargs=("$@")
 	
 	QEMU_PIPE=$( qemu-pipe-init )
-	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" "${qemuargs[@]}" )
+	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" ${QEMU_ARGS} "${qemuargs[@]}" )
 
 	rm "${QEMU_PIPE}.stop"
 
