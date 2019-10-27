@@ -72,7 +72,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanag
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-archive svga-archive rtl8029-archive tcpip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-archive svga-archive rtl8029-archive tcpip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/WINSETUP/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -84,6 +84,7 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${NV_FILES} ${OFFICE_FILES} cirrus-arc
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/MYSETUP.SHH" ] || cp -f src/WINSETUP/MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/WINSETUP.BAT" ] || cp -f src/WINSETUP/WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/WINSETUP/
+	[ -d "${INSTALLISOIMAGE_DIR}/WINSETUP/DRIVERS.BAT" ] || cp -f src/WINSETUP/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ${RTL8029_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ] || unzip -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ${CIRRUS_ARCHIVE}

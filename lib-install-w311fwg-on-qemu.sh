@@ -19,33 +19,9 @@ install-w311fwg-on-qemu() {
 
 	echo "starting windows 3.11 for workgroups setup..."
 	qemu-send "change ide1-cd0 $isoimage"
-	echo "copy tcpip driver..."
-	qemu-send-string-de "mkdir c:\\drivers"
-	qemu-send-string-de "mkdir c:\\drivers\\tcpip"
-	qemu-send-string-de "copy d:\\drivers\\tcpip\\*.* c:\\drivers\\tcpip"
-	bogomips-sleep 43
-	echo "copy network driver..."
-	qemu-send-string-de "mkdir c:\\drivers\\rtl8029"
-	qemu-send-string-de "copy d:\\drivers\\rtl8029\\wfw311\\*.* c:\\drivers\\rtl8029"
-	bogomips-sleep 2
-	echo "copy svga driver..."
-	qemu-send-string-de "mkdir c:\\drivers\\svga"
-	qemu-send-string-de "copy d:\\drivers\\svga\\*.* c:\\drivers\\svga"
-	bogomips-sleep 2
-	echo "unpacking tcpip driver..."
-	qemu-send-string-de "cd c:\\drivers\\tcpip"
-	qemu-send-string-de "tcp32b.exe"
-	bogomips-sleep 7
-	echo "patching svga driver..."
-	qemu-send-string-de "mkdir c:\\windows"
-	qemu-send-string-de "mkdir c:\\windows\\system"
-	qemu-send-string-de "expand d:\\winsetup\\svga256.dr_ c:\\windows\\system\\svga256.drv"
-	bogomips-sleep 2
-	qemu-send-string-de "copy c:\\drivers\\svga\\vgapatch.com c:\\windows\\system"
-	qemu-send-string-de "cd \\windows\\system"
-	qemu-send-string-de "vgapatch.com p"
-	bogomips-sleep 1
-	qemu-send-string-de "cd \\"
+	echo "copy drivers..."
+	qemu-send-string-de "d:\\WINSETUP\\drivers.bat"
+	bogomips-sleep 47
 	echo "running windows setup..."
 	qemu-send-string-de "d:"
 	qemu-send-string-de "cd WINSETUP"
