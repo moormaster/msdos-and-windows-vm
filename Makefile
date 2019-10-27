@@ -60,7 +60,7 @@ clean-downloads:
 	rm -f ${DLFILES}
 
 startvm.sh: HardDisk.img install-w311fwg.iso
-	echo "#!/bin/bash" >> startvm.sh
+	echo "#!/usr/bin/env bash" >> startvm.sh
 	echo "qemu-system-i386 -m 32 -net nic,model=ne2k_pci -net user -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh
 	chmod +x startvm.sh
 
