@@ -8,7 +8,7 @@
 . lib-install-w311fwg-on-qemu.sh
 . lib-install-app-netscape-on-qemu.sh
 . lib-install-app-ie-on-qemu.sh
-. lib-activate-w311fwg-settings-on-qemu-sh
+. lib-activate-w311fwg-settings-on-qemu.sh
 
 install-vm() {
 	hddimage="$1"
