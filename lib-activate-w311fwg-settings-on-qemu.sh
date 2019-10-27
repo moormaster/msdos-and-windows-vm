@@ -1,3 +1,5 @@
+#!/bin/bash
+
 . lib-bogomips-sleep.sh
 . lib-qemu.sh
 
@@ -16,23 +18,37 @@ activate-w311fwg-settings-on-qemu() {
 		activate-w311fwg-settings-on-qemu-usage
 		return
 	fi
-
 	qemu-send "change ide1-cd0 $isoimage"
-	echo "activating svga driver..."
+	echo "running windows setup..."
 	qemu-send-string-de "cd \\windows"
 	qemu-send-string-de "setup.exe"
 	bogomips-sleep 1
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
-	qemu-send-key "up"
+	echo "activating svga driver..."
+	for ((i=0;i<6;i++))
+	do
+		qemu-send-key "up"
+	done
 	qemu-send-key "ret"
 	bogomips-sleep 1
-	qemu-send-key "down"
-	qemu-send-key "down"
-	qemu-send-key "down"
+	for ((i=0;i<3;i++))
+	do
+		qemu-send-key "down"
+	done
+	qemu-send-key "ret"
+
+	echo "activating windows apm driver..."
+	for ((i=0;i<7;i++))
+	do
+		qemu-send-key "up"
+	done
+	qemu-send-key "ret"
+	bogomips-sleep 1
+	for ((i=0;i<14;i++))
+	do
+		qemu-send-key "down"
+	done
+	qemu-send-key "ret"
+
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
