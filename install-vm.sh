@@ -56,14 +56,14 @@ install-vm() {
 
 		echo activating power management for dos...
 		activate-dos-powermanager
+
+		touch "${QEMU_PIPE}.stop"
+
+		qemu-send "quit"
 	) | while read line
 	do
 		echo -e "$(date +%H:%M:%S) $line"
 	done
-
-	touch "${QEMU_PIPE}.stop"
-
-	qemu-send "quit"
 	# wait for qemu to close
 	wait
 
