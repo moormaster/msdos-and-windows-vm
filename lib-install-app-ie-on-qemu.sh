@@ -49,7 +49,7 @@ install-app-ie-on-qemu() {
 	qemu-send-key "spc"
 	bogomips-sleep 20
 	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
-	bogomips-sleep 90
+	bogomips-sleep 70
 	echo "setting time zone..."
 	for ((i=0;i<18;i++))
 	do
