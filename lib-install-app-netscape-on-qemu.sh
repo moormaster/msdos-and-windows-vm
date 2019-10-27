@@ -26,23 +26,27 @@ install-app-netscape-on-qemu() {
 	qemu-send-key "r"
 	qemu-send-string-de "d:\\apps\\netscape\\netscape.exe"
 	bogomips-sleep 200
-	echo "confirming installer..."
+	echo "confirming welcome message..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
+	echo "confirming welcome license..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	echo "confirming installation directory..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
+	echo "confirming installation directory creation..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 2
+	echo "confirming video for windows message..."
 	qemu-send-key "ret"
-	bogomips-sleep 5
+	bogomips-sleep 10
+	echo "confirming windows group name..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	echo "confirming installation begin..."
 	qemu-send-key "ret"
-	bogomips-sleep 130
+	bogomips-sleep 210
 	echo "denying to view readme..."
 	qemu-send-key "n"
 	bogomips-sleep 2

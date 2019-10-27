@@ -27,7 +27,7 @@ install-app-ie-on-qemu() {
 	qemu-send-string-de "d:\\apps\\ie\\microsof.x_\\ie5win31.exe"
 	bogomips-sleep 1
 	qemu-send-key "spc"
-	bogomips-sleep 100
+	bogomips-sleep 235
 	echo "confirming installer dialog..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
@@ -35,7 +35,7 @@ install-app-ie-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 15
+	bogomips-sleep 25
 	echo "confirming installation directory..."
 	qemu-send-key "ret"
 	bogomips-sleep 90
@@ -49,7 +49,7 @@ install-app-ie-on-qemu() {
 	qemu-send-key "spc"
 	bogomips-sleep 20
 	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
-	bogomips-sleep 40
+	bogomips-sleep 90
 	echo "setting time zone..."
 	for ((i=0;i<18;i++))
 	do

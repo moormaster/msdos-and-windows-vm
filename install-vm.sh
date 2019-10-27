@@ -24,37 +24,42 @@ install-vm() {
 
 	case "$( uname )" in
 		Linux*)
-			"${QEMU_EXEC[@]}" -enable-kvm -monitor "pipe:${QEMU_PIPE}" &
+			"${QEMU_EXEC[@]}" -monitor "pipe:${QEMU_PIPE}" &
 			;;
 		CYGWIN*)
 			( while ! [ -f "${QEMU_PIPE}.stop" ]; do cat "${QEMU_PIPE}.in"; done ) | "${QEMU_EXEC[@]}" -monitor stdio > "${QEMU_PIPE}.out" &
 			;;
 	esac
 
-        # read out pipe to prevent blocking
-        cat "${QEMU_PIPE}.out" > /dev/null &
+	(
+	        # read out pipe to prevent blocking
+	        cat "${QEMU_PIPE}.out" > /dev/null &
 
-	# wait for qemu to initialize
-	bogomips-sleep 1
+		# wait for qemu to initialize
+		bogomips-sleep 1
 
-	echo installing dos...
-	install-dos-on-qemu DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+		echo installing dos...
+		install-dos-on-qemu DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 
-	echo installing cdrom driver...
-	install-oak-cdromdriver-on-qemu Win98BootDisk.img
+		echo installing cdrom driver...
+		install-oak-cdromdriver-on-qemu Win98BootDisk.img
 
-	echo installing windows 3.11 for workgroups...
-	install-w311fwg-on-qemu "$isoimage"
+		echo installing windows 3.11 for workgroups...
+		install-w311fwg-on-qemu "$isoimage"
 
-	echo installing apps...
-	install-app-netscape-on-qemu "$isoimage"
-	install-app-ie-on-qemu "$isoimage"
+		echo installing apps...
+		install-app-netscape-on-qemu "$isoimage"
+		install-app-ie-on-qemu "$isoimage"
 
-	echo "activating windows 3.11 for workgroups settings..."
-	activate-w311fwg-settings-on-qemu "$isoimage"
+		echo "activating windows 3.11 for workgroups settings..."
+		activate-w311fwg-settings-on-qemu "$isoimage"
 
-	echo activating power management for dos...
-	activate-dos-powermanager
+		echo activating power management for dos...
+		activate-dos-powermanager
+	) | while read line
+	do
+		echo -e "$(date +%H:%M:%S) $line"
+	done
 
 	touch "${QEMU_PIPE}.stop"
 
