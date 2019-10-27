@@ -54,7 +54,7 @@ install-app-netscape-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 20
+	bogomips-sleep 25
 }
 
 install-app-netscape-on-qemu-usage() {
