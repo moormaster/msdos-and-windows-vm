@@ -44,6 +44,7 @@ install-app-ie-on-qemu() {
 	done
 	qemu-send-key "ret"
 	bogomips-sleep 5
+	echo "open program manager..."
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	qemu-send-key "alt-f4"
