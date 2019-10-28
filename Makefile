@@ -24,6 +24,9 @@ RTL8029_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
 NC_ARCHIVE="Norton Commander 5.5 (3.5).7z"
 NC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/norton-commander/55x" "Norton Commander 5.5 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
 
+PKZIP_ARCHIVE="PKZip 2.04g (Registered) (3.5).7z"
+PKZIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/pkzip/20" "PKZip 2.04g (Registered) (3.5).7z" ${WINWORLDPCMIRRORNAME}`
+
 IE_ARCHIVE="Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x].7z"
 IE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/internet-explorer/ie-5" "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x].7z" ${WINWORLDPCMIRRORNAME}`
 
@@ -41,14 +44,14 @@ W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img W
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-DLFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${RTL8029_ARCHIVE} ${NC_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
-FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} tcpip.img HardDisk.img install-w311fwg.iso startvm.sh
+DLFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${RTL8029_ARCHIVE} ${PKZIP_ARCHIVE} ${NC_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
+FILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} tcpip.img pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive rtl8029-archive nc-archive ie-archive netscape-archive office-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive rtl8029-archive tcpip-archive nc-archive ie-archive netscape-archive office-archive
 
 clean:
 	rm -f ${FILES}
@@ -72,7 +75,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanag
 install-w311fwg.iso: install-w311fwg-iso-dir
 	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive rtl8029-archive tcpip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/WINSETUP/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive rtl8029-archive tcpip.img pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/WINSETUP/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -92,12 +95,12 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-arc
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP tcpip.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE}
-	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/NC"
 	[ -f "${INSTALLISOIMAGE_DIR}/APPS/NC/INSTALL.BAT" ] || cp src/APPS/NC/INSTALL.BAT "${INSTALLISOIMAGE_DIR}/APPS/NC/"
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk2.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk3.img
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK1" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK1 OfficeDisk1.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK2" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK2  OfficeDisk2.img
@@ -123,6 +126,7 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-arc
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK22" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK22  OfficeDisk22.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK23" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK23  OfficeDisk23.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK24" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK24  OfficeDisk24.img
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/PKZIP" ] || 7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/PKZIP pkzip.img
 	
 Win98BootDisk.img: win98bootdisk-archive
 	[ -f "Win98BootDisk.img" ] || 7z e ${WIN98BOOTDISK_ARCHIVE} "Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb)/Windows 98 Second Edition Boot.img"
@@ -179,6 +183,10 @@ tcpip.img: tcpip-archive WinDisk1.img
 	# added WinDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
+
+pkzip.img: pkzip-archive
+	[ -f "pkzip.img" ] || 7z e ${PKZIP_ARCHIVE} "DISK1.IMG"
+	[ -f "pkzip.img" ] || mv DISK1.IMG pkzip.img
 
 NCDisk1.img: nc-archive WinDisk1.img tcpip.img
 	# adding WinDisk1.img and tcpip.img to the dependency list due to naming conflict
@@ -325,6 +333,10 @@ svga-archive:
 
 rtl8029-archive:
 	[ -f ${RTL8029_ARCHIVE} ] || wget -O ${RTL8029_ARCHIVE} ${RTL8029_URL}
+	md5sum --ignore-missing -c md5sums
+
+pkzip-archive:
+	[ -f ${PKZIP_ARCHIVE} ] || wget -O ${PKZIP_ARCHIVE} ${PKZIP_URL}
 	md5sum --ignore-missing -c md5sums
 
 nc-archive:

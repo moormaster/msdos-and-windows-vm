@@ -18,27 +18,14 @@ install-app-ie-on-qemu() {
 	fi
 
 	qemu-send "change ide1-cd0 $isoimage"
-	echo "running windows..."
-	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
-	bogomips-sleep 20
+	echo "extracting setup..."
+	qemu-send-string-de "mkdir c:\\temp"
+	qemu-send-string-de "mkdir c:\\temp\\ie"
+	qemu-send-string-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\microsof.x_\ie5win31.exe c:\\temp\\ie"
+	bogomips-sleep 35
 	echo "installing ie..."
-	qemu-send-key "alt-f"
-	qemu-send-key "r"
-	qemu-send-string-de "d:\\apps\\ie\\microsof.x_\\ie5win31.exe"
-	bogomips-sleep 1
-	qemu-send-key "spc"
-	bogomips-sleep 235
-	echo "confirming installer dialog..."
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "tab"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 25
-	echo "confirming installation directory..."
-	qemu-send-key "ret"
-	bogomips-sleep 90
+	qemu-send-string-de "C:\\WINDOWS\\WIN.COM c:\\temp\\ie\\setup.exe /q"
+	bogomips-sleep 370
 	echo "skipping customization file..."
 	qemu-send-key "tab"
 	qemu-send-key "tab"
