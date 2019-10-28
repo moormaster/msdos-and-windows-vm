@@ -122,5 +122,5 @@ install-dos-on-qemu() {
 }
 
 install-dos-on-qemu-usage() {
-	echo "install-dos-on-qemu <dos disk 1> <dos disk 2> <dos disk 3> [dos supplemental disk]" 1>&2
+	echo -e "usage:\n\tinstall-dos-on-qemu <dos disk 1> <dos disk 2> <dos disk 3> [dos supplemental disk]" 1>&2
 }

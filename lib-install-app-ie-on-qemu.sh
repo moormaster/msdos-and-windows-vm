@@ -64,5 +64,5 @@ install-app-ie-on-qemu() {
 }
 
 install-app-ie-on-qemu-usage() {
-	echo "install-app-ie-on-qemu <WinInstallISO>" 1>&2
+	echo -e "usage:\n\tinstall-app-ie-on-qemu <WinInstallISO>" 1>&2
 }

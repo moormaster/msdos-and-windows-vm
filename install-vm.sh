@@ -73,7 +73,7 @@ install-vm() {
 }
 
 install-vm-usage() {
-	echo "$0 <HardDisk image> <Windows 3.11 install iso>" 2>&1
+	echo -e "usage:\n\t$0 <HardDisk image> <Windows 3.11 install iso>" 2>&1
 }
 
 if [ $# -lt 1 ]

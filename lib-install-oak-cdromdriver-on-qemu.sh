@@ -30,5 +30,5 @@ install-oak-cdromdriver-on-qemu() {
 }
 
 install-oak-cdromdriver-on-qemu-usage() {
-	echo "install-oak-cdromdriver-on-qemu <win98 boot disk>" 1>&2
+	echo -e "usage:\n\tinstall-oak-cdromdriver-on-qemu <win98 boot disk>" 1>&2
 }

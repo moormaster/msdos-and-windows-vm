@@ -58,5 +58,5 @@ install-app-netscape-on-qemu() {
 }
 
 install-app-netscape-on-qemu-usage() {
-	echo "install-app-netscape-on-qemu <WinInstallISO>" 1>&2
+	echo -e "usage:\n\tinstall-app-netscape-on-qemu <WinInstallISO>" 1>&2
 }

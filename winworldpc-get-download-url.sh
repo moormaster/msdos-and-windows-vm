@@ -20,7 +20,7 @@ winworldpc-get-mirrorlist-url() {
 	urlpath="$( geturlpath "$url" )"
 
 	echo -n "$baseurl"
-	curl "$baseurl$urlpath" | grep -o "href=\"\([^\"]\+\)\" title=\"${filename}\"" | sed "s/href=\"\([^\"]\+\)\" title=\"$filename\"/\1/"
+	curl "$baseurl$urlpath" | grep -o "href=\"\([^\"]\+\)\" title=\"${filename}\"" | sed "s/href=\"\([^\"]\+\)\" title=\"$filename\"/\1/" 2> /dev/null
 }
 
 winworldpc-get-download-url() {
@@ -34,12 +34,12 @@ winworldpc-get-download-url() {
 	mirrorsurl="$( winworldpc-get-mirrorlist-url "$url" "$filename" )"
 
 	echo -n "$baseurl"
-	curl "$mirrorsurl" | grep -o "<a href=\"\([^\"]\+\)\">$mirrorname</a>" | sed "s/<a href=\"\([^\"]\+\)\">$mirrorname<\/a>/\1/"
+	curl "$mirrorsurl" | grep -o "<a href=\"\([^\"]\+\)\">$mirrorname</a>" | sed "s/<a href=\"\([^\"]\+\)\">$mirrorname<\/a>/\1/" 2> /dev/null
 }
 
 usage() {
-	echo "$0 <url> <filename> <mirrorname>"
-	echo "example: $0 \"https://winworldpc.com\" \"/product/ms-dos/622\" \"Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z\" \"Ricky\""
+	echo -e "usage:\n\t$0 <url> <filename> <mirrorname>" 1>&2
+	echo -e "example:\n\t$0 \"https://winworldpc.com\" \"/product/ms-dos/622\" \"Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5).7z\" \"Ricky\"" 1>&2
 }
 
 if [ $# -lt 3 ]
@@ -48,5 +48,4 @@ then
 	exit
 fi
 
-winworldpc-get-download-url "$@" 2> /dev/null
-
+winworldpc-get-download-url "$@" 

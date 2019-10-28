@@ -59,5 +59,5 @@ activate-w311fwg-settings-on-qemu() {
 }
 
 activate-w311fwg-settings-on-qemu-usage() {
-	echo "activate-w311fwg-settings-on-qemu <WinInstallISO>" 1>&2
+	echo -e "usage:\n\tactivate-w311fwg-settings-on-qemu <WinInstallISO>" 1>&2
 }

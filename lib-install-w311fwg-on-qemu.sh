@@ -124,5 +124,5 @@ install-w311fwg-on-qemu() {
 }
 
 install-w311fwg-on-qemu-usage() {
-	echo "install-w311fwg-on-qemu <WinInstallISO>" 1>&2
+	echo -e "usage:\n\tinstall-w311fwg-on-qemu <WinInstallISO>" 1>&2
 }

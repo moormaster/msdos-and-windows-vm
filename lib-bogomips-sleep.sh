@@ -34,5 +34,5 @@ bogomips-sleep() {
 }
 
 bogomips-sleep-usage() {
-	echo "bogomips-sleep <sleep time in s>" 1>&2
+	echo -e "usage:\n\tbogomips-sleep <sleep time in s>" 1>&2
 }
