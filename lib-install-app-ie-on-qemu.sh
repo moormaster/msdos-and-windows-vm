@@ -44,6 +44,8 @@ install-app-ie-on-qemu() {
 	done
 	qemu-send-key "ret"
 	bogomips-sleep 5
+	qemu-send-key "ret"
+	bogomips-sleep 1
 	qemu-send-key "alt-f4"
 	bogomips-sleep 1
 	qemu-send-key "spc"
