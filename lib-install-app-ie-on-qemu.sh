@@ -22,10 +22,10 @@ install-app-ie-on-qemu() {
 	qemu-send-string-de "mkdir c:\\temp"
 	qemu-send-string-de "mkdir c:\\temp\\ie"
 	qemu-send-string-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\microsof.x_\ie5win31.exe c:\\temp\\ie"
-	bogomips-sleep 35
+	bogomips-sleep 60
 	echo "installing ie..."
 	qemu-send-string-de "C:\\WINDOWS\\WIN.COM c:\\temp\\ie\\setup.exe /q"
-	bogomips-sleep 370
+	bogomips-sleep 145
 	echo "skipping customization file..."
 	qemu-send-key "tab"
 	qemu-send-key "tab"
