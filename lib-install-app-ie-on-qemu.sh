@@ -21,7 +21,7 @@ install-app-ie-on-qemu() {
 	echo "extracting setup..."
 	qemu-send-string-de "mkdir c:\\temp"
 	qemu-send-string-de "mkdir c:\\temp\\ie"
-	qemu-send-string-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\microsof.x_\ie5win31.exe c:\\temp\\ie"
+	qemu-send-string-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\ie5win31.exe c:\\temp\\ie"
 	bogomips-sleep 60
 	echo "installing ie..."
 	qemu-send-string-de "C:\\WINDOWS\\WIN.COM c:\\temp\\ie\\setup.exe /q"
