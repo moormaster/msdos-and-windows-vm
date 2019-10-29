@@ -184,7 +184,8 @@ tcpip.img: tcpip-archive WinDisk1.img
 	[ -f "tcpip.img" ] || 7z e ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
 	[ -f "tcpip.img" ] || mv Disk01.img tcpip.img
 
-pkzip.img: pkzip-archive
+pkzip.img: pkzip-archive DosDisk1.img
+	# added DosDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
 	[ -f "pkzip.img" ] || 7z e ${PKZIP_ARCHIVE} "DISK1.IMG"
 	[ -f "pkzip.img" ] || mv DISK1.IMG pkzip.img
 
