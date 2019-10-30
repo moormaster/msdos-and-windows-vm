@@ -1,4 +1,5 @@
 WINWORLDPCMIRRORNAME="Ricky"
+GENISOIMAGE=mkisofs
 
 WIN98BOOTDISK_ARCHIVE="Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb).7z"
 WIN98BOOTDISK_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-windows-boot-disk/98-se" "Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb).7z" ${WINWORLDPCMIRRORNAME}`
@@ -73,7 +74,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanag
 	./install-vm.sh HardDisk.img install-w311fwg.iso -m 32 -vga cirrus -net nic,model=ne2k_pci -net user
 
 install-w311fwg.iso: install-w311fwg-iso-dir
-	[ -f install-w311fwg.iso ] || mkisofs -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
+	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
 install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archive rtl8029-archive tcpip.img pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/WINSETUP/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
