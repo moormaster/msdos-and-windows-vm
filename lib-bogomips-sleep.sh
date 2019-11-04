@@ -20,12 +20,24 @@ bogomips-sleep() {
 
 	time="$1"
 
+	if [ "$MINSLEEPFACTOR" == "" ]
+	then
+		MINSLEEPFACTOR=0.9
+	fi
+
 	if [ "$SLEEPFACTOR" == "" ]
 	then
 		echo -n "calibrating sleep times... "
 		local bogomips=$( bogomips-measure )
 		SLEEPFACTOR="($bogomips / 4.378)"
+
 		echo "SLEEPFACTOR=$( echo "scale=3; $SLEEPFACTOR" | bc )"
+	fi
+
+	if [ "$(echo "$SLEEPFACTOR < $MINSLEEPFACTOR" | bc)" == "1" ]
+	then
+		echo "SLEEPFACTOR $SLEEPFACTOR increased to $MINSLEEPFACTOR due to the minimum limit. Set MINSLEEPFACTOR to 0 to override"
+		SLEEPFACTOR=$MINSLEEPFACTOR
 	fi
 
 	bogomipstime=$( echo "scale=2; $time * ${SLEEPFACTOR}" | bc )
