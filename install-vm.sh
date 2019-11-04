@@ -6,8 +6,10 @@
 . lib-activate-dos-powermanager.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
-. lib-install-app-netscape-on-qemu.sh
 . lib-install-app-ie-on-qemu.sh
+. lib-install-app-nc-on-qemu.sh
+. lib-install-app-netscape-on-qemu.sh
+. lib-install-app-pkzip-on-qemu.sh
 . lib-activate-w311fwg-settings-on-qemu.sh
 
 install-vm() {
@@ -43,6 +45,10 @@ install-vm() {
 
 		echo installing cdrom driver...
 		install-oak-cdromdriver-on-qemu Win98BootDisk.img
+
+		echo installing dos apps...
+		install-app-nc-on-qemu "$isoimage"
+		install-app-pkzip-on-qemu "$isoimage"
 
 		echo installing windows 3.11 for workgroups...
 		install-w311fwg-on-qemu "$isoimage"

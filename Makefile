@@ -80,7 +80,7 @@ startvm.sh: HardDisk.img install-w311fwg.iso
 	echo "qemu-system-i386 -m 32 -net nic,model=ne2k_pci -net user -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh
 	chmod +x startvm.sh
 
-HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanager.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh lib-install-app-netscape-on-qemu.sh lib-install-app-ie-on-qemu.sh lib-activate-w311fwg-settings-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanager.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh lib-install-app-ie-on-qemu.sh lib-install-app-netscape-on-qemu.sh lib-install-app-nc-on-qemu.sh lib-install-app-pkzip-on-qemu.sh lib-activate-w311fwg-settings-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
 	./install-vm.sh HardDisk.img install-w311fwg.iso -m 32 -vga cirrus -net nic,model=ne2k_pci -net user

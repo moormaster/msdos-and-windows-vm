@@ -25,6 +25,9 @@ install-w311fwg-on-qemu() {
 	echo "preparing drivers..."
 	qemu-send-string-de "c:\\drivers\\win311\\drivers.bat"
 	bogomips-sleep 7
+	echo "preparing windows setup..."
+	qemu-send-string-de "xcopy d:\\winsetup c:\\winsetup\\"
+	bogomips-sleep 56
 	echo "running windows setup..."
 	qemu-send-string-de "d:"
 	qemu-send-string-de "cd winsetup"
