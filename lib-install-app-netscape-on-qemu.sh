@@ -19,7 +19,7 @@ install-app-netscape-on-qemu() {
 
 	qemu-send "change ide1-cd0 $isoimage"
 	echo "running windows..."
-	qemu-send-string-de "C:\\WINDOWS\\WIN.COM"
+	qemu-send-string-de "c:\\windows\\win.com"
 	bogomips-sleep 20
 	echo "installing netscape..."
 	qemu-send-key "alt-f"
