@@ -1,0 +1,3 @@
+@echo off
+echo copy drivers...
+xcopy /e d:\drivers c:\drivers\

@@ -76,7 +76,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanag
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archive rtl8029-archive tcpip.img pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/WINSETUP/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archive rtl8029-archive tcpip.img pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -88,12 +88,14 @@ install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archiv
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk8.img
 	cp -f src/WINSETUP/MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	cp -f src/WINSETUP/WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/WINSETUP/
-	cp -f src/WINSETUP/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
-	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/RTL8029" ${RTL8029_ARCHIVE}
-	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/CIRRUS" ${CIRRUS_ARCHIVE}
-	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/SVGA ${SVGA_ARCHIVE}
-	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/TCPIP tcpip.img
+	cp -f src/DRIVERS/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311"
+	cp -f src/DRIVERS/WIN311/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311
+	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/RTL8029" ${RTL8029_ARCHIVE}
+	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/CIRRUS" ${CIRRUS_ARCHIVE}
+	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/SVGA ${SVGA_ARCHIVE}
+	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP tcpip.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
 	7z e -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE} "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x]/ie5win31.exe"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/NC"
