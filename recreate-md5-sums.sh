@@ -10,9 +10,9 @@ recreate-md5-sums() {
 
 	if [ "$1" == "" ]
 	then
-		md5sum *.zip *.7z *.flp
+		md5sum *.zip *.7z *.flp *.EXE
 	else
-		md5sum *.zip *.7z *.flp > "$1"
+		md5sum *.zip *.7z *.flp *.EXE > "$1"
 	fi
 }
 
