@@ -4,6 +4,7 @@ Installs an QEMU image with
 - MS-DOS 6.22 including supplemental disk
 - Norton Commmander
 - Microsoft Windows for Workgroups 3.11
+- Microsoft Office
 - Netscape 4
 - Internet Explorer 5
 
@@ -12,7 +13,6 @@ Provides additional software on the iso image
 - AMD PCNet driver for Windows 3.11
 - RTL8029 driver for DOS
 - Microsoft Network Client for DOS
-- Microsoft Office
 
 ## Build
 ```

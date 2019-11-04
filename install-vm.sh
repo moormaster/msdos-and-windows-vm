@@ -8,6 +8,7 @@
 . lib-install-w311fwg-on-qemu.sh
 . lib-install-app-ie-on-qemu.sh
 . lib-install-app-nc-on-qemu.sh
+. lib-install-app-msoffice-on-qemu.sh
 . lib-install-app-netscape-on-qemu.sh
 . lib-install-app-pkzip-on-qemu.sh
 . lib-activate-w311fwg-settings-on-qemu.sh
@@ -54,6 +55,7 @@ install-vm() {
 		install-w311fwg-on-qemu "$isoimage"
 
 		echo installing apps...
+		install-app-msoffice-on-qemu "$isoimage"
 		install-app-netscape-on-qemu "$isoimage"
 		install-app-ie-on-qemu "$isoimage"
 
