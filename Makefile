@@ -19,6 +19,9 @@ CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
 SVGA_ARCHIVE="win3x-svga.flp"
 SVGA_URL="http://ds-tech.weebly.com/uploads/2/6/2/0/2620861/win3x-svga.flp"
 
+AMDPCNET_ARCHIVE="amdpcnet_wfw31.zip"
+AMDPCNET_URL="http://download.amd.com/techdownloads/wfw31.zip"
+
 RTL8029DOS_ARCHIVE="dos_8029.zip"
 RTL8029DOS_URL="http://www.claunia.com/qemu/drivers/dos_8029.zip"
 
@@ -54,14 +57,14 @@ W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img W
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
+CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
 CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} tcpip.img pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive nc-archive pkzip-archive ie-archive netscape-archive office-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive nc-archive pkzip-archive ie-archive netscape-archive office-archive
 
 clean:
 	rm -f ${CLEANFILES}
@@ -85,7 +88,7 @@ HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanag
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archive rtl8029dos-archive rtl8029w311-archive tcpip.img msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip.img msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -100,11 +103,13 @@ install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archiv
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
 	cp -f src/DRIVERS/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS"
+	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/AMDPCNET" ${AMDPCNET_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/RTL8029" ${RTL8029DOS_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/MSCLIENT" ${MSCLIENT1_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/MSCLIENT" ${MSCLIENT2_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311"
 	cp -f src/DRIVERS/WIN311/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311
+	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/AMDPCNET" ${AMDPCNET_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/RTL8029" ${RTL8029W311_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/CIRRUS" ${CIRRUS_ARCHIVE}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/SVGA ${SVGA_ARCHIVE}
@@ -242,6 +247,10 @@ cirrus-archive:
 svga-archive:
 	[ -f ${SVGA_ARCHIVE} ] || wget -O ${SVGA_ARCHIVE} ${SVGA_URL}
 	grep ${SVGA_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+amdpcnet-archive:
+	[ -f ${AMDPCNET_ARCHIVE} ] || wget -O ${AMDPCNET_ARCHIVE} ${AMDPCNET_URL}
+	grep ${AMDPCNET_ARCHIVE} md5sums | md5sum --ignore-missing -c
 
 rtl8029dos-archive:
 	[ -f ${RTL8029DOS_ARCHIVE} ] || wget -O ${RTL8029DOS_ARCHIVE} ${RTL8029DOS_URL}
