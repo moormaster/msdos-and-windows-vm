@@ -52,7 +52,7 @@ activate-w311fwg-settings-on-qemu() {
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
-	bogomips-sleep 50
+	bogomips-sleep 5
 	echo "activating win.com..."
 	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
 	bogomips-sleep 1

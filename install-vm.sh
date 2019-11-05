@@ -4,6 +4,8 @@
 . lib-bogomips-sleep.sh
 . lib-install-dos-on-qemu.sh
 . lib-activate-dos-powermanager.sh
+. lib-activate-w311fwg-networklogon-on-qemu.sh
+. lib-activate-w311fwg-networkdriver-on-qemu.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
 . lib-install-app-ie-on-qemu.sh
@@ -20,8 +22,25 @@ install-vm() {
 	shift 2
 	qemuargs=("$@")
 	
+	if [ "$NETWORK" == "" ]
+	then
+		NETWORK=rtl8029
+	fi
+
+	case "$NETWORK" in
+		"rtl8029")
+			QEMU_NETWORK="-net user -net nic,model=ne2k_pci"
+			;;
+		"amdpcnet")
+			QEMU_NETWORK="-net user -net nic,model=pcnet"
+			;;
+		"none")
+			QEMU_NETWORK=""
+			;;
+	esac
+
 	QEMU_PIPE=$( qemu-pipe-init )
-	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" ${QEMU_ARGS} "${qemuargs[@]}" )
+	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" ${QEMU_NETWORK} "${qemuargs[@]}" ${QEMU_ARGS} )
 
 	rm "${QEMU_PIPE}.stop"
 
@@ -47,19 +66,49 @@ install-vm() {
 		echo installing cdrom driver...
 		install-oak-cdromdriver-on-qemu Win98BootDisk.img
 
-		echo installing dos apps...
-		install-app-nc-on-qemu "$isoimage"
-		install-app-pkzip-on-qemu "$isoimage"
+		if [ "$NOAPPS" != "" ] && [ "$NOAPPS" != "0" ]
+		then
+			echo "skipping installation of dos apps due to NOAPPS=\"$NOAPPS\""
+		else
+			echo installing dos apps...
+			install-app-nc-on-qemu "$isoimage"
+			install-app-pkzip-on-qemu "$isoimage"
+		fi
 
 		echo installing windows 3.11 for workgroups...
 		install-w311fwg-on-qemu "$isoimage"
 
-		echo installing apps...
-		install-app-msoffice-on-qemu "$isoimage"
-		install-app-netscape-on-qemu "$isoimage"
-		install-app-ie-on-qemu "$isoimage"
+		if [ "$NOAPPS" != "" ] && [ "$NOAPPS" != "0" ]
+		then
+			echo "skipping installation of apps due to NOAPPS=\"$NOAPPS\""
+		else
+			echo installing apps...
+			install-app-msoffice-on-qemu "$isoimage"
+		fi
 
-		echo "activating windows 3.11 for workgroups settings..."
+		echo "activating windows 3.11 for workgroups network driver..."
+		if [ "$NETWORK" == "none" ]
+		then
+			echo "skipping network driver installation due to NETWORK=\"$NETWORK\""
+		else
+			activate-w311fwg-networklogon-on-qemu
+			activate-w311fwg-networkdriver-on-qemu
+		fi
+
+		if [ "$NETWORK" == "none" ]
+		then
+			echo "skipping installation of browsers due to NETWORK=\"$NETWORK\""
+		else
+			if [ "$NOAPPS" != "" ] && [ "$NOAPPS" != "0" ]
+			then
+				echo "skipping installation of browsers due to NOAPPS=\"$NOAPPS\""
+			else
+				install-app-netscape-on-qemu "$isoimage"
+				install-app-ie-on-qemu "$isoimage"
+			fi
+		fi
+
+		echo "activating windows 3.11 for workgroups graphics and powermanagement drivers..."
 		activate-w311fwg-settings-on-qemu "$isoimage"
 
 		echo activating power management for dos...

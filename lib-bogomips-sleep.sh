@@ -30,8 +30,9 @@ bogomips-sleep() {
 		echo -n "calibrating sleep times... "
 		local bogomips=$( bogomips-measure )
 		SLEEPFACTOR="($bogomips / 4.378)"
+		SLEEPFACTOR="$( echo "scale=3; $SLEEPFACTOR" | bc )"
 
-		echo "SLEEPFACTOR=$( echo "scale=3; $SLEEPFACTOR" | bc )"
+		echo "SLEEPFACTOR=$SLEEPFACTOR"
 	fi
 
 	if [ "$(echo "$SLEEPFACTOR < $MINSLEEPFACTOR" | bc)" == "1" ]

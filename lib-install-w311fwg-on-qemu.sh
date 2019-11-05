@@ -27,9 +27,9 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 7
 	echo "preparing windows setup..."
 	qemu-send-string-de "xcopy d:\\winsetup c:\\winsetup\\"
-	bogomips-sleep 56
+	bogomips-sleep 70
 	echo "running windows setup..."
-	qemu-send-string-de "d:"
+	qemu-send-string-de "c:"
 	qemu-send-string-de "cd winsetup"
 	qemu-send-string-de "winsetup.bat"
 	bogomips-sleep 4
@@ -45,88 +45,6 @@ install-w311fwg-on-qemu() {
 	qemu-send-key "spc"
 	echo "rebooting..."
 	bogomips-sleep 24
-	echo "running windows..."
-	qemu-send-string-de "c:\\windows\\win.com"
-	bogomips-sleep 4
-	echo "running windows setup..."
-	qemu-send-key "w"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	echo "running network setup..."
-	qemu-send-key "alt-o"
-	qemu-send-key "down"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	echo "installing network driver..."
-	qemu-send-key "shift-tab"
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "shift-tab"
-	qemu-send-key "down"
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "shift-tab"
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "tab"
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-string-de "c:\\drivers\\win311\\rtl8029\\wfw311"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	echo "installing tcpip driver..."
-	qemu-send-key "tab"
-	qemu-send-key "tab"
-	qemu-send-key "tab"
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-string-de "c:\\drivers\\win311\\tcpip"
-	qemu-send-key "ret"
-	bogomips-sleep 8
-	echo "closing windows setup..."
-	qemu-send-key "tab"
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	echo "entering workgroup name..."
-	qemu-send-key "tab"
-	qemu-send-string-de "wg"
-	bogomips-sleep 30
-	echo "enabling dhcp..."
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "tab"
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "spc"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	echo "rebooting..."
-	qemu-send-key "ret"
-	bogomips-sleep 20
-	echo "running windows..."
-	qemu-send-string-de "c:\\windows\\win.com"
-	bogomips-sleep 20
-	echo "setting empty password..."
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "ret"
-	bogomips-sleep 1
-	qemu-send-key "alt-f4"
-	bogomips-sleep 1
-	qemu-send-key "spc"
-	bogomips-sleep 5
 }
 
 install-w311fwg-on-qemu-usage() {

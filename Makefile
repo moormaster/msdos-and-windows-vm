@@ -76,14 +76,16 @@ clean-downloads:
 	rm -f ${CLEANDOWNLOADFILES}
 
 startvm.sh: HardDisk.img install-w311fwg.iso
-	echo "#!/usr/bin/env bash" > startvm.sh
-	echo "qemu-system-i386 -m 32 -net nic,model=ne2k_pci -net user -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh
+	echo "#\!/usr/bin/env bash" > startvm.sh
+	[ "$$NETWORK" == "amdpcnet" ] && echo "qemu-system-i386 -m 32 -net user -net nic,model=pcnet -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
+	[ "$$NETWORK" == "rtl8029" ] || [ "$$NETWORK" == "" ] && echo "qemu-system-i386 -m 32 -net user -net nic,model=ne2k_pci -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
+	[ "$$NETWORK" == "none" ] && echo "qemu-system-i386 -m 32 -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
 	chmod +x startvm.sh
 
-HardDisk.img: lib-qemu.sh lib-install-dos-on-qemu.sh lib-activate-dos-powermanager.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh lib-install-app-ie-on-qemu.sh lib-install-app-msoffice-on-qemu.sh lib-install-app-netscape-on-qemu.sh lib-install-app-nc-on-qemu.sh lib-install-app-pkzip-on-qemu.sh lib-activate-w311fwg-settings-on-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
+HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdriver-on-qemu.sh lib-activate-w311fwg-networklogon-on-qemu.sh lib-activate-w311fwg-settings-on-qemu.sh lib-install-app-ie-on-qemu.sh lib-install-app-msoffice-on-qemu.sh lib-install-app-nc-on-qemu.sh lib-install-app-netscape-on-qemu.sh lib-install-app-pkzip-on-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh lib-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 	dd if=/dev/zero of=HardDisk.img bs=${DISKSIZE_IN_BYTES} count=1
 
-	./install-vm.sh HardDisk.img install-w311fwg.iso -m 32 -vga cirrus -net nic,model=ne2k_pci -net user
+	./install-vm.sh HardDisk.img install-w311fwg.iso -m 32 -vga cirrus
 
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}

@@ -16,6 +16,7 @@ Provides additional software on the iso image
 
 ## Build
 ```
+make downloads
 make -j
 ```
 
@@ -28,3 +29,14 @@ Additional QEMU arguments can be defined in the *QEMU_ARGS* environment variable
 ```
 QEMU_ARGS="-vnc :1" make -j
 ```
+
+App installation can be skipped with *NOAPPS* environment variable
+```
+NOAPPS=1 make -j
+```
+
+The network driver can either be *amdpcnet*, *rtl8029* or *none* - controlled by NETWORK environment variable. The default is *rtl8029*
+```
+NETWORK=amdpcnet make -j
+```
+
