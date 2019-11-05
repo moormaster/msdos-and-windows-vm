@@ -4,7 +4,7 @@
 activate-w311fwg-networklogon-on-qemu() {
 	echo "running windows..."
 	qemu-send-string-de "c:\\windows\\win.com"
-	bogomips-sleep 4
+	bogomips-sleep 10
 	echo "runnung setup..."
 	qemu-send-key "alt-f"
 	qemu-send-key "r"
@@ -35,7 +35,7 @@ activate-w311fwg-networklogon-on-qemu() {
 	bogomips-sleep 20
 	echo "running windows..."
 	qemu-send-string-de "c:\\windows\\win.com"
-	bogomips-sleep 4
+	bogomips-sleep 10
 	echo "confirming message about missing network driver..."
 	qemu-send-key "ret"
 	bogomips-sleep 6

@@ -32,7 +32,7 @@ install-app-nc-on-qemu() {
 	bogomips-sleep 1
 	echo "confirming install location..."
 	qemu-send-key "ret"
-	bogomips-sleep 10
+	bogomips-sleep 15
 	echo "leaving installer..."
 	qemu-send-key "x"
 	bogomips-sleep 1

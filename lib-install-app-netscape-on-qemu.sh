@@ -46,10 +46,10 @@ install-app-netscape-on-qemu() {
 	bogomips-sleep 1
 	echo "confirming installation begin..."
 	qemu-send-key "ret"
-	bogomips-sleep 210
+	bogomips-sleep 215
 	echo "denying to view readme..."
 	qemu-send-key "n"
-	bogomips-sleep 2
+	bogomips-sleep 4
 	echo "rebooting..."
 	qemu-send-key "ret"
 	bogomips-sleep 1

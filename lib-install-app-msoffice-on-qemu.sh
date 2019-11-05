@@ -20,7 +20,7 @@ install-app-msoffice-on-qemu() {
 	qemu-send "change ide1-cd0 $isoimage"
 	echo "installing msoffice..."
 	qemu-send-string-de "c:\\windows\\win.com d:\\apps\\msoffice\\disk1\\setup.exe /q"
-	bogomips-sleep 285
+	bogomips-sleep 300
 	echo "closing office cue cards..."
 	qemu-send-key "alt-f4"
 	bogomips-sleep 1

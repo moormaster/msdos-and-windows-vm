@@ -4,7 +4,7 @@
 activate-w311fwg-networkdriver-on-qemu() {
 	echo "running windows..."
 	qemu-send-string-de "c:\\windows\\win.com"
-	bogomips-sleep 4
+	bogomips-sleep 10
 	echo "confirming message about missing network driver..."
 	qemu-send-key "ret"
 	bogomips-sleep 6
@@ -74,7 +74,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	bogomips-sleep 1
 	echo "closing network setup..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 7
 	echo "enabling dhcp..."
 	qemu-send-key "alt-e"
 	bogomips-sleep 1
@@ -96,7 +96,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 1
 	echo "confirming creation of password-list file..."
-	qemu-send-key "ret"
+	qemu-send-key "z"
 	bogomips-sleep 1
 	echo "confirming with empty password..."
 	qemu-send-key "ret"
@@ -105,5 +105,5 @@ activate-w311fwg-networkdriver-on-qemu() {
 	qemu-send-key "alt-f4"
 	bogomips-sleep 1
 	qemu-send-key "ret"
-	bogomips-sleep 5
+	bogomips-sleep 10
 }
