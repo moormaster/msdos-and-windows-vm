@@ -35,8 +35,17 @@ App installation can be skipped with *NOAPPS* environment variable
 NOAPPS=1 make -j
 ```
 
-The network driver can either be *amdpcnet*, *rtl8029* or *none* - controlled by NETWORK environment variable. The default is *rtl8029*
+Following configuration variables are available:
+
+- *CONFIG_OEMCD* - the name of the cd drive when loading the dos cdrom driver - Default is *OEMCD001*
+- *CONFIG_NETWORK* - the network driver to be installed. Possible values are *amdpcnet*, *rtl8029* or *none* - Default is *rtl8029*
+- *CONFIG_COMPUTERNAME* - the computer name - Default is *JohnQ.Pu*
+- *CONFIG_WORKGROUP* - the name of the workgroup - Default is *wg*
+- *CONFIG_USERNAME* - the name of the user - Default is *JohnQ.Pu*
+- *CONFIG_PASSWORD* - the password - Default is empty
+
+i.e.
 ```
-NETWORK=amdpcnet make -j
+CONFIG_NETWORK=amdpcnet make -j
 ```
 

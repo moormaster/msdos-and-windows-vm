@@ -19,10 +19,10 @@ install-app-pkzip-on-qemu() {
 
 	qemu-send "change ide1-cd0 $isoimage"
 	echo "installing pkzip..."
-	qemu-send-string-de "xcopy /e d:\\apps\\pkzip\\*.* c:\\pkware\\"
+	qemu-send-line-de "xcopy /e d:\\apps\\pkzip\\*.* c:\\pkware\\"
 	bogomips-sleep 45
 	# the first xcopy call fails for some reason...
-	qemu-send-string-de "xcopy /e d:\\apps\\pkzip\\*.* c:\\pkware\\"
+	qemu-send-line-de "xcopy /e d:\\apps\\pkzip\\*.* c:\\pkware\\"
 	bogomips-sleep 3
 }
 

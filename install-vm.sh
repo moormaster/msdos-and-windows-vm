@@ -22,12 +22,21 @@ install-vm() {
 	shift 2
 	qemuargs=("$@")
 	
-	if [ "$NETWORK" == "" ]
-	then
-		NETWORK=rtl8029
-	fi
+	[ "${CONFIG_OEMCD}" == "" ] && CONFIG_OEMCD="OEMCD"
+	[ "${CONFIG_NETWORK}" == "" ] && CONFIG_NETWORK="rtl8029"
+	[ "${CONFIG_COMPUTERNAME}" == "" ] && CONFIG_COMPUTERNAME="JohnQ.Pu"
+	[ "${CONFIG_WORKGROUP}" == "" ] && CONFIG_COMPUTERNAME="wg"
+	[ "${CONFIG_USERNAME}" == "" ] && CONFIG_USERNAME="JohnQ.Pu"
+	[ "${CONFIG_PASSWORD}" == "" ] && CONFIG_PASSWORD=""
 
-	case "$NETWORK" in
+	echo "CONFIG_OEMCD=${CONFIG_OEMCD}"
+	echo "CONFIG_NETWORK=${CONFIG_NETWORK}"
+	echo "CONFIG_COMPUTERNAME=${CONFIG_COMPUTERNAME}"
+	echo "CONFIG_WORKGROUP=${CONFIG_WORKGROUP}"
+	echo "CONFIG_USERNAME=${CONFIG_USERNAME}"
+	echo "CONFIG_PASSWORD=${CONFIG_PASSWORD}"
+
+	case "${CONFIG_NETWORK}" in
 		"rtl8029")
 			QEMU_NETWORK="-net user -net nic,model=ne2k_pci"
 			;;
@@ -87,17 +96,17 @@ install-vm() {
 		fi
 
 		echo "activating windows 3.11 for workgroups network driver..."
-		if [ "$NETWORK" == "none" ]
+		if [ "${CONFIG_NETWORK}" == "none" ]
 		then
-			echo "skipping network driver installation due to NETWORK=\"$NETWORK\""
+			echo "skipping network driver installation due to NETWORK=\"${CONFIG_NETWORK}\""
 		else
 			activate-w311fwg-networklogon-on-qemu
 			activate-w311fwg-networkdriver-on-qemu
 		fi
 
-		if [ "$NETWORK" == "none" ]
+		if [ "${CONFIG_NETWORK}" == "none" ]
 		then
-			echo "skipping installation of browsers due to NETWORK=\"$NETWORK\""
+			echo "skipping installation of browsers due to NETWORK=\"${CONFIG_NETWORK}\""
 		else
 			if [ "$NOAPPS" != "" ] && [ "$NOAPPS" != "0" ]
 			then

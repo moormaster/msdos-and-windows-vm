@@ -19,7 +19,7 @@ install-app-nc-on-qemu() {
 
 	qemu-send "change ide1-cd0 $isoimage"
 	echo "installing nc..."
-	qemu-send-string-de "d:\\apps\\nc\\install.bat"
+	qemu-send-line-de "d:\\apps\\nc\\install.bat"
 	bogomips-sleep 50
 	echo "confirming color install..."
 	qemu-send-key "ret"
@@ -36,8 +36,8 @@ install-app-nc-on-qemu() {
 	echo "leaving installer..."
 	qemu-send-key "x"
 	bogomips-sleep 1
-	qemu-send-string-de "c:"
-	qemu-send-string-de "cd \\"
+	qemu-send-line-de "c:"
+	qemu-send-line-de "cd \\"
 }
 
 install-app-nc-on-qemu-usage() {

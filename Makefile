@@ -77,9 +77,9 @@ clean-downloads:
 
 startvm.sh: HardDisk.img install-w311fwg.iso
 	echo "#\!/usr/bin/env bash" > startvm.sh
-	[ "$$NETWORK" == "amdpcnet" ] && echo "qemu-system-i386 -m 32 -net user -net nic,model=pcnet -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
-	[ "$$NETWORK" == "rtl8029" ] || [ "$$NETWORK" == "" ] && echo "qemu-system-i386 -m 32 -net user -net nic,model=ne2k_pci -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
-	[ "$$NETWORK" == "none" ] && echo "qemu-system-i386 -m 32 -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
+	[ "$${CONFIG_NETWORK}" == "amdpcnet" ] && echo "qemu-system-i386 -m 32 -net user -net nic,model=pcnet -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
+	[ "$${CONFIG_NETWORK}" == "rtl8029" ] || [ "$${CONFIG_NETWORK}" == "" ] && echo "qemu-system-i386 -m 32 -net user -net nic,model=ne2k_pci -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
+	[ "$${CONFIG_NETWORK}" == "none" ] && echo "qemu-system-i386 -m 32 -fda \"\" -hda HardDisk.img -cdrom install-w311fwg.iso \"\$$@\"" >> startvm.sh || true
 	chmod +x startvm.sh
 
 HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdriver-on-qemu.sh lib-activate-w311fwg-networklogon-on-qemu.sh lib-activate-w311fwg-settings-on-qemu.sh lib-install-app-ie-on-qemu.sh lib-install-app-msoffice-on-qemu.sh lib-install-app-nc-on-qemu.sh lib-install-app-netscape-on-qemu.sh lib-install-app-pkzip-on-qemu.sh lib-install-dos-on-qemu.sh lib-install-oak-cdromdriver-on-qemu.sh lib-install-w311fwg-on-qemu.sh lib-qemu.sh install-vm.sh install-w311fwg.iso Win98BootDisk.img DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img

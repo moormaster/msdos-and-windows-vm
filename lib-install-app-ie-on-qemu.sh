@@ -19,12 +19,12 @@ install-app-ie-on-qemu() {
 
 	qemu-send "change ide1-cd0 $isoimage"
 	echo "extracting setup..."
-	qemu-send-string-de "mkdir c:\\temp"
-	qemu-send-string-de "mkdir c:\\temp\\ie"
-	qemu-send-string-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\ie5win31.exe c:\\temp\\ie"
+	qemu-send-line-de "mkdir c:\\temp"
+	qemu-send-line-de "mkdir c:\\temp\\ie"
+	qemu-send-line-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\ie5win31.exe c:\\temp\\ie"
 	bogomips-sleep 60
 	echo "installing ie..."
-	qemu-send-string-de "c:\\windows\\win.com c:\\temp\\ie\\setup.exe /q"
+	qemu-send-line-de "c:\\windows\\win.com c:\\temp\\ie\\setup.exe /q"
 	bogomips-sleep 145
 	echo "skipping customization file..."
 	qemu-send-key "tab"
@@ -35,7 +35,7 @@ install-app-ie-on-qemu() {
 	echo "rebooting..."
 	qemu-send-key "spc"
 	bogomips-sleep 20
-	qemu-send-string-de "c:\\windows\\win.com"
+	qemu-send-line-de "c:\\windows\\win.com"
 	bogomips-sleep 70
 	echo "setting time zone..."
 	for ((i=0;i<18;i++))

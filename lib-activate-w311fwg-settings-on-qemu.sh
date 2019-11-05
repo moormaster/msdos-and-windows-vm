@@ -20,8 +20,8 @@ activate-w311fwg-settings-on-qemu() {
 	fi
 	qemu-send "change ide1-cd0 $isoimage"
 	echo "running windows setup..."
-	qemu-send-string-de "cd \\windows"
-	qemu-send-string-de "setup.exe"
+	qemu-send-line-de "cd \\windows"
+	qemu-send-line-de "setup.exe"
 	bogomips-sleep 1
 	echo "activating svga driver..."
 	for ((i=0;i<6;i++))
@@ -54,7 +54,7 @@ activate-w311fwg-settings-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 5
 	echo "activating win.com..."
-	qemu-send-string-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
+	qemu-send-line-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
 	bogomips-sleep 1
 }
 

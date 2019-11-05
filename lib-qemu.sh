@@ -36,7 +36,6 @@ qemu-send-string-en-us() {
 		do
 			qemu-send "$line"
 		done
-		qemu-send-key "ret"
 	)
 }
 
@@ -61,8 +60,17 @@ qemu-send-string-de() {
 		do
 			qemu-send "$line"
 		done
-		qemu-send-key "ret"
 	)
+}
+
+qemu-send-line-en-us() {
+	qemu-send-string-en-us "$1"
+	qemu-send-key "ret"
+}
+
+qemu-send-line-de() {
+	qemu-send-string-de "$1"
+	qemu-send-key "ret"
 }
 
 qemu-send-key() {

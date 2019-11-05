@@ -3,7 +3,7 @@
 
 activate-w311fwg-networkdriver-on-qemu() {
 	echo "running windows..."
-	qemu-send-string-de "c:\\windows\\win.com"
+	qemu-send-line-de "c:\\windows\\win.com"
 	bogomips-sleep 10
 	echo "confirming message about missing network driver..."
 	qemu-send-key "ret"
@@ -11,7 +11,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	echo "running windows setup..."
 	qemu-send-key "alt-f"
 	qemu-send-key "r"
-	qemu-send-string-de "c:\\windows\\winsetup.exe"
+	qemu-send-line-de "c:\\windows\\winsetup.exe"
 	bogomips-sleep 1
 	echo "running network setup..."
 	qemu-send-key "alt-o"
@@ -21,13 +21,13 @@ activate-w311fwg-networkdriver-on-qemu() {
 	qemu-send-key "alt-d"
 	bogomips-sleep 1
 
-	case "$NETWORK" in
+	case "${CONFIG_NETWORK}" in
 	"rtl8029")
 		echo "choosing adapter rtl8029..."
 		qemu-send-key "alt-a"
 		qemu-send-key "ret"
 		bogomips-sleep 1
-		qemu-send-string-de "c:\\drivers\\win311\\rtl8029\\wfw311"
+		qemu-send-line-de "c:\\drivers\\win311\\rtl8029\\wfw311"
 		bogomips-sleep 1
 		qemu-send-key "ret"
 		bogomips-sleep 1
@@ -37,7 +37,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 		qemu-send-key "alt-a"
 		qemu-send-key "ret"
 		bogomips-sleep 1
-		qemu-send-string-de "c:\\drivers\\win311\\amdpcnet"
+		qemu-send-line-de "c:\\drivers\\win311\\amdpcnet"
 		bogomips-sleep 1
 		qemu-send-key "ret"
 		bogomips-sleep 1
@@ -57,7 +57,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 		qemu-send-key "ret"
 		;;
 	*)
-		echo "invalid value specified NETWORK=\"$NETWORK\"" 1>&2
+		echo "invalid value specified NETWORK=\"${CONFIG_NETWORK}\"" 1>&2
 		;;
 	esac
 
@@ -66,7 +66,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	bogomips-sleep 1
 	qemu-send-key "ret"
 	bogomips-sleep 1
-	qemu-send-string-de "c:\\drivers\\win311\\tcpip"
+	qemu-send-line-de "c:\\drivers\\win311\\tcpip"
 	qemu-send-key "ret"
 	bogomips-sleep 8
 	echo "closing network drivers dialog..."
@@ -90,16 +90,16 @@ activate-w311fwg-networkdriver-on-qemu() {
 	qemu-send-key "ret"
 	bogomips-sleep 20
 	echo "running windows..."
-	qemu-send-string-de "c:\\windows\\win.com"
+	qemu-send-line-de "c:\\windows\\win.com"
 	bogomips-sleep 20
-	echo "setting empty password..."
-	qemu-send-key "ret"
+	echo "entering password..."
+	qemu-send-line-de "${CONFIG_PASSWORD}"
 	bogomips-sleep 1
 	echo "confirming creation of password-list file..."
 	qemu-send-key "z"
 	bogomips-sleep 1
-	echo "confirming with empty password..."
-	qemu-send-key "ret"
+	echo "confirming password..."
+	qemu-send-line-de "${CONFIG_PASSWORD}"
 	bogomips-sleep 1
 	echo "closing windows..."
 	qemu-send-key "alt-f4"
