@@ -17,7 +17,7 @@ install-app-ie-on-qemu() {
 		return
 	fi
 
-	qemu-send "change ide1-cd0 $isoimage"
+	qemu-change-cdrom "$isoimage"
 	echo "extracting setup..."
 	qemu-send-line-de "mkdir c:\\temp"
 	qemu-send-line-de "mkdir c:\\temp\\ie"

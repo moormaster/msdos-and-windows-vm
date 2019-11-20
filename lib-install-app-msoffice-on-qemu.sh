@@ -17,7 +17,7 @@ install-app-msoffice-on-qemu() {
 		return
 	fi
 
-	qemu-send "change ide1-cd0 $isoimage"
+	qemu-change-cdrom "$isoimage"
 	echo "installing msoffice..."
 	qemu-send-line-de "c:\\windows\\win.com d:\\apps\\msoffice\\disk1\\setup.exe /q"
 	bogomips-sleep 300

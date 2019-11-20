@@ -17,7 +17,7 @@ install-app-netscape-on-qemu() {
 		return
 	fi
 
-	qemu-send "change ide1-cd0 $isoimage"
+	qemu-change-cdrom "$isoimage"
 	echo "running windows..."
 	qemu-send-line-de "c:\\windows\\win.com"
 	bogomips-sleep 20

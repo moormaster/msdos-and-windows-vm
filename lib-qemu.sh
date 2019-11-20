@@ -85,3 +85,34 @@ qemu-send() {
 		bogomips-sleep 0.05
 	)
 }
+
+qemu-change-cdrom() {
+	isoimage="$1"
+
+	if ! [ -f "${QEMU_CURRENT_CDROM_IMAGE}" ] || [ "`cat ${QEMU_CURRENT_CDROM_IMAGE}`" != "$isoimage" ]
+	then
+		echo "inserting cdrom: $isoimage"
+		echo "$isoimage" > "${QEMU_CURRENT_CDROM_IMAGE}"
+		qemu-send "change ide1-cd0 $isoimage"
+	else
+		echo "cdrom already inserted: $isoimage"
+	fi
+}
+
+qemu-cdrom-init() {
+	qemudev="$1"
+
+	QEMU_CURRENT_CDROM_IMAGE="${qemudev}-current-image"
+	echo "" > "${QEMU_CURRENT_CDROM_IMAGE}"
+
+	echo "${QEMU_CURRENT_CDROM_IMAGE}"
+}
+
+qemu-cdrom-destroy() {
+	qemudev="$1"
+
+	if [ -f "${qemudev}-current-image" ]
+	then
+		rm "${qemudev}-current-image"
+	fi
+}

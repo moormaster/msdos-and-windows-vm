@@ -18,7 +18,7 @@ install-w311fwg-on-qemu() {
 	fi
 
 	echo "starting windows 3.11 for workgroups setup..."
-	qemu-send "change ide1-cd0 $isoimage"
+	qemu-change-cdrom "$isoimage"
 	echo "copy drivers..."
 	qemu-send-line-de "d:\\drivers\\drivers.bat"
 	bogomips-sleep 61

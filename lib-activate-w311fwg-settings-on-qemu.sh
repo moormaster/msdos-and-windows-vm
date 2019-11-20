@@ -18,7 +18,8 @@ activate-w311fwg-settings-on-qemu() {
 		activate-w311fwg-settings-on-qemu-usage
 		return
 	fi
-	qemu-send "change ide1-cd0 $isoimage"
+	
+	qemu-change-cdrom "$isoimage"
 	echo "running windows setup..."
 	qemu-send-line-de "cd \\windows"
 	qemu-send-line-de "setup.exe"

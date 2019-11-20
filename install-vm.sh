@@ -48,7 +48,9 @@ install-vm() {
 			;;
 	esac
 
-	QEMU_PIPE=$( qemu-pipe-init )
+	QEMU_PIPE="$( qemu-pipe-init )"
+	QEMU_CURRENT_CDROM_IMAGE="$( qemu-cdrom-init ide-cd0 )"
+
 	QEMU_EXEC=( qemu-system-i386 -hda "${hddimage}" -fda "" -cdrom "" ${QEMU_NETWORK} "${qemuargs[@]}" ${QEMU_ARGS} )
 
 	rm "${QEMU_PIPE}.stop"
@@ -135,7 +137,8 @@ install-vm() {
 
 	rm "${QEMU_PIPE}.stop"
 
-	qemu-pipe-destroy ${QEMU_PIPE}
+	qemu-pipe-destroy "${QEMU_PIPE}"
+	qemu-cdrom-destroy "${QEMU_CURRENT_CDROM_IMAGE}"
 }
 
 install-vm-usage() {

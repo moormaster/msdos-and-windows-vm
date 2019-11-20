@@ -17,7 +17,7 @@ install-app-nc-on-qemu() {
 		return
 	fi
 
-	qemu-send "change ide1-cd0 $isoimage"
+	qemu-change-cdrom "$isoimage"
 	echo "installing nc..."
 	qemu-send-line-de "d:\\apps\\nc\\install.bat"
 	bogomips-sleep 50
