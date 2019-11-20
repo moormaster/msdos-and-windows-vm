@@ -25,7 +25,7 @@ install-vm() {
 	[ "${CONFIG_OEMCD}" == "" ] && CONFIG_OEMCD="OEMCD"
 	[ "${CONFIG_NETWORK}" == "" ] && CONFIG_NETWORK="rtl8029"
 	[ "${CONFIG_COMPUTERNAME}" == "" ] && CONFIG_COMPUTERNAME="JohnQ.Pu"
-	[ "${CONFIG_WORKGROUP}" == "" ] && CONFIG_COMPUTERNAME="wg"
+	[ "${CONFIG_WORKGROUP}" == "" ] && CONFIG_WORKGROUP="wg"
 	[ "${CONFIG_USERNAME}" == "" ] && CONFIG_USERNAME="JohnQ.Pu"
 	[ "${CONFIG_PASSWORD}" == "" ] && CONFIG_PASSWORD=""
 
