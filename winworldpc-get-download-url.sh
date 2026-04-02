@@ -3,13 +3,13 @@
 getbaseurl() {
 	url="$1"
 
-	echo "$url" | grep -o "\(https\?:\/\/[^\/]\+\)\/" | sed "s/\(https\?:\/\/[^\/]\+\)\//\1/"
+	echo "$url" | grep -o "\(https\?://[^/]\+\)/" | sed "s/\(https\?:\/\/[^\/]\+\)\//\1/"
 }
 
 geturlpath() {
 	url="$1"
 
-	echo "$url" | grep -o "\(https\?:\/\/[^\/]\+\)\(\/.*\)$" | sed "s/\(https\?:\/\/[^\/]\+\)\(\/.*\)$/\2/"	
+	echo "$url" | grep -o "\(https\?://[^/]\+\)\(/.*\)$" | sed "s/\(https\?:\/\/[^\/]\+\)\(\/.*\)$/\2/"
 }
 
 winworldpc-get-mirrorlist-url() {
@@ -20,7 +20,7 @@ winworldpc-get-mirrorlist-url() {
 	urlpath="$( geturlpath "$url" )"
 
 	echo -n "$baseurl"
-	curl "$baseurl$urlpath" | grep -o "href=\"\([^\"]\+\)\" title=\"${filename}\"" | sed "s/href=\"\([^\"]\+\)\" title=\"$filename\"/\1/" 2> /dev/null
+	curl "$baseurl$urlpath" 2> /dev/null | grep -o "href=\"\([^\"]\+\)\" title=\"${filename}\"" | sed "s/href=\"\([^\"]\+\)\" title=\"$filename\"/\1/"
 }
 
 winworldpc-get-download-url() {
@@ -34,7 +34,7 @@ winworldpc-get-download-url() {
 	mirrorsurl="$( winworldpc-get-mirrorlist-url "$url" "$filename" )"
 
 	echo -n "$baseurl"
-	curl "$mirrorsurl" | grep -o "<a href=\"\([^\"]\+\)\">$mirrorname</a>" | sed "s/<a href=\"\([^\"]\+\)\">$mirrorname<\/a>/\1/" 2> /dev/null
+	curl "$mirrorsurl" 2> /dev/null | grep -o "<a href=\"\([^\"]\+\)\">Server [0-9]\+[^<]*</a>\s*($mirrorname)" | sed "s/<a href=\"\([^\"]\+\)\">Server [0-9]\+[^<]*<\/a>\s*($mirrorname)/\1/"
 }
 
 usage() {

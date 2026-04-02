@@ -1,4 +1,4 @@
-WINWORLDPCMIRRORNAME="Ricky"
+WINWORLDPCMIRRORNAME="Quebec, CA"
 GENISOIMAGE=mkisofs
 
 WIN98BOOTDISK_ARCHIVE="Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb).7z"
