@@ -47,61 +47,61 @@ install-dos-on-qemu() {
 	qemu-send "change floppy0 ${dosdisk1}"
 	qemu-send "boot_set a"
 	qemu-send "system_reset"
-	bogomips-sleep 6
+	bogomips-sleep 7
 	echo "confirming messages saying the disk needs to be partitioned..."
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 	qemu-send-key "ret"
 	echo "rebooting..."
-	bogomips-sleep 8
+	bogomips-sleep 10
 
 	echo "choosing language..."
 	qemu-send-key "up"
 	qemu-send-key "up"
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 	for ((i=0; i<13; i++))
 	do
 		qemu-send-key "up"
 	done
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 
 	echo "choosing keyboard layout..."
 	qemu-send-key "up"
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 	for ((i=0; i<13; i++))
 	do
 		qemu-send-key "up"
 	done
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 
 	echo "starting installation..."
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 	qemu-send-key "ret"
-	bogomips-sleep 9
+	bogomips-sleep 11
 
 	echo "inserting and installing disk 2..."
 	qemu-send "change floppy0 ${dosdisk2}"
 	qemu-send-key "ret"
-	bogomips-sleep 11
+	bogomips-sleep 13
 
 	echo "inserting and installing disk 3..."
 	qemu-send "change floppy0 ${dosdisk3}"
 	qemu-send-key "ret"
-	bogomips-sleep 11
+	bogomips-sleep 13
 
 	echo "ejecting floppy and reboot..."
 	qemu-send "eject floppy0"
 	qemu-send-key "ret"
-	bogomips-sleep 0.1
+	bogomips-sleep 0.2
 	qemu-send-key "ret"
-	bogomips-sleep 6
+	bogomips-sleep 7
 
 	if [ -f "${dossuppdisk}" ]
 	then
@@ -110,13 +110,13 @@ install-dos-on-qemu() {
 		qemu-send-line-de "a:"
 		qemu-send-line-de "setup.bat c:\\dos"
 		qemu-send-line-de "a"
-		bogomips-sleep 1
+		bogomips-sleep 1.2
 		qemu-send-key "f5"
 		qemu-send-line-de "y"
-		bogomips-sleep 2
+		bogomips-sleep 3
 		qemu-send-line-de "y"
 		# wait copy to finish
-		bogomips-sleep 13
+		bogomips-sleep 16
 		qemu-send-line-de "c:"
 	fi
 }

@@ -20,41 +20,41 @@ install-app-netscape-on-qemu() {
 	qemu-change-cdrom "$isoimage"
 	echo "running windows..."
 	qemu-send-line-de "c:\\windows\\win.com"
-	bogomips-sleep 20
+	bogomips-sleep 24
 	echo "installing netscape..."
 	qemu-send-key "alt-f"
 	qemu-send-key "r"
 	qemu-send-line-de "d:\\apps\\netscape\\netscape.exe"
-	bogomips-sleep 200
+	bogomips-sleep 240
 	echo "confirming welcome message..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming welcome license..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming installation directory..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming installation directory creation..."
 	qemu-send-key "ret"
-	bogomips-sleep 2
+	bogomips-sleep 2.4
 	echo "confirming video for windows message..."
 	qemu-send-key "ret"
-	bogomips-sleep 10
+	bogomips-sleep 12
 	echo "confirming windows group name..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming installation begin..."
 	qemu-send-key "ret"
-	bogomips-sleep 215
+	bogomips-sleep 258
 	echo "denying to view readme..."
 	qemu-send-key "n"
-	bogomips-sleep 4
+	bogomips-sleep 5
 	echo "rebooting..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	qemu-send-key "ret"
-	bogomips-sleep 25
+	bogomips-sleep 28
 }
 
 install-app-netscape-on-qemu-usage() {

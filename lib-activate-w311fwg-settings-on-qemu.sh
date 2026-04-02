@@ -23,14 +23,14 @@ activate-w311fwg-settings-on-qemu() {
 	echo "running windows setup..."
 	qemu-send-line-de "cd \\windows"
 	qemu-send-line-de "setup.exe"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "activating svga driver..."
 	for ((i=0;i<6;i++))
 	do
 		qemu-send-key "up"
 	done
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	for ((i=0;i<3;i++))
 	do
 		qemu-send-key "down"
@@ -43,7 +43,7 @@ activate-w311fwg-settings-on-qemu() {
 		qemu-send-key "up"
 	done
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	for ((i=0;i<14;i++))
 	do
 		qemu-send-key "down"
@@ -53,10 +53,10 @@ activate-w311fwg-settings-on-qemu() {
 	qemu-send-key "ret"
 	qemu-send-key "ret"
 	qemu-send-key "ret"
-	bogomips-sleep 5
+	bogomips-sleep 6
 	echo "activating win.com..."
 	qemu-send-line-de "echo C:\\WINDOWS\\WIN.COM >> c:\\autoexec.bat"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 }
 
 activate-w311fwg-settings-on-qemu-usage() {

@@ -21,10 +21,10 @@ install-w311fwg-on-qemu() {
 	qemu-change-cdrom "$isoimage"
 	echo "copy drivers..."
 	qemu-send-line-de "d:\\drivers\\drivers.bat"
-	bogomips-sleep 61
+	bogomips-sleep 73
 	echo "preparing drivers..."
 	qemu-send-line-de "c:\\drivers\\win311\\drivers.bat"
-	bogomips-sleep 7
+	bogomips-sleep 9
 	echo "preparing windows setup..."
 	qemu-send-line-de "xcopy d:\\winsetup c:\\winsetup\\"
 	bogomips-sleep 105
@@ -32,19 +32,19 @@ install-w311fwg-on-qemu() {
 	qemu-send-line-de "c:"
 	qemu-send-line-de "cd winsetup"
 	qemu-send-line-de "winsetup.bat"
-	bogomips-sleep 4
+	bogomips-sleep 5
 	echo "starting installation..."
 	qemu-send-key "ret"
-	bogomips-sleep 205
+	bogomips-sleep 246
 	echo "confirming question to setup dos programs in windows..."
 	qemu-send-key "ret"
-	bogomips-sleep 2
+	bogomips-sleep 3
 	echo "denying question to setup tcpip tools..."
 	qemu-send-key "tab"
 	qemu-send-key "tab"
 	qemu-send-key "spc"
 	echo "rebooting..."
-	bogomips-sleep 24
+	bogomips-sleep 29
 }
 
 install-w311fwg-on-qemu-usage() {

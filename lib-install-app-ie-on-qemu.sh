@@ -22,35 +22,35 @@ install-app-ie-on-qemu() {
 	qemu-send-line-de "mkdir c:\\temp"
 	qemu-send-line-de "mkdir c:\\temp\\ie"
 	qemu-send-line-de "d:\\apps\\pkzip\\pkunzip d:\\apps\\ie\\ie5win31.exe c:\\temp\\ie"
-	bogomips-sleep 60
+	bogomips-sleep 72
 	echo "installing ie..."
 	qemu-send-line-de "c:\\windows\\win.com c:\\temp\\ie\\setup.exe /q"
-	bogomips-sleep 145
+	bogomips-sleep 174
 	echo "skipping customization file..."
 	qemu-send-key "tab"
 	qemu-send-key "tab"
 	qemu-send-key "tab"
 	qemu-send-key "spc"
-	bogomips-sleep 5
+	bogomips-sleep 6
 	echo "rebooting..."
 	qemu-send-key "spc"
-	bogomips-sleep 20
+	bogomips-sleep 24
 	qemu-send-line-de "c:\\windows\\win.com"
-	bogomips-sleep 70
+	bogomips-sleep 84
 	echo "setting time zone..."
 	for ((i=0;i<18;i++))
 	do
 		qemu-send-key "down"
 	done
 	qemu-send-key "ret"
-	bogomips-sleep 5
+	bogomips-sleep 6
 	echo "open program manager..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	qemu-send-key "alt-f4"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	qemu-send-key "spc"
-	bogomips-sleep 5
+	bogomips-sleep 6
 }
 
 install-app-ie-on-qemu-usage() {

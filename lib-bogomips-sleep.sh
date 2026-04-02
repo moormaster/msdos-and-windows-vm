@@ -22,7 +22,7 @@ bogomips-sleep() {
 
 	if [ "$MINSLEEPFACTOR" == "" ]
 	then
-		MINSLEEPFACTOR=0.9
+		MINSLEEPFACTOR=1.0
 	fi
 
 	if [ "$SLEEPFACTOR" == "" ]

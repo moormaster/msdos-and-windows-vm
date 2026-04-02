@@ -3,5 +3,5 @@
 
 activate-dos-powermanager() {
 	qemu-send-line-de "echo DEVICE=C:\\DOS\\POWER.EXE ADV:MAX >> c:\\config.sys"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 }

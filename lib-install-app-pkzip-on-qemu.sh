@@ -20,7 +20,7 @@ install-app-pkzip-on-qemu() {
 	qemu-change-cdrom "$isoimage"
 	echo "installing pkzip..."
 	qemu-send-line-de "xcopy /e d:\\apps\\pkzip\\*.* c:\\pkware\\"
-	bogomips-sleep 3
+	bogomips-sleep 4
 }
 
 install-app-pkzip-on-qemu-usage() {

@@ -22,11 +22,11 @@ install-oak-cdromdriver-on-qemu() {
 	qemu-send-line-de "copy a:\\oakcdrom.sys c:\\"
 	qemu-send-line-de "echo DEVICE=OAKCDROM.SYS /D:${CONFIG_OEMCD}>> c:\\config.sys"
 	qemu-send-line-de "echo LH C:\\DOS\\MSCDEX.EXE /D:${CONFIG_OEMCD} /L:D >> c:\\autoexec.bat"
-	bogomips-sleep 2
+	bogomips-sleep 3
 	qemu-send "boot_set c"
 	qemu-send "system_reset"
 	echo "rebooting..."
-	bogomips-sleep 8
+	bogomips-sleep 10
 }
 
 install-oak-cdromdriver-on-qemu-usage() {

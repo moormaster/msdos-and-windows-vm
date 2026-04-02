@@ -20,22 +20,22 @@ install-app-nc-on-qemu() {
 	qemu-change-cdrom "$isoimage"
 	echo "installing nc..."
 	qemu-send-line-de "d:\\apps\\nc\\install.bat"
-	bogomips-sleep 50
+	bogomips-sleep 55
 	echo "confirming color install..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming welcome message..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming full install..."
 	qemu-send-key "ret"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	echo "confirming install location..."
 	qemu-send-key "ret"
-	bogomips-sleep 15
+	bogomips-sleep 18
 	echo "leaving installer..."
 	qemu-send-key "x"
-	bogomips-sleep 1
+	bogomips-sleep 1.2
 	qemu-send-line-de "c:"
 	qemu-send-line-de "cd \\"
 }
