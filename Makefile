@@ -14,7 +14,7 @@ TCPIP_ARCHIVE="Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z"
 TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-tcp-ip-32/tcpip-32-3-11b" "Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
 
 CIRRUS_ARCHIVE="win_5446.zip"
-CIRRUS_URL="http://www.claunia.com/qemu/drivers/win_5446.zip"
+CIRRUS_URL="https://dl.yooooo.us/share/qemu-drivers/win_5446.zip"
 
 SVGA_ARCHIVE="win3x-svga.flp"
 SVGA_URL="http://ds-tech.weebly.com/uploads/2/6/2/0/2620861/win3x-svga.flp"
@@ -23,10 +23,10 @@ AMDPCNET_ARCHIVE="amdpcnet_wfw31.zip"
 AMDPCNET_URL="http://download.amd.com/techdownloads/wfw31.zip"
 
 RTL8029DOS_ARCHIVE="dos_8029.zip"
-RTL8029DOS_URL="http://www.claunia.com/qemu/drivers/dos_8029.zip"
+RTL8029DOS_URL="https://dl.yooooo.us/share/qemu-drivers/dos_8029.zip"
 
 RTL8029W311_ARCHIVE="wfw_8029.zip"
-RTL8029W311_URL="http://www.claunia.com/qemu/drivers/wfw_8029.zip"
+RTL8029W311_URL="https://dl.yooooo.us/share/qemu-drivers/wfw_8029.zip"
 
 MSCLIENT1_ARCHIVE="DSK3-1.EXE"
 MSCLIENT1_URL="https://archive.org/download/ftp.microsoft.com/ftp.microsoft.com.zip/ftp.microsoft.com%2Fbussys%2FClients%2FMSCLIENT%2FDSK3-1.EXE"
@@ -103,13 +103,13 @@ install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archiv
 	cp -f src/WINSETUP/MYSETUP.SHH ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	cp -f src/WINSETUP/WINSETUP.BAT ${INSTALLISOIMAGE_DIR}/WINSETUP/
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS"
-	cp -f src/DRIVERS/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS
+	cp -f src/DRIVERS/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS/
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS"
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/RTL8029" ${RTL8029DOS_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/MSCLIENT" ${MSCLIENT1_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/DOS/MSCLIENT" ${MSCLIENT2_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311"
-	cp -f src/DRIVERS/WIN311/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311
+	cp -f src/DRIVERS/WIN311/DRIVERS.BAT ${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/AMDPCNET" ${AMDPCNET_ARCHIVE}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/AMDPCNET "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/AMDPCNET/wfw31.exe"
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/RTL8029" ${RTL8029W311_ARCHIVE}
