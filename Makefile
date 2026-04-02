@@ -10,8 +10,8 @@ MSDOS622_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/m
 W311FWG_ARCHIVE="Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb).7z"
 W311FWG_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/windows-3/wfw-311" "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb).7z" ${WINWORLDPCMIRRORNAME}`
 
-TCPIP_ARCHIVE="Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z"
-TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-tcp-ip-32/tcpip-32-3-11b" "Microsoft TCP-IP-32 For Windows 3.1 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
+TCPIP_ARCHIVE="Microsoft TCP-IP-32 for Windows for Workgroups 3.11 (3.11b) (1995).7z"
+TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-tcp-ip-32/tcpip-32-3-11b" "Microsoft TCP-IP-32 for Windows for Workgroups 3.11 (3.11b) (1995).7z" ${WINWORLDPCMIRRORNAME}`
 
 CIRRUS_ARCHIVE="win_5446.zip"
 CIRRUS_URL="https://dl.yooooo.us/share/qemu-drivers/win_5446.zip"
@@ -115,7 +115,8 @@ install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archiv
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/RTL8029" ${RTL8029W311_ARCHIVE}
 	unzip -o -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/CIRRUS" ${CIRRUS_ARCHIVE}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/SVGA ${SVGA_ARCHIVE}
-	7z x -y -o${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP tcpip.img
+	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP"
+	cp -f TCP32B.EXE ${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP/
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
 	7z e -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE} "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x]/ie5win31.exe"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/NC"
@@ -183,8 +184,7 @@ WinDisks: w311fwg-archive
 
 tcpip.img: tcpip-archive WinDisks
 	# added WinDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
-	7z e -y ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 For Windows 3.1 (3.5)/Disk01.img"
-	mv Disk01.img tcpip.img
+	7z e -y ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 for Windows for Workgroups 3.11 (3.11b) (1995)/Setup/TCP32B.EXE"
 
 pkzip.img: pkzip-archive DosDisk1.img
 	# added DosDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
