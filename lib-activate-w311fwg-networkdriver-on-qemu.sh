@@ -106,4 +106,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	bogomips-sleep 1
 	qemu-send-key "ret"
 	bogomips-sleep 10
+	echo "rebooting..."
+	qemu-send "system_reset"
+	bogomips-sleep 20
 }
