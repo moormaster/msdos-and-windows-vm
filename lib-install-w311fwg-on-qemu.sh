@@ -35,7 +35,7 @@ install-w311fwg-on-qemu() {
 	bogomips-sleep 5
 	echo "starting installation..."
 	qemu-send-key "ret"
-	bogomips-sleep 246
+	bogomips-sleep 185
 	echo "confirming question to setup dos programs in windows..."
 	qemu-send-key "ret"
 	bogomips-sleep 3
