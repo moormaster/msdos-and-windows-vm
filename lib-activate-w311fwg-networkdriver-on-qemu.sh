@@ -68,7 +68,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	bogomips-sleep 1.2
 	qemu-send-line-de "c:\\drivers\\win311\\tcpip"
 	qemu-send-key "ret"
-	bogomips-sleep 10
+	bogomips-sleep 16
 	echo "closing network drivers dialog..."
 	qemu-send-key "alt-l"
 	bogomips-sleep 1.2
@@ -100,7 +100,7 @@ activate-w311fwg-networkdriver-on-qemu() {
 	bogomips-sleep 1.2
 	echo "confirming password..."
 	qemu-send-line-de "${CONFIG_PASSWORD}"
-	bogomips-sleep 1.2
+	bogomips-sleep 20
 	echo "closing windows..."
 	qemu-send-key "alt-f4"
 	bogomips-sleep 1.2
