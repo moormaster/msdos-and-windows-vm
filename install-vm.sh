@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+. lib-log.sh
 . lib-qemu.sh
 . lib-bogomips-sleep.sh
 . lib-install-dos-on-qemu.sh
@@ -114,24 +115,25 @@ install-vm() {
 			then
 				echo "skipping installation of browsers due to NOAPPS=\"$NOAPPS\""
 			else
+				maybe-debug-pause
 				install-app-netscape-on-qemu "$isoimage"
+				maybe-debug-pause
 				install-app-ie-on-qemu "$isoimage"
 			fi
 		fi
 
+		maybe-debug-pause
 		echo "activating windows 3.11 for workgroups graphics and powermanagement drivers..."
 		activate-w311fwg-settings-on-qemu "$isoimage"
 
+		maybe-debug-pause
 		echo activating power management for dos...
 		activate-dos-powermanager
 
 		touch "${QEMU_PIPE}.stop"
 
 		qemu-send "quit"
-	) | while read line
-	do
-		echo -e "$(date +%H:%M:%S) $line"
-	done
+	) | log-lines-with-timestamp
 	# wait for qemu to close
 	wait
 
