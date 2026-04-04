@@ -16,6 +16,23 @@
 . lib-install-app-pkzip-on-qemu.sh
 . lib-activate-w311fwg-settings-on-qemu.sh
 
+maybe-debug-first-pause() {
+	if [ "${CONFIG_DEBUG}" != "" ] && [ "${CONFIG_DEBUG}" != "0" ]
+	then
+		echo "CONFIG_DEBUG=${CONFIG_DEBUG} activated: Qemu pipe name: ${QEMU_PIPE}"
+		echo "Press Ctrl+D to continue"
+		cat
+	fi
+}
+
+maybe-debug-pause() {
+	if [ "${CONFIG_DEBUG}" != "" ] && [ "${CONFIG_DEBUG}" != "0" ]
+	then
+		echo "Press Ctrl+D to continue"
+		cat
+	fi
+}
+
 install-vm() {
 	hddimage="$1"
 	isoimage="$2"
@@ -72,9 +89,11 @@ install-vm() {
 		# wait for qemu to initialize
 		bogomips-sleep 1
 
+		maybe-debug-first-pause
 		echo installing dos...
 		install-dos-on-qemu DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 
+		maybe-debug-pause
 		echo installing cdrom driver...
 		install-oak-cdromdriver-on-qemu Win98BootDisk.img
 
@@ -82,11 +101,13 @@ install-vm() {
 		then
 			echo "skipping installation of dos apps due to NOAPPS=\"$NOAPPS\""
 		else
+			maybe-debug-pause
 			echo installing dos apps...
 			install-app-nc-on-qemu "$isoimage"
 			install-app-pkzip-on-qemu "$isoimage"
 		fi
 
+		maybe-debug-pause
 		echo installing windows 3.11 for workgroups...
 		install-w311fwg-on-qemu "$isoimage"
 
@@ -94,6 +115,7 @@ install-vm() {
 		then
 			echo "skipping installation of apps due to NOAPPS=\"$NOAPPS\""
 		else
+			maybe-debug-pause
 			echo installing apps...
 			install-app-msoffice-on-qemu "$isoimage"
 		fi
@@ -103,7 +125,9 @@ install-vm() {
 		then
 			echo "skipping network driver installation due to NETWORK=\"${CONFIG_NETWORK}\""
 		else
+			maybe-debug-pause
 			activate-w311fwg-networklogon-on-qemu
+			maybe-debug-pause
 			activate-w311fwg-networkdriver-on-qemu
 		fi
 
