@@ -36,6 +36,7 @@ activate-w311fwg-settings-on-qemu() {
 		qemu-send-key "down"
 	done
 	qemu-send-key "ret"
+	bogomips-sleep 1.2
 
 	echo "activating windows apm driver..."
 	for ((i=0;i<7;i++))
@@ -49,9 +50,12 @@ activate-w311fwg-settings-on-qemu() {
 		qemu-send-key "down"
 	done
 	qemu-send-key "ret"
+	bogomips-sleep 1.2
 
 	qemu-send-key "ret"
+	bogomips-sleep 1.2
 	qemu-send-key "ret"
+	bogomips-sleep 1.2
 	qemu-send-key "ret"
 	bogomips-sleep 6
 	echo "activating win.com..."
