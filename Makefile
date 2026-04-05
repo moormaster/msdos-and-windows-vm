@@ -58,7 +58,7 @@ NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
 CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
-CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} tcpip.img pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
+CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} TCP32B.EXE pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
@@ -90,7 +90,7 @@ HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdrive
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: WinDisks NCDisks OfficeDisks cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip.img msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -156,75 +156,73 @@ Win98BootDisk.img: win98bootdisk-archive
 	7z e -y ${WIN98BOOTDISK_ARCHIVE} "Microsoft Windows 98 Second Edition - Boot Disk (3.5-1.44mb)/Windows 98 Second Edition Boot.img"
 	mv "Windows 98 Second Edition Boot.img" Win98BootDisk.img
 
-DosDisk1.img: msdos622-archive
-	7z e -y ${MSDOS622_ARCHIVE} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Disk1.img"
-	mv Disk1.img DosDisk1.img
+${MSDOS622_FILES}&: msdos622-archive
+	7z e -y ${MSDOS622_ARCHIVE} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Suppdisk.img";
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${MSDOS622_ARCHIVE} -o$${tmpdir} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Disk*.img"; \
+	mv $${tmpdir}/Disk1.img DosDisk1.img; \
+	mv $${tmpdir}/Disk2.img DosDisk2.img; \
+	mv $${tmpdir}/Disk3.img DosDisk3.img; \
+	rmdir $${tmpdir}
 
-DosDisk2.img: msdos622-archive
-	7z e -y ${MSDOS622_ARCHIVE} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Disk2.img"
-	mv Disk2.img DosDisk2.img
+${W311FWG_FILES}&: w311fwg-archive
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${W311FWG_ARCHIVE} -o$${tmpdir} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk*.img"; \
+	mv $${tmpdir}/Disk01.img WinDisk1.img; \
+	mv $${tmpdir}/Disk02.img WinDisk2.img; \
+	mv $${tmpdir}/Disk03.img WinDisk3.img; \
+	mv $${tmpdir}/Disk04.img WinDisk4.img; \
+	mv $${tmpdir}/Disk05.img WinDisk5.img; \
+	mv $${tmpdir}/Disk06.img WinDisk6.img; \
+	mv $${tmpdir}/Disk07.img WinDisk7.img; \
+	mv $${tmpdir}/Disk08.img WinDisk8.img; \
+	rmdir $${tmpdir}
 
-DosDisk3.img: msdos622-archive
-	7z e -y ${MSDOS622_ARCHIVE} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Disk3.img"
-	mv Disk3.img DosDisk3.img
-
-Suppdisk.img: msdos622-archive
-	7z e -y ${MSDOS622_ARCHIVE} "Microsoft MS-DOS 6.22 Plus Enhanced Tools (3.5)/Suppdisk.img"
-
-WinDisks: w311fwg-archive
-	7z e -y ${W311FWG_ARCHIVE} "Microsoft Windows for Workgroups 3.11 (OEM) (3.5-1.44mb)/Disk*.img"
-	mv Disk01.img WinDisk1.img
-	mv Disk02.img WinDisk2.img
-	mv Disk03.img WinDisk3.img
-	mv Disk04.img WinDisk4.img
-	mv Disk05.img WinDisk5.img
-	mv Disk06.img WinDisk6.img
-	mv Disk07.img WinDisk7.img
-	mv Disk08.img WinDisk8.img
-
-tcpip.img: tcpip-archive WinDisks
-	# added WinDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
+TCP32B.EXE: tcpip-archive
 	7z e -y ${TCPIP_ARCHIVE} "Microsoft TCP-IP-32 for Windows for Workgroups 3.11 (3.11b) (1995)/Setup/TCP32B.EXE"
 
-pkzip.img: pkzip-archive DosDisk1.img
-	# added DosDisk1.img dependency because of conflicting filename when executing makefile targets in parallel
-	7z e -y ${PKZIP_ARCHIVE} "DISK1.IMG"
-	mv DISK1.IMG pkzip.img
+pkzip.img: pkzip-archive
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${PKZIP_ARCHIVE} -o$${tmpdir} "DISK1.IMG"; \
+	mv $${tmpdir}/DISK1.IMG pkzip.img; \
+	rmdir $${tmpdir}
 
-NCDisks: nc-archive WinDisks tcpip.img
-	# adding WinDisks and tcpip.img to the dependency list due to naming conflict
-	7z e -y ${NC_ARCHIVE} "Norton Commander 5.5 (3.5)/Disk*.img"
-	mv Disk01.img NCDisk1.img
-	mv Disk02.img NCDisk2.img
-	mv Disk03.img NCDisk3.img
+${NC_FILES}&: nc-archive
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${NC_ARCHIVE} -o$${tmpdir} "Norton Commander 5.5 (3.5)/Disk*.img"; \
+	mv $${tmpdir}/Disk01.img NCDisk1.img; \
+	mv $${tmpdir}/Disk02.img NCDisk2.img; \
+	mv $${tmpdir}/Disk03.img NCDisk3.img; \
+	rmdir $${tmpdir}
 
-OfficeDisks: office-archive WinDisks tcpip.img NCDisks
-	# adding WinDisk1.img, tcpip.img and NCDisks to the dependency list due to naming conflict
-	7z e -y ${OFFICE_ARCHIVE} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk*.img"
-	mv Disk01.img OfficeDisk1.img
-	mv Disk02.img OfficeDisk2.img
-	mv Disk03.img OfficeDisk3.img
-	mv Disk04.img OfficeDisk4.img
-	mv Disk05.img OfficeDisk5.img
-	mv Disk06.img OfficeDisk6.img
-	mv Disk07.img OfficeDisk7.img
-	mv Disk08.img OfficeDisk8.img
-	mv Disk09.img OfficeDisk9.img
-	mv Disk10.img OfficeDisk10.img
-	mv Disk11.img OfficeDisk11.img
-	mv Disk12.img OfficeDisk12.img
-	mv Disk13.img OfficeDisk13.img
-	mv Disk14.img OfficeDisk14.img
-	mv Disk15.img OfficeDisk15.img
-	mv Disk16.img OfficeDisk16.img
-	mv Disk17.img OfficeDisk17.img
-	mv Disk18.img OfficeDisk18.img
-	mv Disk19.img OfficeDisk19.img
-	mv Disk20.img OfficeDisk20.img
-	mv Disk21.img OfficeDisk21.img
-	mv Disk22.img OfficeDisk22.img
-	mv Disk23.img OfficeDisk23.img
-	mv Disk24.img OfficeDisk24.img
+${OFFICE_FILES}&: office-archive
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${OFFICE_ARCHIVE} -o$${tmpdir} "Microsoft Office 4.3 Professional (3.5 DMF)/Disk*.img"; \
+	mv $${tmpdir}/Disk01.img OfficeDisk1.img; \
+	mv $${tmpdir}/Disk02.img OfficeDisk2.img; \
+	mv $${tmpdir}/Disk03.img OfficeDisk3.img; \
+	mv $${tmpdir}/Disk04.img OfficeDisk4.img; \
+	mv $${tmpdir}/Disk05.img OfficeDisk5.img; \
+	mv $${tmpdir}/Disk06.img OfficeDisk6.img; \
+	mv $${tmpdir}/Disk07.img OfficeDisk7.img; \
+	mv $${tmpdir}/Disk08.img OfficeDisk8.img; \
+	mv $${tmpdir}/Disk09.img OfficeDisk9.img; \
+	mv $${tmpdir}/Disk10.img OfficeDisk10.img; \
+	mv $${tmpdir}/Disk11.img OfficeDisk11.img; \
+	mv $${tmpdir}/Disk12.img OfficeDisk12.img; \
+	mv $${tmpdir}/Disk13.img OfficeDisk13.img; \
+	mv $${tmpdir}/Disk14.img OfficeDisk14.img; \
+	mv $${tmpdir}/Disk15.img OfficeDisk15.img; \
+	mv $${tmpdir}/Disk16.img OfficeDisk16.img; \
+	mv $${tmpdir}/Disk17.img OfficeDisk17.img; \
+	mv $${tmpdir}/Disk18.img OfficeDisk18.img; \
+	mv $${tmpdir}/Disk19.img OfficeDisk19.img; \
+	mv $${tmpdir}/Disk20.img OfficeDisk20.img; \
+	mv $${tmpdir}/Disk21.img OfficeDisk21.img; \
+	mv $${tmpdir}/Disk22.img OfficeDisk22.img; \
+	mv $${tmpdir}/Disk23.img OfficeDisk23.img; \
+	mv $${tmpdir}/Disk24.img OfficeDisk24.img; \
+	rmdir $${tmpdir}
 
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
