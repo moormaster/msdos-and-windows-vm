@@ -26,6 +26,7 @@ qemu-send-string-en-us() {
 		sed "s/sendkey \//sendkey slash/g" |
 		sed "s/sendkey \*/sendkey asterisk/g" |
 		sed "s/sendkey \./sendkey dot/g" |
+		sed "s/sendkey ;/sendkey semicolon/g" |
 		sed "s/sendkey :/sendkey shift-semicolon/g" |
 		sed "s/sendkey -/sendkey minus/g" |
 		sed "s/sendkey _/sendkey shift-minus/g" |
@@ -50,6 +51,7 @@ qemu-send-string-de() {
 		sed "s/sendkey \//sendkey shift-7/g" |
 		sed "s/sendkey \*/sendkey shift-bracket_right/g" |
 		sed "s/sendkey \./sendkey dot/g" |
+		sed "s/sendkey ;/sendkey shift-comma/g" |
 		sed "s/sendkey :/sendkey shift-dot/g" |
 		sed "s/sendkey -/sendkey slash/g" |
 		sed "s/sendkey _/sendkey shift-slash/g" |
