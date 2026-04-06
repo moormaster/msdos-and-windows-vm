@@ -34,6 +34,12 @@ MSCLIENT1_URL="https://archive.org/download/ftp.microsoft.com/ftp.microsoft.com.
 MSCLIENT2_ARCHIVE="DSK3-2.EXE"
 MSCLIENT2_URL="https://archive.org/download/ftp.microsoft.com/ftp.microsoft.com.zip/ftp.microsoft.com%2Fbussys%2FClients%2FMSCLIENT%2FDSK3-2.EXE"
 
+BORLANDC_ARCHIVE="Borland Turbo C 2.01 (1989) (3.5-720k).7z"
+BORLANDC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/borland-turbo-c/2x" "Borland Turbo C 2.01 (1989) (3.5-720k).7z" ${WINWORLDPCMIRRORNAME}`
+
+BORLANDCMANUAL_ARCHIVE="Borland Turbo C 2.0 Manual.7z"
+BORLANDCMANUAL_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/borland-turbo-c/2x" "Borland Turbo C 2.0 Manual.7z" ${WINWORLDPCMIRRORNAME}`
+
 NC_ARCHIVE="Norton Commander 5.5 (3.5).7z"
 NC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/norton-commander/55x" "Norton Commander 5.5 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
 
@@ -54,17 +60,18 @@ INSTALLISOIMAGE_DIR=install-w311fwg-iso
 MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
+BORLANDC_FILES=Turbo_C_Version_2.0_Reference_Guide_1988.pdf BorlandCCompiler.img BorlandCHeader.img BorlandCInstall.img
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
-CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} TCP32B.EXE pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
+CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
+CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${BORLANDC_FILES} ${NC_FILES} ${OFFICE_FILES} TCP32B.EXE pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive nc-archive pkzip-archive ie-archive netscape-archive office-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive borland-c-archive borland-c-manual-archive nc-archive pkzip-archive ie-archive netscape-archive office-archive
 
 clean:
 	rm -f ${CLEANFILES}
@@ -90,7 +97,7 @@ HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdrive
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -118,12 +125,19 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-arc
 	[ -d "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP" ] || mkdir "${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP"
 	cp -f TCP32B.EXE ${INSTALLISOIMAGE_DIR}/DRIVERS/WIN311/TCPIP/
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS"
-	7z e -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE} "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x]/ie5win31.exe"
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/BORLC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/BORLC"
+	cp src/APPS/BORLC/INSTALL.BAT "${INSTALLISOIMAGE_DIR}/APPS/BORLC/"
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLC BorlandCCompiler.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLC BorlandCHeader.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLC BorlandCInstall.img
+	cp -f Turbo_C_Version_2.0_Reference_Guide_1988.pdf ${INSTALLISOIMAGE_DIR}/APPS/BORLC/
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/NC"
 	cp src/APPS/NC/INSTALL.BAT "${INSTALLISOIMAGE_DIR}/APPS/NC/"
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk2.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk3.img
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/IE" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/IE"
+	7z e -y -o${INSTALLISOIMAGE_DIR}/APPS/IE ${IE_ARCHIVE} "Microsoft Internet Explorer 5.0 (5.00.0913.2200) [Windows 3.x]/ie5win31.exe"
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE ${NETSCAPE_ARCHIVE} && mv "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE/Netscape Composer 4.09SE.exe" "${INSTALLISOIMAGE_DIR}/APPS/NETSCAPE/netscape.exe"
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE"
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/MSOFFICE/DISK1 OfficeDisk1.img
@@ -185,6 +199,15 @@ pkzip.img: pkzip-archive
 	tmpdir=$$( mktemp -d ); \
 	7z e -y ${PKZIP_ARCHIVE} -o$${tmpdir} "DISK1.IMG"; \
 	mv $${tmpdir}/DISK1.IMG pkzip.img; \
+	rmdir $${tmpdir}
+
+${BORLANDC_FILES}&: borland-c-archive borland-c-manual-archive
+	7z e -y ${BORLANDCMANUAL_ARCHIVE} "Borland Turbo C 2.0 Manual/Turbo_C_Version_2.0_Reference_Guide_1988.pdf"
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${BORLANDC_ARCHIVE} -o$${tmpdir} "Borland Turbo C 2.01 (1989) (3.5-720k)/*.img"; \
+	mv $${tmpdir}/Compiler.img BorlandCCompiler.img; \
+	mv $${tmpdir}/Header.img BorlandCHeader.img; \
+	mv $${tmpdir}/Install.img BorlandCInstall.img; \
 	rmdir $${tmpdir}
 
 ${NC_FILES}&: nc-archive
@@ -271,6 +294,14 @@ msclient1-archive:
 msclient2-archive:
 	[ -f ${MSCLIENT2_ARCHIVE} ] || wget -O ${MSCLIENT2_ARCHIVE} ${MSCLIENT2_URL}
 	grep ${MSCLIENT2_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+borland-c-archive:
+	[ -f ${BORLANDC_ARCHIVE} ] || wget -O ${BORLANDC_ARCHIVE} ${BORLANDC_URL}
+	grep ${BORLANDC_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+borland-c-manual-archive:
+	[ -f ${BORLANDCMANUAL_ARCHIVE} ] || wget -O ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCMANUAL_URL}
+	grep ${BORLANDCMANUAL_ARCHIVE} md5sums | md5sum --ignore-missing -c
 
 nc-archive:
 	[ -f ${NC_ARCHIVE} ] || wget -O ${NC_ARCHIVE} ${NC_URL}

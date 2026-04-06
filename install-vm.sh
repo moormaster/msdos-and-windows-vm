@@ -9,6 +9,7 @@
 . lib-activate-w311fwg-networkdriver-on-qemu.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
+. lib-install-app-borland-c-on-qemu.sh
 . lib-install-app-ie-on-qemu.sh
 . lib-install-app-nc-on-qemu.sh
 . lib-install-app-msoffice-on-qemu.sh
@@ -103,6 +104,8 @@ install-vm() {
 		else
 			maybe-debug-pause
 			echo installing dos apps...
+			install-app-borland-c-on-qemu "$isoimage"
+			maybe-debug-pause
 			install-app-nc-on-qemu "$isoimage"
 			install-app-pkzip-on-qemu "$isoimage"
 		fi

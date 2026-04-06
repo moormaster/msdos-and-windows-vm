@@ -36,13 +36,20 @@ install-w311fwg-on-qemu() {
 	echo "starting installation..."
 	qemu-send-key "ret"
 	bogomips-sleep 185
-	echo "confirming question to setup dos programs in windows..."
+	echo "confirming question to setup edit.com in windows..."
 	qemu-send-key "ret"
 	bogomips-sleep 3
+	echo "denying question to setup c:\\temp\\borlc\\make.exe cmd..."
+	qemu-send-key "esc"
+	bogomips-sleep 3
+	echo "denying question to setup c:\\tc\\make.exe cmd..."
+	qemu-send-key "esc"
+	bogomips-sleep 3
 	echo "denying question to setup tcpip tools..."
-	qemu-send-key "tab"
-	qemu-send-key "tab"
-	qemu-send-key "spc"
+	qemu-send-key "esc"
+	bogomips-sleep 3
+	echo "denying question to setup d:\\apps\\borlc\\make.exe cmd..."
+	qemu-send-key "esc"
 	echo "rebooting..."
 	bogomips-sleep 29
 }
