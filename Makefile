@@ -40,6 +40,9 @@ BORLANDC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/b
 BORLANDCMANUAL_ARCHIVE="Borland Turbo C 2.0 Manual.7z"
 BORLANDCMANUAL_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/borland-turbo-c/2x" "Borland Turbo C 2.0 Manual.7z" ${WINWORLDPCMIRRORNAME}`
 
+BORLANDCPP_ARCHIVE="Borland Turbo C++ 3.0 (3.5).7z"
+BORLANDCPP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/turbo-c/3x" "Borland Turbo C++ 3.0 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
+
 NC_ARCHIVE="Norton Commander 5.5 (3.5).7z"
 NC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/norton-commander/55x" "Norton Commander 5.5 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
 
@@ -61,17 +64,18 @@ MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
 W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img WinDisk6.img WinDisk7.img WinDisk8.img 
 
 BORLANDC_FILES=Turbo_C_Version_2.0_Reference_Guide_1988.pdf BorlandCCompiler.img BorlandCHeader.img BorlandCInstall.img
+BORLANDCPP_FILES=BorlandCppDisk1.img BorlandCppDisk2.img BorlandCppDisk3.img BorlandCppDisk4.img BorlandCppDisk5.img
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
-CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${BORLANDC_FILES} ${NC_FILES} ${OFFICE_FILES} TCP32B.EXE pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
+CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCPP_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
+CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${NC_FILES} ${OFFICE_FILES} TCP32B.EXE pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 250*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive borland-c-archive borland-c-manual-archive nc-archive pkzip-archive ie-archive netscape-archive office-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive borland-c-archive borland-c-manual-archive borland-cpp-archive nc-archive pkzip-archive ie-archive netscape-archive office-archive
 
 clean:
 	rm -f ${CLEANFILES}
@@ -97,7 +101,7 @@ HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdrive
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/BORLCPP/INSTALL.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -131,6 +135,13 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${NC_FILES} ${OFFICE
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLC BorlandCHeader.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLC BorlandCInstall.img
 	cp -f Turbo_C_Version_2.0_Reference_Guide_1988.pdf ${INSTALLISOIMAGE_DIR}/APPS/BORLC/
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/BORLCPP" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/BORLCPP"
+	cp src/APPS/BORLCPP/INSTALL.BAT "${INSTALLISOIMAGE_DIR}/APPS/BORLCPP/"
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLCPP BorlandCppDisk1.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLCPP BorlandCppDisk2.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLCPP BorlandCppDisk3.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLCPP BorlandCppDisk4.img
+	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/BORLCPP BorlandCppDisk5.img
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/NC"
 	cp src/APPS/NC/INSTALL.BAT "${INSTALLISOIMAGE_DIR}/APPS/NC/"
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk1.img
@@ -208,6 +219,16 @@ ${BORLANDC_FILES}&: borland-c-archive borland-c-manual-archive
 	mv $${tmpdir}/Compiler.img BorlandCCompiler.img; \
 	mv $${tmpdir}/Header.img BorlandCHeader.img; \
 	mv $${tmpdir}/Install.img BorlandCInstall.img; \
+	rmdir $${tmpdir}
+
+${BORLANDCPP_FILES}&: borland-cpp-archive
+	tmpdir=$$( mktemp -d ); \
+	7z e -y ${BORLANDCPP_ARCHIVE} -o$${tmpdir} "Borland Turbo C++ 3.0 (3.5)/*.img"; \
+	mv $${tmpdir}/Disk01.img BorlandCppDisk1.img; \
+	mv $${tmpdir}/Disk02.img BorlandCppDisk2.img; \
+	mv $${tmpdir}/Disk03.img BorlandCppDisk3.img; \
+	mv $${tmpdir}/Disk04.img BorlandCppDisk4.img; \
+	mv $${tmpdir}/Disk05.img BorlandCppDisk5.img; \
 	rmdir $${tmpdir}
 
 ${NC_FILES}&: nc-archive
@@ -302,6 +323,10 @@ borland-c-archive:
 borland-c-manual-archive:
 	[ -f ${BORLANDCMANUAL_ARCHIVE} ] || wget -O ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCMANUAL_URL}
 	grep ${BORLANDCMANUAL_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+borland-cpp-archive:
+	[ -f ${BORLANDCPP_ARCHIVE} ] || wget -O ${BORLANDCPP_ARCHIVE} ${BORLANDCPP_URL}
+	grep ${BORLANDCPP_ARCHIVE} md5sums | md5sum --ignore-missing -c
 
 nc-archive:
 	[ -f ${NC_ARCHIVE} ] || wget -O ${NC_ARCHIVE} ${NC_URL}

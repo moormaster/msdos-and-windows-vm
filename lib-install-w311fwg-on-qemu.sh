@@ -45,6 +45,9 @@ install-w311fwg-on-qemu() {
 	echo "denying question to setup c:\\tc\\make.exe cmd..."
 	qemu-send-key "esc"
 	bogomips-sleep 3
+	echo "denying question to setup c:\\tc\\bin\\make.exe cmd..."
+	qemu-send-key "esc"
+	bogomips-sleep 3
 	echo "denying question to setup tcpip tools..."
 	qemu-send-key "esc"
 	bogomips-sleep 3
