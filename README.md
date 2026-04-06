@@ -3,6 +3,7 @@
 Installs an QEMU image with
 - Borland Turbo C
 - Borland Turbo C++
+- Borland Turbo Pascal
 - MS-DOS 6.22 including supplemental disk
 - Norton Commmander
 - Microsoft Windows for Workgroups 3.11
