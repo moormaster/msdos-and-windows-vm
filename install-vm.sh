@@ -9,6 +9,7 @@
 . lib-activate-w311fwg-networkdriver-on-qemu.sh
 . lib-install-oak-cdromdriver-on-qemu.sh
 . lib-install-w311fwg-on-qemu.sh
+. lib-install-app-adobe-reader-on-qemu.sh
 . lib-install-app-borland-c-on-qemu.sh
 . lib-install-app-borland-cpp-on-qemu.sh
 . lib-install-app-borland-turbo-pascal-on-qemu.sh
@@ -126,6 +127,8 @@ install-vm() {
 		else
 			maybe-debug-pause
 			echo installing apps...
+			install-app-adobe-reader-on-qemu "$isoimage"
+			maybe-debug-pause
 			install-app-msoffice-on-qemu "$isoimage"
 		fi
 

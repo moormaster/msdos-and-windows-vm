@@ -1,6 +1,7 @@
 # Makefile for unattended creation of a MS DOS hard disk image
 
 Installs an QEMU image with
+- Adobe Acrobat Reader
 - Borland Turbo C
 - Borland Turbo C++
 - Borland Turbo Pascal
