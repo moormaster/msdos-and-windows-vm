@@ -21,7 +21,7 @@ install-w311fwg-on-qemu() {
 	qemu-change-cdrom "$isoimage"
 	echo "copy drivers..."
 	qemu-send-line-de "d:\\drivers\\drivers.bat"
-	bogomips-sleep 73
+	bogomips-sleep 25
 	echo "preparing drivers..."
 	qemu-send-line-de "c:\\drivers\\win311\\drivers.bat"
 	bogomips-sleep 9
