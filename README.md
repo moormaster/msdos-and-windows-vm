@@ -10,6 +10,7 @@ Installs an QEMU image with
 - Microsoft Windows for Workgroups 3.11
 - Microsoft Office
 - Microsoft Visual Basic
+- Microsoft Visual C++
 - Netscape 4
 - Internet Explorer 5
 

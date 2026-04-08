@@ -19,6 +19,7 @@
 . lib-install-app-netscape-on-qemu.sh
 . lib-install-app-pkzip-on-qemu.sh
 . lib-install-app-visual-basic-on-qemu.sh
+. lib-install-app-visual-cpp-on-qemu.sh
 . lib-activate-w311fwg-settings-on-qemu.sh
 
 maybe-debug-first-pause() {
@@ -133,6 +134,8 @@ install-vm() {
 			install-app-msoffice-on-qemu "$isoimage"
 			maybe-debug-pause
 			install-app-visual-basic-on-qemu "VB4.iso"
+			maybe-debug-pause
+			install-app-visual-cpp-on-qemu "VCPP-1.50.iso"
 		fi
 
 		echo "activating windows 3.11 for workgroups network driver..."
