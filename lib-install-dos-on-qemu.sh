@@ -55,7 +55,7 @@ install-dos-on-qemu() {
 	bogomips-sleep 0.2
 	qemu-send-key "ret"
 	echo "rebooting..."
-	bogomips-sleep 10
+	bogomips-sleep 20
 
 	echo "choosing language..."
 	qemu-send-key "up"
