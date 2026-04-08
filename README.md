@@ -9,6 +9,7 @@ Installs an QEMU image with
 - Norton Commmander
 - Microsoft Windows for Workgroups 3.11
 - Microsoft Office
+- Microsoft Visual Basic
 - Netscape 4
 - Internet Explorer 5
 

@@ -68,6 +68,9 @@ NETSCAPE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/n
 OFFICE_ARCHIVE="Microsoft Office 4.3 Professional (3.5 DMF).7z"
 OFFICE_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-office/4x" "Microsoft Office 4.3 Professional (3.5 DMF).7z" ${WINWORLDPCMIRRORNAME}`
 
+VISUALBASIC_ARCHIVE="Microsoft Visual Basic 4.0 Professional (CD).7z"
+VISUALBASIC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/microsoft-visual-bas/40" "Microsoft Visual Basic 4.0 Professional (CD).7z" ${WINWORLDPCMIRRORNAME}`
+
 INSTALLISOIMAGE_DIR=install-w311fwg-iso
 
 MSDOS622_FILES=DosDisk1.img DosDisk2.img DosDisk3.img Suppdisk.img
@@ -79,14 +82,14 @@ BORLANDTURBOPASCAL_FILES=Turbo_Pascal_Version_7.0_Language_Guide_1992.pdf Turbo_
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCPP_ARCHIVE} ${BORLANDTURBOPASCAL_ARCHIVE} ${BORLANDTURBOPASCALMANUAL_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${ADOBEREADER_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE}
-CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} RS16E301.EXE TCP32B.EXE pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
+CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCPP_ARCHIVE} ${BORLANDTURBOPASCAL_ARCHIVE} ${BORLANDTURBOPASCALMANUAL_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${ADOBEREADER_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE} ${VISUALBASIC_ARCHIVE}
+CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} RS16E301.EXE TCP32B.EXE VB4.iso pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 500*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive adobe-reader-archive borland-c-archive borland-c-manual-archive borland-cpp-archive borland-turbo-pascal-archive borland-turbo-pascal-manual-archive nc-archive pkzip-archive adobe-reader-archive ie-archive netscape-archive office-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive adobe-reader-archive borland-c-archive borland-c-manual-archive borland-cpp-archive borland-turbo-pascal-archive borland-turbo-pascal-manual-archive nc-archive pkzip-archive adobe-reader-archive ie-archive netscape-archive office-archive visual-basic-archive
 
 clean:
 	rm -f ${CLEANFILES}
@@ -112,7 +115,7 @@ HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdrive
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive RS16E301.EXE TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/BORLCPP/INSTALL.BAT src/APPS/BORLTP/INSTALL.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive RS16E301.EXE TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive VB4.iso src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/BORLCPP/INSTALL.BAT src/APPS/BORLTP/INSTALL.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -303,6 +306,9 @@ ${OFFICE_FILES}&: office-archive
 	mv $${tmpdir}/Disk24.img OfficeDisk24.img; \
 	rmdir $${tmpdir}
 
+VB4.iso: visual-basic-archive
+	[ -f VB4.iso ] || 7z e -y ${VISUALBASIC_ARCHIVE} "Microsoft Visual Basic 4.0 Professional (CD)/VB4.iso"
+
 win98bootdisk-archive:
 	[ -f ${WIN98BOOTDISK_ARCHIVE} ] || wget -O ${WIN98BOOTDISK_ARCHIVE} ${WIN98BOOTDISK_URL}
 	grep ${WIN98BOOTDISK_ARCHIVE} md5sums | md5sum --ignore-missing -c
@@ -390,4 +396,8 @@ office-archive:
 pkzip-archive:
 	[ -f ${PKZIP_ARCHIVE} ] || wget -O ${PKZIP_ARCHIVE} ${PKZIP_URL}
 	grep ${PKZIP_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+visual-basic-archive:
+	[ -f ${VISUALBASIC_ARCHIVE} ] || wget -O ${VISUALBASIC_ARCHIVE} ${VISUALBASIC_URL}
+	grep ${VISUALBASIC_ARCHIVE} md5sums | md5sum --ignore-missing -c
 
