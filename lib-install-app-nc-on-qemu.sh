@@ -2,7 +2,7 @@
 . lib-qemu.sh
 
 install-app-nc-on-qemu() {
-	isoimage="$1"
+	local isoimage="$1"
 
 	if [ $# -lt 1 ]
 	then

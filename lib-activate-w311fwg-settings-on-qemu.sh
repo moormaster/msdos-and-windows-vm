@@ -4,7 +4,7 @@
 . lib-qemu.sh
 
 activate-w311fwg-settings-on-qemu() {
-	isoimage="$1"
+	local isoimage="$1"
 
 	if [ $# -lt 1 ]
 	then
