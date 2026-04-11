@@ -32,7 +32,7 @@ activate-w311fwg-networklogon-on-qemu() {
 	echo "entering computer name..."
 	qemu-send-string-de "${CONFIG_COMPUTERNAME}"
 	qemu-send-key "ret"
-	bogomips-sleep 20
+	bogomips-sleep 25
 	echo "confirming changes to autoexec.bat and config.sys..."
 	qemu-send-key "ret"
 	bogomips-sleep 1.2
