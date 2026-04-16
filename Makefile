@@ -50,6 +50,12 @@ BORLANDTURBOPASCAL_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com
 BORLANDTURBOPASCALMANUAL_ARCHIVE="Borland Turbo Pascal 7.0 Manuals.7z"
 BORLANDTURBOPASCALMANUAL_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/turbo-pascal/7x" "Borland Turbo Pascal 7.0 Manuals.7z" ${WINWORLDPCMIRRORNAME}`
 
+BORLANDTURBOPASCALBPPATCH_ARCHIVE="bp7patch.zip"
+BORLANDTURBOPASCALBPPATCH_URL="https://rathlev-home.de/sources/download/tp/bp7patch.zip"
+
+BORLANDTURBOPASCALTPPATCH_ARCHIVE="tp7patch.zip"
+BORLANDTURBOPASCALTPPATCH_URL="https://rathlev-home.de/sources/download/tp/tp7patch.zip"
+
 NC_ARCHIVE="Norton Commander 5.5 (3.5).7z"
 NC_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/norton-commander/55x" "Norton Commander 5.5 (3.5).7z" ${WINWORLDPCMIRRORNAME}`
 
@@ -82,17 +88,18 @@ W311FWG_FILES=WinDisk1.img WinDisk2.img WinDisk3.img WinDisk4.img WinDisk5.img W
 BORLANDC_FILES=Turbo_C_Version_2.0_Reference_Guide_1988.pdf BorlandCCompiler.img BorlandCHeader.img BorlandCInstall.img
 BORLANDCPP_FILES=BorlandCppDisk1.img BorlandCppDisk2.img BorlandCppDisk3.img BorlandCppDisk4.img BorlandCppDisk5.img
 BORLANDTURBOPASCAL_FILES=Turbo_Pascal_Version_7.0_Language_Guide_1992.pdf Turbo_Pascal_Version_7.0_Programmers_Reference_1992.pdf Turbo_Pascal_Version_7.0_Users_Guide_1992.pdf BorlandTurboPascalDisk1.img BorlandTurboPascalDisk2.img BorlandTurboPascalDisk3.img BorlandTurboPascalDisk4.img
+
 NC_FILES=NCDisk1.img NCDisk2.img NCDisk3.img
 OFFICE_FILES=OfficeDisk1.img OfficeDisk2.img OfficeDisk3.img OfficeDisk4.img OfficeDisk5.img OfficeDisk6.img OfficeDisk7.img OfficeDisk8.img OfficeDisk9.img OfficeDisk10.img OfficeDisk11.img OfficeDisk12.img OfficeDisk13.img OfficeDisk14.img OfficeDisk15.img OfficeDisk16.img OfficeDisk17.img OfficeDisk18.img OfficeDisk19.img OfficeDisk20.img OfficeDisk21.img OfficeDisk22.img OfficeDisk23.img OfficeDisk24.img
 
-CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCPP_ARCHIVE} ${BORLANDTURBOPASCAL_ARCHIVE} ${BORLANDTURBOPASCALMANUAL_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${ADOBEREADER_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE} ${VISUALBASIC_ARCHIVE} ${VISUALCPP_ARCHIVE}
+CLEANDOWNLOADFILES=${WIN98BOOTDISK_ARCHIVE} ${MSDOS622_ARCHIVE} ${W311FWG_ARCHIVE} ${TCPIP_ARCHIVE} ${CIRRUS_ARCHIVE} ${SVGA_ARCHIVE} ${AMDPCNET_ARCHIVE} ${RTL8029DOS_ARCHIVE} ${RTL8029W311_ARCHIVE} ${MSCLIENT1_ARCHIVE} ${MSCLIENT2_ARCHIVE} ${BORLANDC_ARCHIVE} ${BORLANDCMANUAL_ARCHIVE} ${BORLANDCPP_ARCHIVE} ${BORLANDTURBOPASCAL_ARCHIVE} ${BORLANDTURBOPASCALMANUAL_ARCHIVE} ${BORLANDTURBOPASCALBPPATCH_ARCHIVE} ${BORLANDTURBOPASCALTPPATCH_ARCHIVE} ${NC_ARCHIVE} ${PKZIP_ARCHIVE} ${ADOBEREADER_ARCHIVE} ${IE_ARCHIVE} ${NETSCAPE_ARCHIVE} ${OFFICE_ARCHIVE} ${VISUALBASIC_ARCHIVE} ${VISUALCPP_ARCHIVE}
 CLEANFILES=Win98BootDisk.img ${MSDOS622_FILES} ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} RS16E301.EXE TCP32B.EXE VB4.iso VCPP-1.50.iso pkzip.img HardDisk.img install-w311fwg.iso startvm.sh
 
 DISKSIZE_IN_BYTES=`echo 500*1024*1024 | bc`
 
 all: startvm.sh
 
-downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive adobe-reader-archive borland-c-archive borland-c-manual-archive borland-cpp-archive borland-turbo-pascal-archive borland-turbo-pascal-manual-archive nc-archive pkzip-archive adobe-reader-archive ie-archive netscape-archive office-archive visual-basic-archive visual-cpp-archive
+downloads: win98bootdisk-archive msdos622-archive w311fwg-archive tcpip-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive tcpip-archive msclient1-archive msclient2-archive adobe-reader-archive borland-c-archive borland-c-manual-archive borland-cpp-archive borland-turbo-pascal-archive borland-turbo-pascal-manual-archive borland-turbo-pascal-bp7patch-archive borland-turbo-pascal-tp7patch-archive nc-archive pkzip-archive adobe-reader-archive ie-archive netscape-archive office-archive visual-basic-archive visual-cpp-archive
 
 clean:
 	rm -f ${CLEANFILES}
@@ -118,7 +125,7 @@ HardDisk.img: lib-activate-dos-powermanager.sh lib-activate-w311fwg-networkdrive
 install-w311fwg.iso: install-w311fwg-iso-dir
 	${GENISOIMAGE} -o install-w311fwg.iso ${INSTALLISOIMAGE_DIR}
 
-install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive RS16E301.EXE TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive VB4.iso VCPP-1.50.iso src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/BORLCPP/INSTALL.BAT src/APPS/BORLTP/INSTALL.BAT src/APPS/NC/INSTALL.BAT
+install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} ${BORLANDTURBOPASCAL_FILES} ${NC_FILES} ${OFFICE_FILES} borland-turbo-pascal-bp7patch-archive borland-turbo-pascal-tp7patch-archive cirrus-archive svga-archive amdpcnet-archive rtl8029dos-archive rtl8029w311-archive RS16E301.EXE TCP32B.EXE msclient1-archive msclient2-archive pkzip.img ie-archive netscape-archive VB4.iso VCPP-1.50.iso src/WINSETUP/MYSETUP.SHH src/WINSETUP/WINSETUP.BAT src/DRIVERS/DRIVERS.BAT src/DRIVERS/WIN311/DRIVERS.BAT src/APPS/BORLC/INSTALL.BAT src/APPS/BORLCPP/INSTALL.BAT src/APPS/BORLTP/INSTALL.BAT src/APPS/NC/INSTALL.BAT
 	[ -d "${INSTALLISOIMAGE_DIR}" ] || mkdir ${INSTALLISOIMAGE_DIR}
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk1.img
 	7z x -y -o${INSTALLISOIMAGE_DIR}/WINSETUP WinDisk2.img
@@ -168,6 +175,9 @@ install-w311fwg-iso-dir: ${W311FWG_FILES} ${BORLANDC_FILES} ${BORLANDCPP_FILES} 
 	cp -f Turbo_Pascal_Version_7.0_Language_Guide_1992.pdf ${INSTALLISOIMAGE_DIR}/APPS/BORLTP/
 	cp -f Turbo_Pascal_Version_7.0_Programmers_Reference_1992.pdf ${INSTALLISOIMAGE_DIR}/APPS/BORLTP/
 	cp -f Turbo_Pascal_Version_7.0_Users_Guide_1992.pdf ${INSTALLISOIMAGE_DIR}/APPS/BORLTP/
+	[ -d "${INSTALLISOIMAGE_DIR}/APPS/BORLTP" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/TPPATCH"
+	unzip -o -d "${INSTALLISOIMAGE_DIR}/APPS/TPPATCH/" ${BORLANDTURBOPASCALBPPATCH_ARCHIVE}
+	unzip -o -d "${INSTALLISOIMAGE_DIR}/APPS/TPPATCH/" ${BORLANDTURBOPASCALTPPATCH_ARCHIVE}
 	[ -d "${INSTALLISOIMAGE_DIR}/APPS/NC" ] || mkdir "${INSTALLISOIMAGE_DIR}/APPS/NC"
 	cp src/APPS/NC/INSTALL.BAT "${INSTALLISOIMAGE_DIR}/APPS/NC/"
 	7z x -y -o${INSTALLISOIMAGE_DIR}/APPS/NC NCDisk1.img
@@ -386,6 +396,14 @@ borland-turbo-pascal-archive:
 borland-turbo-pascal-manual-archive:
 	[ -f ${BORLANDTURBOPASCALMANUAL_ARCHIVE} ] || wget -O ${BORLANDTURBOPASCALMANUAL_ARCHIVE} ${BORLANDTURBOPASCALMANUAL_URL}
 	grep ${BORLANDTURBOPASCALMANUAL_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+borland-turbo-pascal-bp7patch-archive:
+	[ -f ${BORLANDTURBOPASCALBPPATCH_ARCHIVE} ] || wget -O ${BORLANDTURBOPASCALBPPATCH_ARCHIVE} ${BORLANDTURBOPASCALBPPATCH_URL}
+	grep ${BORLANDTURBOPASCALBPPATCH_ARCHIVE} md5sums | md5sum --ignore-missing -c
+
+borland-turbo-pascal-tp7patch-archive:
+	[ -f ${BORLANDTURBOPASCALTPPATCH_ARCHIVE} ] || wget -O ${BORLANDTURBOPASCALTPPATCH_ARCHIVE} ${BORLANDTURBOPASCALTPPATCH_URL}
+	grep ${BORLANDTURBOPASCALTPPATCH_ARCHIVE} md5sums | md5sum --ignore-missing -c
 
 nc-archive:
 	[ -f ${NC_ARCHIVE} ] || wget -O ${NC_ARCHIVE} ${NC_URL}

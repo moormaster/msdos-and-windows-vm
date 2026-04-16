@@ -43,6 +43,9 @@ install-app-borland-turbo-pascal-on-qemu() {
 	echo "leaving readme"
 	qemu-send-key "esc"
 	bogomips-sleep 1.2
+	echo "patching crt unit in turbo.tpl (fixes division by zero error 200)"
+	qemu-send-line-de "copy /y d:\\apps\\tppatch\\turbo.tpl c:\\tp\\bin"
+	bogomips-sleep 1.2
 	qemu-send-line-de "c:"
 	qemu-send-line-de "cd \\"
 	echo "setting FILES=20"
