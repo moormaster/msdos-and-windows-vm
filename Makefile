@@ -17,8 +17,8 @@ TCPIP_URL=`./winworldpc-get-download-url.sh "https://winworldpc.com/product/micr
 CIRRUS_ARCHIVE="win_5446.zip"
 CIRRUS_URL="https://dl.yooooo.us/share/qemu-drivers/win_5446.zip"
 
-SVGA_ARCHIVE="win3x-svga.flp"
-SVGA_URL="http://ds-tech.weebly.com/uploads/2/6/2/0/2620861/win3x-svga.flp"
+SVGA_ARCHIVE="win3x-svga.img"
+SVGA_URL="https://archive.org/download/win3x-svga_202310/win3x-svga.img"
 
 AMDPCNET_ARCHIVE="amdpcnet_wfw31.zip"
 AMDPCNET_URL="http://download.amd.com/techdownloads/wfw31.zip"
