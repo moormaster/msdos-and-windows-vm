@@ -1,5 +1,6 @@
-*.EXE
 *.7z
+*.EXE
+*.img
 *.zip
 *.flp
 
